@@ -18,7 +18,9 @@ pnpm dev
 - **Credits** — FIFO consumption, expiration, auto-grant on signup
 - **RBAC** — Roles, permissions, wildcard matching, admin panel management
 - **API Keys** — CRUD + validation
+- **Invite Codes** — Trial activation, batch generation, usage tracking
 - **CMS** — Categories and posts with full CRUD
+- **Image Upload** — Drop / paste / click uploader; uses S3/R2 if configured, falls back to inline base64 (size-capped) stored in DB
 - **i18n** — English + Chinese via next-intl, locale-aware routing
 - **Admin Panel** — Full-featured admin with grouped sidebar navigation:
   - **RBAC** — Users (role assignment), Roles (permission management), Permissions
@@ -108,6 +110,15 @@ NEXT_PUBLIC_DEFAULT_LOCALE=en
 STRIPE_SECRET_KEY=
 RESEND_API_KEY=
 REPLICATE_API_TOKEN=
+
+# Storage (optional — image upload falls back to inline base64 if unset)
+STORAGE_ENDPOINT=
+STORAGE_REGION=auto
+STORAGE_ACCESS_KEY=
+STORAGE_SECRET_KEY=
+STORAGE_BUCKET=
+STORAGE_PUBLIC_DOMAIN=
+INLINE_IMAGE_MAX_KB=512
 ```
 
 ## License

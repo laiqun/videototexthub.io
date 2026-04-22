@@ -53,6 +53,7 @@ export const envConfigs: Record<string, string> = {
   storage_secret_key: process.env.STORAGE_SECRET_KEY ?? '',
   storage_bucket: process.env.STORAGE_BUCKET ?? '',
   storage_public_domain: process.env.STORAGE_PUBLIC_DOMAIN ?? '',
+  inline_image_max_kb: process.env.INLINE_IMAGE_MAX_KB ?? '512',
 
   // AI
   replicate_api_token: process.env.REPLICATE_API_TOKEN ?? '',

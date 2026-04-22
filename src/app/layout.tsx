@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Libre_Baskerville, Noto_Serif_SC } from "next/font/google";
 import { getLocale } from "next-intl/server";
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
 import { envConfigs } from "@/config";
 import { locales } from "@/config/locale";
 import "./globals.css";
@@ -47,7 +49,15 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${libreBaskerville.variable} ${notoSerifSC.variable} font-sans antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster position="top-center" richColors />
+        </ThemeProvider>
       </body>
     </html>
   );

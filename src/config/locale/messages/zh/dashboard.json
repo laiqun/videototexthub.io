@@ -14,8 +14,12 @@
     "profile": "个人资料",
     "name": "姓名",
     "email": "邮箱",
+    "avatar": "头像",
+    "avatar_hint": "拖拽图片、点击上传，或从剪贴板粘贴",
     "save": "保存",
+    "saving": "保存中...",
     "saved": "设置已保存",
+    "save_failed": "保存失败",
     "loading": "加载中..."
   },
   "billing": {

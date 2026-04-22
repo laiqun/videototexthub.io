@@ -6,14 +6,22 @@ import { SettingsForm } from "./settings-form";
 
 export default function SettingsPage() {
   const t = useTranslations();
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    image: string;
+  } | null>(null);
 
   useEffect(() => {
     fetch("/api/user/info")
       .then((r) => r.json())
       .then((res) => {
         if (res.code === 0) {
-          setUser({ name: res.data.name || "", email: res.data.email || "" });
+          setUser({
+            name: res.data.name || "",
+            email: res.data.email || "",
+            image: res.data.image || "",
+          });
         }
       })
       .catch(() => {});
@@ -25,5 +33,5 @@ export default function SettingsPage() {
     );
   }
 
-  return <SettingsForm name={user.name} email={user.email} />;
+  return <SettingsForm name={user.name} email={user.email} image={user.image} />;
 }

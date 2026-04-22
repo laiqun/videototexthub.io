@@ -14,13 +14,16 @@ export default function DashboardLayout({
 
   const navItems = [
     { href: "/dashboard", label: t("dashboard.nav.overview"), icon: LayoutDashboard },
-    { href: "/dashboard/settings", label: t("dashboard.nav.settings"), icon: Settings },
     { href: "/dashboard/billing", label: t("dashboard.nav.billing"), icon: CreditCard },
     { href: "/dashboard/api-keys", label: t("dashboard.nav.api_keys"), icon: Key },
   ];
 
+  const footerNavItems = [
+    { href: "/dashboard/settings", label: t("dashboard.nav.settings"), icon: Settings },
+  ];
+
   return (
-    <AppLayout navItems={navItems} brand={envConfigs.app_name}>
+    <AppLayout navItems={navItems} footerNavItems={footerNavItems} brand={envConfigs.app_name}>
       {children}
     </AppLayout>
   );
