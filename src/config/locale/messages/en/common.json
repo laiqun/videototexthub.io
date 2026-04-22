@@ -45,7 +45,7 @@
     "dashboard": "Dashboard",
     "settings": "Settings",
     "billing": "Billing",
-    "api_keys": "API Keys",
+    "apikeys": "API Keys",
     "sign_in": "Sign In",
     "get_started": "Get Started"
   }

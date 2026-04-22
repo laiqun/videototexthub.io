@@ -15,7 +15,7 @@ export default function DashboardLayout({
   const navItems = [
     { href: "/dashboard", label: t("dashboard.nav.overview"), icon: LayoutDashboard },
     { href: "/dashboard/billing", label: t("dashboard.nav.billing"), icon: CreditCard },
-    { href: "/dashboard/api-keys", label: t("dashboard.nav.api_keys"), icon: Key },
+    { href: "/dashboard/apikeys", label: t("dashboard.nav.apikeys"), icon: Key },
   ];
 
   const footerNavItems = [

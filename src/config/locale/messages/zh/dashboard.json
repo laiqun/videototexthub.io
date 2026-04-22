@@ -6,7 +6,7 @@
     "overview": "概览",
     "settings": "设置",
     "billing": "账单",
-    "api_keys": "API 密钥"
+    "apikeys": "API 密钥"
   },
   "settings": {
     "title": "设置",
@@ -28,7 +28,7 @@
     "credits": "额度",
     "credits_description": "你的可用额度余额"
   },
-  "api_keys": {
+  "apikeys": {
     "title": "API 密钥",
     "description": "管理你的 API 密钥",
     "your_keys": "你的密钥",

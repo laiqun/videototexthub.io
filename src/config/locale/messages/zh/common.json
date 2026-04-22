@@ -45,7 +45,7 @@
     "dashboard": "控制台",
     "settings": "设置",
     "billing": "账单",
-    "api_keys": "API 密钥",
+    "apikeys": "API 密钥",
     "sign_in": "登录",
     "get_started": "开始使用"
   }

@@ -17,7 +17,7 @@
     "rbac": "权限管理",
     "i18n": "国际化",
     "cms": "内容管理",
-    "api_keys": "API 密钥"
+    "apikeys": "API 密钥"
   },
   "features": {
     "title": "开箱即用的完整功能",

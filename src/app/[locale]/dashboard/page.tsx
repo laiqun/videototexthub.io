@@ -59,7 +59,7 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">{t("dashboard.api_keys.title")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.apikeys.title")}</CardTitle>
             <Key className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

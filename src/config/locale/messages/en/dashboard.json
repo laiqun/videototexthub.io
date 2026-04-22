@@ -6,7 +6,7 @@
     "overview": "Overview",
     "settings": "Settings",
     "billing": "Billing",
-    "api_keys": "API Keys"
+    "apikeys": "API Keys"
   },
   "settings": {
     "title": "Settings",
@@ -28,7 +28,7 @@
     "credits": "Credits",
     "credits_description": "Your available credit balance"
   },
-  "api_keys": {
+  "apikeys": {
     "title": "API Keys",
     "description": "Manage your API keys for programmatic access",
     "your_keys": "Your Keys",

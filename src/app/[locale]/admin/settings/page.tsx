@@ -11,7 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -143,12 +142,7 @@ export default function AdminSettingsPage() {
                 onClick={() => toggleCollapse(group.name)}
               >
                 <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>{t(`settings.groups.${group.name}.title`)}</CardTitle>
-                    {group.description && (
-                      <CardDescription>{t(`settings.groups.${group.name}.description`)}</CardDescription>
-                    )}
-                  </div>
+                  <CardTitle>{t(`settings.groups.${group.name}.title`)}</CardTitle>
                   <ChevronDown
                     className={`size-5 text-muted-foreground transition-transform ${
                       collapsed.has(group.name) ? "-rotate-90" : ""

@@ -17,7 +17,7 @@
     "rbac": "RBAC",
     "i18n": "i18n",
     "cms": "CMS",
-    "api_keys": "API Keys"
+    "apikeys": "API Keys"
   },
   "features": {
     "title": "Everything you need to ship",
