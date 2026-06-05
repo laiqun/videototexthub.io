@@ -5,7 +5,7 @@ import { envConfigs } from '@/config';
 import { encryptSecret, decryptSecret, isEncryptedSecret } from '@/lib/crypto';
 import { getSettings } from './settings';
 
-type ConfigMap = Record<string, string>;
+export type ConfigMap = Record<string, string>;
 
 // In-memory cache
 let cachedConfigs: ConfigMap | null = null;

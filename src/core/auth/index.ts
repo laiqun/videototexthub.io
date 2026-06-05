@@ -112,7 +112,7 @@ export function getAuth(configs?: Record<string, string>) {
     const nextVerificationEnabled =
       configs.email_verification_enabled === 'true' &&
       !!configs.resend_api_key &&
-      !!configs.resend_email_from;
+      !!configs.resend_sender_email;
     if (nextVerificationEnabled !== emailVerificationEnabledLoaded) {
       authInstance = null;
       emailVerificationEnabledLoaded = nextVerificationEnabled;
@@ -126,7 +126,7 @@ export function getAuth(configs?: Record<string, string>) {
   const emailVerificationEnabled = configs
     ? configs.email_verification_enabled === 'true' &&
       !!configs.resend_api_key &&
-      !!configs.resend_email_from
+      !!configs.resend_sender_email
     : false;
 
   authInstance = betterAuth({
@@ -165,9 +165,9 @@ export function getAuth(configs?: Record<string, string>) {
       sendResetPassword: async ({ user, url }) => {
         const all = await getAllConfigs();
         const apiKey = all.resend_api_key;
-        const from = all.resend_email_from;
+        const from = all.resend_sender_email;
         if (!apiKey || !from) {
-          console.error('[auth] sendResetPassword: Resend is not configured (resend_api_key / resend_email_from)');
+          console.error('[auth] sendResetPassword: Resend is not configured (resend_api_key / resend_sender_email)');
           return;
         }
         const appName = all.app_name || envConfigs.app_name;
@@ -208,9 +208,9 @@ export function getAuth(configs?: Record<string, string>) {
 
                 const all = await getAllConfigs();
                 const apiKey = all.resend_api_key;
-                const from = all.resend_email_from;
+                const from = all.resend_sender_email;
                 if (!apiKey || !from) {
-                  console.error('[auth] sendVerificationEmail: Resend is not configured (resend_api_key / resend_email_from)');
+                  console.error('[auth] sendVerificationEmail: Resend is not configured (resend_api_key / resend_sender_email)');
                   return;
                 }
                 const appName = all.app_name || envConfigs.app_name;

@@ -27,13 +27,13 @@ async function GET({ request }: { request: Request }) {
   result.password_reset_enabled =
     configs.email_auth_enabled !== 'false' &&
     !!configs.resend_api_key &&
-    !!configs.resend_email_from
+    !!configs.resend_sender_email
       ? 'true'
       : 'false';
   result.email_verification_enabled =
     configs.email_verification_enabled === 'true' &&
     !!configs.resend_api_key &&
-    !!configs.resend_email_from
+    !!configs.resend_sender_email
       ? 'true'
       : 'false';
   return respData(result);

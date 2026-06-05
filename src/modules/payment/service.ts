@@ -56,7 +56,7 @@ async function getPaymentManager(): Promise<PaymentManager> {
       new StripeProvider({
         secretKey: stripeKey,
         publishableKey: c('stripe_publishable_key'),
-        signingSecret: c('stripe_webhook_secret') || c('stripe_signing_secret') || undefined,
+        signingSecret: c('stripe_signing_secret') || c('stripe_webhook_secret') || undefined,
         allowPromotionCodes: true,
         allowedPaymentMethods: ['card', 'wechat_pay', 'alipay'],
       }),

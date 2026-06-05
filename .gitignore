@@ -58,3 +58,6 @@ src/config/db/schema.ts
 
 # npm (project uses pnpm)
 package-lock.json
+
+# Runtime image uploads (no-storage local fallback)
+/public/uploads/

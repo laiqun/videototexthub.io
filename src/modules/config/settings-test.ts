@@ -18,7 +18,7 @@ import {
 import type { PaymentOrder } from '@/core/payment/types';
 import { PaymentType } from '@/core/payment/types';
 import { ResendProvider } from '@/core/email/resend';
-import { S3Provider } from '@/core/storage/s3';
+import { R2Provider } from '@/core/storage/r2';
 import { ReplicateProvider } from '@/core/ai/replicate';
 import { GeminiProvider } from '@/core/ai/gemini';
 import { FalProvider } from '@/core/ai/fal';
@@ -77,12 +77,12 @@ function successUrl(group: string) {
 // --- Resend ---------------------------------------------------------------
 
 async function testResend(inputs: Record<string, string>, configs: Record<string, string>): Promise<TestResult> {
-  const missing = need(configs, ['resend_api_key', 'resend_email_from']);
+  const missing = need(configs, ['resend_api_key', 'resend_sender_email']);
   if (missing) return { success: false, message: missing };
 
   const provider = new ResendProvider({
     apiKey: configs.resend_api_key,
-    defaultFrom: configs.resend_email_from,
+    defaultFrom: configs.resend_sender_email,
   });
 
   const result = await provider.sendEmail({
@@ -105,13 +105,13 @@ async function testResend(inputs: Record<string, string>, configs: Record<string
 // --- Stripe ---------------------------------------------------------------
 
 async function testStripe(inputs: Record<string, string>, configs: Record<string, string>): Promise<TestResult> {
-  const key = configs.stripe_api_key || configs.stripe_secret_key;
-  if (!key) return { success: false, message: 'Missing config: stripe_api_key' };
+  const key = configs.stripe_secret_key || configs.stripe_api_key;
+  if (!key) return { success: false, message: 'Missing config: stripe_secret_key' };
 
   const provider = new StripeProvider({
     secretKey: key,
     publishableKey: configs.stripe_publishable_key || '',
-    signingSecret: configs.stripe_webhook_secret || configs.stripe_signing_secret || undefined,
+    signingSecret: configs.stripe_signing_secret || configs.stripe_webhook_secret || undefined,
     allowedPaymentMethods: ['card'],
   });
 
@@ -268,16 +268,18 @@ async function testWechat(inputs: Record<string, string>, configs: Record<string
 // --- Storage --------------------------------------------------------------
 
 async function testR2(inputs: Record<string, string>, configs: Record<string, string>): Promise<TestResult> {
-  const missing = need(configs, ['storage_endpoint', 'storage_access_key', 'storage_secret_key', 'storage_bucket']);
+  const missing = need(configs, ['r2_access_key', 'r2_secret_key', 'r2_bucket_name']);
   if (missing) return { success: false, message: missing };
 
-  const provider = new S3Provider({
-    endpoint: configs.storage_endpoint,
-    region: configs.storage_region || 'auto',
-    accessKeyId: configs.storage_access_key,
-    secretAccessKey: configs.storage_secret_key,
-    bucket: configs.storage_bucket,
-    publicDomain: configs.storage_public_domain || undefined,
+  const provider = new R2Provider({
+    accountId: configs.r2_account_id || '',
+    accessKeyId: configs.r2_access_key,
+    secretAccessKey: configs.r2_secret_key,
+    bucket: configs.r2_bucket_name,
+    uploadPath: configs.r2_upload_path,
+    region: 'auto',
+    endpoint: configs.r2_endpoint || undefined,
+    publicDomain: configs.r2_domain || undefined,
   });
 
   const safeName = (inputs.filename || 'shipany-settings-test.txt').replace(/[^a-zA-Z0-9._-]/g, '_');

@@ -41,7 +41,9 @@ md.renderer.rules.link_open = function (tokens, idx, options, _env, renderer) {
   return renderer.renderToken(tokens, idx, options);
 };
 
-const markdownStyles = cn(
+// Shared typography for rendered markdown — also used by the admin rich-text
+// editor so what you edit matches what the public pages render.
+export const markdownStyles = cn(
   'text-[15px] leading-7 text-foreground/90',
   '[&_h1]:mt-6 [&_h1]:mb-2 [&_h1]:text-xl [&_h1]:font-semibold [&_h1]:tracking-tight [&_h1]:text-foreground md:[&_h1]:text-2xl',
   '[&_h2]:mt-6 [&_h2]:mb-2 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-foreground md:[&_h2]:text-xl',

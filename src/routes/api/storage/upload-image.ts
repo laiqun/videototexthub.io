@@ -1,9 +1,11 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { createFileRoute } from '@tanstack/react-router';
 import { envConfigs } from '@/config';
 import { md5 } from '@/lib/hash';
 import { respData, respErr } from '@/lib/resp';
 import { getAuth } from '@/core/auth';
-import { getStorage, isStorageConfigured } from '@/modules/storage/service';
+import { getStorage } from '@/modules/storage/service';
 import { enforceMinIntervalRateLimit } from '@/lib/rate-limit';
 
 const extFromMime = (mimeType: string) => {
@@ -21,9 +23,8 @@ const extFromMime = (mimeType: string) => {
   return map[mimeType] || '';
 };
 
-// Hard cap for inline base64 (no storage configured). Keep small — fits comfortably
-// in a TEXT column and a JSON response. Configurable via INLINE_IMAGE_MAX_KB.
-const INLINE_MAX_BYTES = (Number(envConfigs.inline_image_max_kb) || 2048) * 1024;
+// Cap for the no-storage local-disk fallback (dev). Configurable via INLINE_IMAGE_MAX_KB.
+const INLINE_MAX_BYTES = (Number(envConfigs.inline_image_max_kb) || 10240) * 1024;
 
 async function POST({ request }: { request: Request }) {
   const limited = enforceMinIntervalRateLimit(request, {
@@ -41,8 +42,7 @@ async function POST({ request }: { request: Request }) {
     const files = formData.getAll('files') as File[];
     if (!files.length) return respErr('No files provided');
 
-    const useStorage = isStorageConfigured();
-    const storage = useStorage ? getStorage() : null;
+    const storage = await getStorage();
     const uploadResults: Array<{ url: string; key: string; filename: string; deduped: boolean }> = [];
 
     for (const file of files) {
@@ -53,41 +53,47 @@ async function POST({ request }: { request: Request }) {
       const arrayBuffer = await file.arrayBuffer();
       const body = new Uint8Array(arrayBuffer);
 
-      // No storage configured → return data URL (caller persists it).
+      const digest = md5(body);
+      const ext = (extFromMime(file.type) || file.name.split('.').pop() || 'bin')
+        .replace(/[^a-zA-Z0-9]/g, '') || 'bin';
+      // R2Provider prepends its own uploadPath (default `uploads`), so the object
+      // key is the bare filename. The local fallback uses `public/uploads/<file>`.
+      const objectKey = `${digest}.${ext}`;
+
+      // No storage configured → persist to public/uploads and return a short
+      // local URL. Avoids inlining a giant base64 data URL into DB columns (some
+      // are varchar(255)). Configure R2 (admin → Storage) for production.
       if (!storage) {
         if (body.length > INLINE_MAX_BYTES) {
           const limitKb = Math.round(INLINE_MAX_BYTES / 1024);
           return respErr(
-            `Image too large for inline storage (${(body.length / 1024).toFixed(0)}KB > ${limitKb}KB). Configure STORAGE_* env vars or use a smaller image.`,
+            `Image too large (${(body.length / 1024).toFixed(0)}KB > ${limitKb}KB). Configure storage or use a smaller image.`,
           );
         }
-        const base64 = Buffer.from(body).toString('base64');
-        const dataUrl = `data:${file.type};base64,${base64}`;
+        const dir = path.join(process.cwd(), 'public', 'uploads');
+        await mkdir(dir, { recursive: true });
+        await writeFile(path.join(dir, objectKey), body);
         uploadResults.push({
-          url: dataUrl,
-          key: '',
+          url: `/uploads/${objectKey}`,
+          key: `uploads/${objectKey}`,
           filename: file.name,
           deduped: false,
         });
         continue;
       }
 
-      const digest = md5(body);
-      const ext = extFromMime(file.type) || file.name.split('.').pop() || 'bin';
-      const key = `uploads/${digest}.${ext}`;
-
-      const exists = await storage.exists({ key });
+      const exists = await storage.exists({ key: objectKey });
       if (exists) {
-        const publicUrl = storage.getPublicUrl({ key });
+        const publicUrl = storage.getPublicUrl({ key: objectKey });
         if (publicUrl) {
-          uploadResults.push({ url: publicUrl, key, filename: file.name, deduped: true });
+          uploadResults.push({ url: publicUrl, key: objectKey, filename: file.name, deduped: true });
           continue;
         }
       }
 
       const result = await storage.uploadFile({
         body,
-        key,
+        key: objectKey,
         contentType: file.type,
         disposition: 'inline',
       });
@@ -98,7 +104,7 @@ async function POST({ request }: { request: Request }) {
 
       uploadResults.push({
         url: result.url,
-        key: result.key || key,
+        key: result.key || objectKey,
         filename: file.name,
         deduped: false,
       });

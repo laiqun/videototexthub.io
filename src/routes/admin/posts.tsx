@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTable, type Column } from "@/components/data-table";
+import { RichTextEditor } from "@/components/rich-text-editor";
 import { TextField } from "@/components/form-field";
 import { cn } from "@/lib/utils";
 import {
@@ -155,6 +156,10 @@ function PostsPage() {
   function openEdit(p: Post) {
     editForm.reset({ slug: p.slug, title: p.title, description: p.description || "", content: "", categories: p.categories || "", authorName: p.authorName || "", status: p.status });
     setEditingPost(p);
+    // list endpoint omits content — load it for the editor
+    apiGet<Post & { content: string | null }>(`/api/admin/posts?id=${p.id}`)
+      .then((post) => editForm.setFieldValue("content", post.content || ""))
+      .catch(() => {});
   }
 
   const statusVariant = (s: string) => {
@@ -210,6 +215,16 @@ function PostsPage() {
             </Select>
           </div>
         )}</form.Field>
+        <form.Field name="content">{(field) => (
+          <div className="space-y-2">
+            <Label>{m["admin.posts.content_field"]()}</Label>
+            <RichTextEditor
+              value={field.state.value}
+              onChange={(content) => field.handleChange(content)}
+              placeholder={m["admin.posts.content_placeholder"]()}
+            />
+          </div>
+        )}</form.Field>
       </div>
     );
   }
@@ -225,7 +240,7 @@ function PostsPage() {
           <DialogTrigger className="inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium h-8 gap-1.5 px-2.5 hover:bg-primary/80 transition-colors">
             <Plus className="size-4" />{m["admin.posts.create"]()}
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader><DialogTitle>{m["admin.posts.create_title"]()}</DialogTitle><DialogDescription>{m["admin.posts.create_description"]()}</DialogDescription></DialogHeader>
             <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); createForm.handleSubmit(); }}>
               {renderFields(createForm)}
@@ -251,7 +266,7 @@ function PostsPage() {
       </Card>
 
       <Dialog open={!!editingPost} onOpenChange={(v) => !v && setEditingPost(null)}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{m["admin.posts.edit_title"]()}</DialogTitle><DialogDescription>{m["admin.posts.edit_description"]()}</DialogDescription></DialogHeader>
           <form onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); editForm.handleSubmit(); }}>
             {renderFields(editForm)}

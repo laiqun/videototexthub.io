@@ -128,8 +128,8 @@ export function getSettings(): Setting[] {
     // ─── Payment / Stripe ────────────────────────────────────────────
     { name: 'stripe_enabled', title: 'Enable Stripe', type: 'switch', group: 'stripe', tab: 'payment' },
     { name: 'stripe_publishable_key', title: 'Publishable Key', type: 'text', placeholder: 'pk_xxx', group: 'stripe', tab: 'payment' },
-    { name: 'stripe_api_key', title: 'Secret Key', type: 'password', placeholder: 'sk_xxx', group: 'stripe', tab: 'payment' },
-    { name: 'stripe_webhook_secret', title: 'Webhook Secret', type: 'password', placeholder: 'whsec_xxx', group: 'stripe', tab: 'payment' },
+    { name: 'stripe_secret_key', title: 'Secret Key', type: 'password', placeholder: 'sk_xxx', group: 'stripe', tab: 'payment' },
+    { name: 'stripe_signing_secret', title: 'Webhook Signing Secret', type: 'password', placeholder: 'whsec_xxx', group: 'stripe', tab: 'payment' },
 
     // ─── Payment / Creem ─────────────────────────────────────────────
     { name: 'creem_enabled', title: 'Enable Creem', type: 'switch', group: 'creem', tab: 'payment' },
@@ -180,15 +180,16 @@ export function getSettings(): Setting[] {
 
     // ─── Email / Resend ──────────────────────────────────────────────
     { name: 'resend_api_key', title: 'API Key', type: 'password', placeholder: 're_xxx', group: 'resend', tab: 'email' },
-    { name: 'resend_email_from', title: 'From Address', type: 'text', placeholder: 'hello@example.com', group: 'resend', tab: 'email' },
+    { name: 'resend_sender_email', title: 'Sender Email', type: 'text', placeholder: 'hello@example.com', group: 'resend', tab: 'email' },
 
     // ─── Storage / R2 ────────────────────────────────────────────────
-    { name: 'storage_endpoint', title: 'Endpoint', type: 'text', placeholder: 'https://xxx.r2.cloudflarestorage.com', group: 'r2', tab: 'storage' },
-    { name: 'storage_region', title: 'Region', type: 'text', placeholder: 'auto', group: 'r2', tab: 'storage' },
-    { name: 'storage_access_key', title: 'Access Key', type: 'password', placeholder: 'xxx', group: 'r2', tab: 'storage' },
-    { name: 'storage_secret_key', title: 'Secret Key', type: 'password', placeholder: 'xxx', group: 'r2', tab: 'storage' },
-    { name: 'storage_bucket', title: 'Bucket', type: 'text', placeholder: 'my-bucket', group: 'r2', tab: 'storage' },
-    { name: 'storage_public_domain', title: 'Public Domain', type: 'text', placeholder: 'https://cdn.example.com', group: 'r2', tab: 'storage' },
+    // Keys mirror the original ShipAny Two (`r2_*`) so existing DB config is read as-is.
+    { name: 'r2_access_key', title: 'Cloudflare Access Key', type: 'text', placeholder: '', group: 'r2', tab: 'storage' },
+    { name: 'r2_secret_key', title: 'Cloudflare Secret Key', type: 'password', placeholder: '', group: 'r2', tab: 'storage' },
+    { name: 'r2_bucket_name', title: 'Bucket Name', type: 'text', placeholder: '', group: 'r2', tab: 'storage' },
+    { name: 'r2_upload_path', title: 'Upload Path', type: 'text', placeholder: 'uploads', tip: 'Path to upload files to; leave empty to use the default. Example: uploads/foo/bar', group: 'r2', tab: 'storage' },
+    { name: 'r2_endpoint', title: 'Endpoint', type: 'text', placeholder: 'https://<account-id>.r2.cloudflarestorage.com', tip: 'Leave empty to use the default R2 endpoint', group: 'r2', tab: 'storage' },
+    { name: 'r2_domain', title: 'Domain', type: 'text', placeholder: 'https://cdn.example.com', group: 'r2', tab: 'storage' },
 
     // ─── AI / Replicate ──────────────────────────────────────────────
     { name: 'replicate_api_token', title: 'API Token', type: 'password', placeholder: 'r8_xxx', group: 'replicate', tab: 'ai' },

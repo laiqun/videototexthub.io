@@ -422,22 +422,24 @@ DATABASE_PROVIDER=sqlite
 DATABASE_URL=file:data/local.db
 AUTH_SECRET=generate-with-openssl-rand-base64-32
 
-# Payment (optional — enable when ready, server-only)
-STRIPE_SECRET_KEY=
-STRIPE_PUBLISHABLE_KEY=
-STRIPE_SIGNING_SECRET=
-
-# Locale (optional, public)
+# App (optional, public)
+VITE_APP_DESCRIPTION=
+VITE_APP_LOGO=
 VITE_DEFAULT_LOCALE=en
 
-# Optional: encrypt admin-settings secrets (AES-256-GCM) in the config table.
-# Unset = plaintext storage (default). Once set, keep it stable — rotating or
-# removing it orphans already-encrypted values (they fall back to env values).
+# Recommended: encrypt admin-settings secrets (AES-256-GCM) in the config table.
+# Unset = plaintext storage. Once set, keep it stable — rotating or removing it
+# orphans already-encrypted values (they fall back to env values).
 CONFIG_ENCRYPTION_KEY=
-
-# Other optional public: VITE_APP_DESCRIPTION, VITE_APP_LOGO
-# Other optional server-only: RESEND_API_KEY, STORAGE_*, REPLICATE_API_TOKEN
 ```
+
+**Provider credentials live in the admin panel, not env.** Payments (Stripe/
+Creem/PayPal/Alipay/WeChat), OAuth (Google/GitHub/One-Tap), email (Resend),
+storage (R2), AI (Replicate/Gemini/Fal), and analytics are configured at
+`/admin/settings` and stored in the `config` table (encrypted when
+`CONFIG_ENCRYPTION_KEY` is set). Resolution is `{ ...envConfigs, ...dbConfigs }`
+— same-named env vars still work as fallbacks, but database values win.
+Keep `.env.example` minimal; don't add provider keys to it.
 
 ## Critical Rules
 

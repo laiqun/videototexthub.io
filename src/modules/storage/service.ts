@@ -1,33 +1,45 @@
-import { envConfigs } from '@/config';
-import { storageManager, S3Provider } from '@/core/storage';
+import { StorageManager, R2Provider } from '@/core/storage';
+import { getAllConfigs, type ConfigMap } from '@/modules/config/service';
 
-let initialized = false;
-
-export function isStorageConfigured() {
+/**
+ * Storage config is DB-driven (like auth/payment/email): values come from the
+ * admin "Storage" settings, merged over env via getAllConfigs(). Keys mirror the
+ * original ShipAny Two (`r2_*`).
+ */
+function isConfigured(configs: ConfigMap): boolean {
   return Boolean(
-    envConfigs.storage_endpoint &&
-      envConfigs.storage_access_key &&
-      envConfigs.storage_secret_key &&
-      envConfigs.storage_bucket,
+    configs.r2_access_key && configs.r2_secret_key && configs.r2_bucket_name,
   );
 }
 
-export function getStorage() {
-  if (!initialized) {
-    if (isStorageConfigured()) {
-      storageManager.addProvider(
-        new S3Provider({
-          endpoint: envConfigs.storage_endpoint,
-          region: envConfigs.storage_region || 'auto',
-          accessKeyId: envConfigs.storage_access_key,
-          secretAccessKey: envConfigs.storage_secret_key,
-          bucket: envConfigs.storage_bucket,
-          publicDomain: envConfigs.storage_public_domain,
-        }),
-        true,
-      );
-    }
-    initialized = true;
-  }
-  return storageManager;
+function buildManager(configs: ConfigMap): StorageManager {
+  const manager = new StorageManager();
+  manager.addProvider(
+    new R2Provider({
+      accountId: configs.r2_account_id || '',
+      accessKeyId: configs.r2_access_key as string,
+      secretAccessKey: configs.r2_secret_key as string,
+      bucket: configs.r2_bucket_name as string,
+      uploadPath: configs.r2_upload_path,
+      region: 'auto',
+      endpoint: configs.r2_endpoint, // optional custom endpoint
+      publicDomain: configs.r2_domain,
+    }),
+    true,
+  );
+  return manager;
+}
+
+export async function isStorageConfigured(): Promise<boolean> {
+  return isConfigured(await getAllConfigs());
+}
+
+/**
+ * Returns a configured StorageManager, or null when storage is not configured
+ * (caller should fall back to local/inline handling).
+ */
+export async function getStorage(): Promise<StorageManager | null> {
+  const configs = await getAllConfigs();
+  if (!isConfigured(configs)) return null;
+  return buildManager(configs);
 }
