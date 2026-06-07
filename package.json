@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node --import tsx scripts/paraglide-compile.ts",
     "dev": "vite dev --port 3000",
     "prebuild": "node scripts/db-setup.mjs",
     "build": "vite build",
