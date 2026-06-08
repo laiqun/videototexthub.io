@@ -1,3 +1,8 @@
+import type {
+  StorageCreatePresignedUrlOptions,
+  StorageCreatePresignedUrlResult,
+} from './presigned-url';
+
 /**
  * Storage upload options interface
  */
@@ -58,7 +63,10 @@ export interface StorageProvider {
 
   // get public url for key (optional)
   getPublicUrl?: (options: { key: string; bucket?: string }) => string;
-
+  // create presigned url (optional)
+  createPresignedUrl?: (
+      options: StorageCreatePresignedUrlOptions
+  ) => Promise<StorageCreatePresignedUrlResult>;
   // upload file
   uploadFile(options: StorageUploadOptions): Promise<StorageUploadResult>;
 
@@ -141,7 +149,18 @@ export class StorageManager {
     if (!provider.getPublicUrl) return undefined;
     return provider.getPublicUrl(options);
   }
-
+  // create presigned url using default provider (if supported)
+  async createPresignedUrl(
+      options: StorageCreatePresignedUrlOptions
+  ): Promise<StorageCreatePresignedUrlResult> {
+    const provider = this.ensureDefaultProvider();
+    if (!provider.createPresignedUrl) {
+      throw new Error(
+          `Storage provider '${provider.name}' does not support presigned URLs`
+      );
+    }
+    return provider.createPresignedUrl(options);
+  }
   // download and upload using specific provider
   async downloadAndUploadWithProvider(
     options: StorageDownloadUploadOptions,
@@ -164,5 +183,6 @@ export class StorageManager {
 export const storageManager = new StorageManager();
 
 // Export all providers
+export * from './presigned-url';
 export * from './s3';
 export * from './r2';

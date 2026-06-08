@@ -1,10 +1,19 @@
+import { AwsClient } from 'aws4fetch';
+
 import type {
   StorageConfigs,
+  StorageCreatePresignedUrlOptions,
+  StorageCreatePresignedUrlResult,
   StorageDownloadUploadOptions,
   StorageProvider,
   StorageUploadOptions,
   StorageUploadResult,
 } from '.';
+
+import {
+  DEFAULT_PRESIGNED_URL_EXPIRES_IN_SECONDS,
+  MAX_PRESIGNED_URL_EXPIRES_IN_SECONDS,
+} from './presigned-url';
 
 /**
  * R2 storage provider configs
@@ -33,6 +42,19 @@ export class R2Provider implements StorageProvider {
     this.configs = configs;
   }
 
+  private sanitizePathSegment(value?: string) {
+    if (!value) {
+      return '';
+    }
+
+    const trimmed = value.trim().replace(/^\/+|\/+$/g, '');
+    if (trimmed.includes('..')) {
+      throw new Error('Invalid object path');
+    }
+
+    return trimmed;
+  }
+
   private getUploadPath() {
     let uploadPath = this.configs.uploadPath || 'uploads';
     if (uploadPath.startsWith('/')) {
@@ -45,10 +67,38 @@ export class R2Provider implements StorageProvider {
   }
 
   private getEndpoint() {
-    return (
-      this.configs.endpoint ||
-      `https://${this.configs.accountId}.r2.cloudflarestorage.com`
-    );
+    if (this.configs.endpoint) {
+      return this.configs.endpoint;
+    }
+    if (this.configs.accountId) {
+      return `https://${this.configs.accountId}.r2.cloudflarestorage.com`;
+    }
+
+    throw new Error('R2 endpoint or account ID is not configured');
+  }
+
+  private buildObjectKey({
+                           key,
+                           prefix,
+                           filename,
+                         }: {
+    key?: string;
+    prefix?: string;
+    filename?: string;
+  }) {
+    const normalizedPrefix = this.sanitizePathSegment(prefix);
+
+    const joinPrefix = (value: string) =>
+        normalizedPrefix ? `${normalizedPrefix}/${value}` : value;
+
+    if (key) {
+      return joinPrefix(this.sanitizePathSegment(key));
+    }
+
+    const extension = filename?.split('.').pop();
+    const uniqueName = `${crypto.randomUUID()}${extension ? `.${extension}` : ''}`;
+
+    return joinPrefix(uniqueName);
   }
 
   getPublicUrl = (options: { key: string; bucket?: string }) => {
@@ -59,6 +109,77 @@ export class R2Provider implements StorageProvider {
       ? `${this.configs.publicDomain}/${uploadPath}/${options.key}`
       : url;
   };
+  async createPresignedUrl(
+      options: StorageCreatePresignedUrlOptions
+  ): Promise<StorageCreatePresignedUrlResult> {
+    const uploadBucket = this.configs.bucket;
+    if (!uploadBucket) {
+      throw new Error('R2 bucket name is not configured');
+    }
+
+    if (!this.configs.accessKeyId || !this.configs.secretAccessKey) {
+      throw new Error('R2 credentials are not configured');
+    }
+
+    const expiresIn =
+        options.expiresIn ?? DEFAULT_PRESIGNED_URL_EXPIRES_IN_SECONDS;
+
+    if (expiresIn < 1 || expiresIn > MAX_PRESIGNED_URL_EXPIRES_IN_SECONDS) {
+      throw new Error('Invalid expiresIn value');
+    }
+
+    const operation = options.operation || 'put';
+    const objectKey = this.buildObjectKey({
+      key: options.key,
+      prefix: options.prefix,
+      filename: options.filename,
+    });
+    const uploadPath = this.getUploadPath();
+    const endpoint = this.getEndpoint();
+    const uploadUrl = `${endpoint}/${uploadBucket}/${uploadPath}/${objectKey}`;
+    const method =
+        operation.toUpperCase() as StorageCreatePresignedUrlResult['method'];
+    const presignUrl = new URL(uploadUrl);
+
+    presignUrl.searchParams.set('X-Amz-Expires', expiresIn.toString());
+
+    const headers = new Headers();
+    if (operation === 'put' && options.contentType) {
+      headers.set('Content-Type', options.contentType);
+    }
+
+    const client = new AwsClient({
+      accessKeyId: this.configs.accessKeyId,
+      secretAccessKey: this.configs.secretAccessKey,
+      service: 's3',
+      region: this.configs.region || 'auto',
+    });
+
+    const signedRequest = await client.sign(
+        new Request(presignUrl.toString(), {
+          method,
+          headers,
+        }),
+        {
+          aws: { signQuery: true },
+        }
+    );
+
+    return {
+      url: signedRequest.url,
+      key: objectKey,
+      method,
+      headers:
+          operation === 'put' && options.contentType
+              ? { 'Content-Type': options.contentType }
+              : undefined,
+      expiresIn,
+      objectUrl: this.getPublicUrl({
+        key: objectKey,
+        bucket: uploadBucket,
+      }),
+    };
+  }
 
   exists = async (options: { key: string; bucket?: string }) => {
     try {
