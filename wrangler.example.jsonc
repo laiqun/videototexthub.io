@@ -6,6 +6,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "shipany-tanstack",
+  "compatibility_date": "2026-06-08",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
@@ -23,6 +24,20 @@
       "database_name": "shipany-db",
       "database_id": "REPLACE_WITH_OUTPUT_OF_WRANGLER_D1_CREATE",
       "migrations_dir": "drizzle"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "HELLO_WORLD_DO",
+        "class_name": "HelloWorldDurableObject"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["HelloWorldDurableObject"]
     }
   ]
   // ── Postgres via Hyperdrive (instead of D1) ────────────────────────────────
