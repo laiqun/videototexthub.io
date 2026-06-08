@@ -10,7 +10,8 @@ type D1Database = {
 
 // D1 singleton instance
 let d1DbInstance: ReturnType<typeof drizzle> | null = null;
-
+//这里的最小类型，是为了不让  @cloudflare/workers-types globally 影响全局
+//如果引入了，每次 运行前都要生成一个 cf types；方便本地调试，不需要知道 cloudflare workers 的全部类型
 /**
  * Resolve the D1 binding named `DB` (see wrangler.jsonc `d1_databases`).
  *
