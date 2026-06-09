@@ -7,18 +7,18 @@ import {
   Globe,
   FileText,
   Coins,
-  type LucideIcon,
+  type LucideIcon, Clock3, Captions, Search, NotebookPen,
 } from "lucide-react";
 
 export function Features() {
   
   const features: { key: string; icon: LucideIcon }[] = [
-    { key: "auth", icon: ShieldCheck },
-    { key: "payment", icon: CreditCard },
-    { key: "rbac", icon: Users },
-    { key: "i18n", icon: Globe },
-    { key: "cms", icon: FileText },
-    { key: "credits", icon: Coins },
+    { key: "transcript", icon: FileText },
+    { key: "speakerStructure", icon: Users },
+    { key: "timestampWorkflow", icon: Clock3 },
+    { key: "subtitlePrep", icon: Captions },
+    { key: "searchableArchive", icon: Search },
+    { key: "exportableNotes", icon: NotebookPen },
   ];
 
   return (

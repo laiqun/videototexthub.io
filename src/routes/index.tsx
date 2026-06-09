@@ -51,8 +51,12 @@ export const Route = createFileRoute('/')({
     return {
       meta: [
         {
+          name: 'title',
+          content: m['landing.title']({}, { locale: locale as any }),
+        },
+        {
           name: 'description',
-          content: m['landing.hero.subheadline']({}, { locale: locale as any }),
+          content: m['landing.description']({}, { locale: locale as any }),
         },
       ],
       links: [

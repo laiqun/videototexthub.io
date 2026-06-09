@@ -55,7 +55,7 @@ const uploadImageFile = async (file: File) => {
     throw new Error(`Upload failed with status ${response.status}`);
   }
 
-  const result = await response.json();
+  const result = await response.json() as any;
   if (result.code !== 0 || !result.data?.urls?.length) {
     throw new Error(result.message || 'Upload failed');
   }
