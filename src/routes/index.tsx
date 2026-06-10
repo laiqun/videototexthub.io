@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Header } from "@/blocks/header";
 import { Hero } from "@/blocks/hero";
+import { WorkflowPreview } from "@/blocks/workflow-preview";
 import { Features } from "@/blocks/features";
 import { Pricing } from "@/blocks/pricing";
 import { FAQ } from "@/blocks/faq";
@@ -26,6 +27,7 @@ function HomePage() {
       <Header />
       <main>
         <Hero />
+        <WorkflowPreview />
         <Features />
         <Pricing />
         <FAQ />
