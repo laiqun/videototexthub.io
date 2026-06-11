@@ -12,7 +12,7 @@ import {
   type WorkflowPreviewStatus,
 } from "./types";
 
-export function WorkflowPreviewStatusPill({
+export function StatusPill({
   copy,
   status,
 }: {

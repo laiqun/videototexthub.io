@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { type WorkflowPreviewCopy } from "./types";
 
-export function WorkflowPreviewAdvancedPanel({
+export function AdvancedPanel({
   advancedOpen,
   copy,
   generateAiNote,

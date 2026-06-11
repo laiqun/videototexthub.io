@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { type WorkflowPreviewCopy } from "./types";
 
-export function WorkflowPreviewInputPanel({
+export function InputPanel({
   copy,
 }: {
   copy: WorkflowPreviewCopy;

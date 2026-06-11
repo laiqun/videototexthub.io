@@ -7,9 +7,9 @@ import {
   NotebookPen,
 } from "lucide-react";
 
-import { WorkflowPreviewAdvancedPanel } from "@/components/workflow-preview/advanced-panel";
-import { WorkflowPreviewInputPanel } from "@/components/workflow-preview/input-panel";
-import { WorkflowPreviewJobsPanel } from "@/components/workflow-preview/jobs-panel";
+import { AdvancedPanel } from "@/components/workflow-preview/advanced-panel";
+import { InputPanel } from "@/components/workflow-preview/input-panel";
+import { JobsPanel } from "@/components/workflow-preview/jobs-panel";
 import {
   type WorkflowPreviewCopy,
   type WorkflowPreviewDownloadAsset,
@@ -24,7 +24,6 @@ export function WorkflowPreview() {
   const [visualOutput, setVisualOutput] = useState(true);
 
   const copy: WorkflowPreviewCopy = {
-    eyebrow: m["landing.demo.eyebrow"](),
     title: m["landing.demo.title"](),
     description: m["landing.demo.description"](),
     uploadTab: m["landing.demo.upload_tab"](),
@@ -144,9 +143,6 @@ export function WorkflowPreview() {
             <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.2),transparent_45%),radial-gradient(circle_at_top_right,rgba(250,204,21,0.14),transparent_35%)]" />
 
             <div className="relative border-b border-border/70 px-6 py-8 sm:px-10 sm:py-10">
-              <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                {copy.eyebrow}
-              </p>
               <h2 className="mt-3 font-serif text-3xl leading-tight tracking-tight sm:text-4xl">
                 {copy.title}
               </h2>
@@ -156,8 +152,8 @@ export function WorkflowPreview() {
             </div>
 
             <div className="relative space-y-6 px-6 py-6 sm:px-10 sm:py-8">
-              <WorkflowPreviewInputPanel copy={copy} />
-              <WorkflowPreviewAdvancedPanel
+              <InputPanel copy={copy} />
+              <AdvancedPanel
                 advancedOpen={advancedOpen}
                 copy={copy}
                 generateAiNote={generateAiNote}
@@ -166,7 +162,7 @@ export function WorkflowPreview() {
                 onVisualOutputChange={setVisualOutput}
                 visualOutput={visualOutput}
               />
-              <WorkflowPreviewJobsPanel
+              <JobsPanel
                 assets={downloadAssets}
                 copy={copy}
                 jobs={jobs}

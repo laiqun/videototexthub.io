@@ -17,7 +17,7 @@ import {
   type WorkflowPreviewStatus,
 } from "./types";
 
-export function WorkflowPreviewActionButtons({
+export function Result({
   assets,
   copy,
   status,

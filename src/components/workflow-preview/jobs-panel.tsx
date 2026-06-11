@@ -7,9 +7,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { WorkflowPreviewActionButtons } from "./action-buttons";
-import { WorkflowPreviewReferenceSubtitleField } from "./reference-subtitle-field";
-import { WorkflowPreviewStatusPill } from "./status-pill";
+import { Result } from "./result";
+import { ReferenceSubtitleField } from "./reference-subtitle-field";
+import { StatusPill } from "./status-pill";
 import {
   type WorkflowPreviewCopy,
   type WorkflowPreviewDownloadAsset,
@@ -19,7 +19,7 @@ import {
 const mobileTableCellClasses =
   "flex flex-col gap-1 border-b border-border/40 px-4 py-3 last:border-b-0 md:table-cell md:border-b-0 md:px-4 md:py-4 md:align-top before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.18em] before:text-muted-foreground before:content-[attr(data-label)] md:before:hidden";
 
-export function WorkflowPreviewJobsPanel({
+export function JobsPanel({
   assets,
   copy,
   jobs,
@@ -60,7 +60,7 @@ export function WorkflowPreviewJobsPanel({
                 data-label={copy.referenceSubtitle}
                 className={mobileTableCellClasses}
               >
-                <WorkflowPreviewReferenceSubtitleField
+                <ReferenceSubtitleField
                   copy={copy}
                   initialFilename={job.referenceSubtitle}
                 />
@@ -69,10 +69,10 @@ export function WorkflowPreviewJobsPanel({
                 <StartProcessingButton label={copy.startProcessing} />
               </td>
               <td data-label={copy.status} className={mobileTableCellClasses}>
-                <WorkflowPreviewStatusPill copy={copy} status={job.status} />
+                <StatusPill copy={copy} status={job.status} />
               </td>
               <td data-label={copy.result} className={mobileTableCellClasses}>
-                <WorkflowPreviewActionButtons
+                <Result
                   assets={assets}
                   copy={copy}
                   status={job.status}

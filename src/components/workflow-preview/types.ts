@@ -17,7 +17,6 @@ export interface WorkflowPreviewDownloadAsset {
 }
 
 export interface WorkflowPreviewCopy {
-  eyebrow: string;
   title: string;
   description: string;
   uploadTab: string;

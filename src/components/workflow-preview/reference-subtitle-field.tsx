@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { type WorkflowPreviewCopy } from "./types";
 
-export function WorkflowPreviewReferenceSubtitleField({
+export function ReferenceSubtitleField({
   copy,
   initialFilename,
 }: {
