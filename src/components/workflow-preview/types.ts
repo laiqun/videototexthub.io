@@ -51,6 +51,10 @@ export interface WorkflowPreviewCopy {
   startProcessing: string;
   jobActions: string;
   deleteJob: string;
+  deleteJobTitle: string;
+  deleteJobDescription: string;
+  confirmDeleteJob: string;
+  keepJob: string;
   viewDetails: string;
   cancelJob: string;
   retryJob: string;

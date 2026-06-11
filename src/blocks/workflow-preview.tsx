@@ -62,6 +62,10 @@ export function WorkflowPreview() {
     startProcessing: m["landing.demo.start_processing"](),
     jobActions: m["landing.demo.job_actions"](),
     deleteJob: m["landing.demo.delete_job"](),
+    deleteJobTitle: m["landing.demo.delete_job_title"](),
+    deleteJobDescription: m["landing.demo.delete_job_description"](),
+    confirmDeleteJob: m["landing.demo.confirm_delete_job"](),
+    keepJob: m["landing.demo.keep_job"](),
     viewDetails: m["landing.demo.view_details"](),
     cancelJob: m["landing.demo.cancel_job"](),
     retryJob: m["landing.demo.retry_job"](),
@@ -156,6 +160,10 @@ export function WorkflowPreview() {
     ]);
   };
 
+  const handleDeleteJob = (jobId: string) => {
+    setJobs((currentJobs) => currentJobs.filter((job) => job.id !== jobId));
+  };
+
   const downloadAssets: WorkflowPreviewDownloadAsset[] = [
     {
       key: "final",
@@ -219,6 +227,7 @@ export function WorkflowPreview() {
                 assets={downloadAssets}
                 copy={copy}
                 jobs={jobs}
+                onDeleteJob={handleDeleteJob}
               />
             </div>
           </div>

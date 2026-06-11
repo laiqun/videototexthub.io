@@ -1,6 +1,22 @@
-import { CircleHelp, Eye, MoreHorizontal, RotateCcw, Trash2, XCircle } from "lucide-react";
+import { useState } from "react";
+import {
+  CircleHelp,
+  Eye,
+  MoreHorizontal,
+  RotateCcw,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,10 +45,12 @@ export function JobsPanel({
   assets,
   copy,
   jobs,
+  onDeleteJob,
 }: {
   assets: WorkflowPreviewDownloadAsset[];
   copy: WorkflowPreviewCopy;
   jobs: WorkflowPreviewJob[];
+  onDeleteJob: (jobId: string) => void;
 }) {
   return (
     <div className="md:overflow-hidden md:rounded-[1.5rem] md:border md:border-border/70 md:bg-background/80">
@@ -72,7 +90,7 @@ export function JobsPanel({
                 />
               </td>
               <td data-label={copy.action} className={mobileTableCellClasses}>
-                <JobActions copy={copy} />
+                <JobActions copy={copy} job={job} onDeleteJob={onDeleteJob} />
               </td>
               <td data-label={copy.status} className={mobileTableCellClasses}>
                 <StatusPill copy={copy} status={job.status} />
@@ -122,43 +140,89 @@ function ReferenceSubtitleHeader({ copy }: { copy: WorkflowPreviewCopy }) {
   );
 }
 
-function JobActions({ copy }: { copy: WorkflowPreviewCopy }) {
+function JobActions({
+  copy,
+  job,
+  onDeleteJob,
+}: {
+  copy: WorkflowPreviewCopy;
+  job: WorkflowPreviewJob;
+  onDeleteJob: (jobId: string) => void;
+}) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const confirmDelete = () => {
+    onDeleteJob(job.id);
+    setDeleteDialogOpen(false);
+  };
+
   return (
-    <div className="inline-flex items-center gap-1.5">
-      <StartProcessingButton label={copy.startProcessing} />
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              aria-label={copy.jobActions}
-              variant="outline"
-              size="icon"
-              className="size-9 rounded-full"
+    <>
+      <div className="inline-flex items-center gap-1.5">
+        <StartProcessingButton label={copy.startProcessing} />
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                aria-label={copy.jobActions}
+                variant="outline"
+                size="icon"
+                className="size-9 rounded-full"
+              >
+                <MoreHorizontal className="size-4" />
+              </Button>
+            }
+          />
+          <DropdownMenuContent align="end" className="min-w-36">
+            <DropdownMenuItem
+              onClick={() => setDeleteDialogOpen(true)}
+              variant="destructive"
             >
-              <MoreHorizontal className="size-4" />
+              <Trash2 className="size-4" />
+              {copy.deleteJob}
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Eye className="size-4" />
+              {copy.viewDetails}
+            </DropdownMenuItem>
+            <DropdownMenuItem variant="destructive">
+              <XCircle className="size-4" />
+              {copy.cancelJob}
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <RotateCcw className="size-4" />
+              {copy.retryJob}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{copy.deleteJobTitle}</DialogTitle>
+            <DialogDescription>{copy.deleteJobDescription}</DialogDescription>
+          </DialogHeader>
+          <div className="rounded-lg border border-border/70 bg-muted/40 px-3 py-2 text-sm">
+            <div className="font-medium">{job.sourceLabel}</div>
+            <div className="mt-1 break-all text-muted-foreground">
+              {job.sourceValue}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteDialogOpen(false)}
+            >
+              {copy.keepJob}
             </Button>
-          }
-        />
-        <DropdownMenuContent align="end" className="min-w-36">
-          <DropdownMenuItem variant="destructive">
-            <Trash2 className="size-4" />
-            {copy.deleteJob}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Eye className="size-4" />
-            {copy.viewDetails}
-          </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">
-            <XCircle className="size-4" />
-            {copy.cancelJob}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <RotateCcw className="size-4" />
-            {copy.retryJob}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+            <Button variant="destructive" onClick={confirmDelete}>
+              {copy.confirmDeleteJob}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
