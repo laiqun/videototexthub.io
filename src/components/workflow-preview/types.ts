@@ -49,6 +49,11 @@ export interface WorkflowPreviewCopy {
   languageHint: string;
   languageHintPlaceholder: string;
   startProcessing: string;
+  jobActions: string;
+  deleteJob: string;
+  viewDetails: string;
+  cancelJob: string;
+  retryJob: string;
   openNote: string;
   download: string;
   retry: string;

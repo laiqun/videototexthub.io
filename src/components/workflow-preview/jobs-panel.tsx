@@ -1,6 +1,12 @@
-import { CircleHelp } from "lucide-react";
+import { CircleHelp, Eye, MoreHorizontal, RotateCcw, Trash2, XCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -66,7 +72,7 @@ export function JobsPanel({
                 />
               </td>
               <td data-label={copy.action} className={mobileTableCellClasses}>
-                <StartProcessingButton label={copy.startProcessing} />
+                <JobActions copy={copy} />
               </td>
               <td data-label={copy.status} className={mobileTableCellClasses}>
                 <StatusPill copy={copy} status={job.status} />
@@ -113,6 +119,46 @@ function ReferenceSubtitleHeader({ copy }: { copy: WorkflowPreviewCopy }) {
         </TooltipContent>
       </Tooltip>
     </span>
+  );
+}
+
+function JobActions({ copy }: { copy: WorkflowPreviewCopy }) {
+  return (
+    <div className="inline-flex items-center gap-1.5">
+      <StartProcessingButton label={copy.startProcessing} />
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              aria-label={copy.jobActions}
+              variant="outline"
+              size="icon"
+              className="size-9 rounded-full"
+            >
+              <MoreHorizontal className="size-4" />
+            </Button>
+          }
+        />
+        <DropdownMenuContent align="end" className="min-w-36">
+          <DropdownMenuItem variant="destructive">
+            <Trash2 className="size-4" />
+            {copy.deleteJob}
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Eye className="size-4" />
+            {copy.viewDetails}
+          </DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">
+            <XCircle className="size-4" />
+            {copy.cancelJob}
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <RotateCcw className="size-4" />
+            {copy.retryJob}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 
