@@ -1,5 +1,6 @@
 import {
   type ChangeEvent,
+  type DragEvent,
   type KeyboardEvent,
   useRef,
   useState,
@@ -29,6 +30,7 @@ export function InputPanel({
   const [pastedUrl, setPastedUrl] = useState(
     "https://youtube.com/watch?v=workflow-preview",
   );
+  const [isDraggingUpload, setIsDraggingUpload] = useState(false);
 
   const openUploadPicker = () => {
     uploadInputRef.current?.click();
@@ -52,6 +54,40 @@ export function InputPanel({
 
     // Reset the control so selecting the same file again still fires change.
     event.target.value = "";
+  };
+
+  const handleUploadDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDraggingUpload(true);
+  };
+
+  const handleUploadDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+    setIsDraggingUpload(true);
+  };
+
+  const handleUploadDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      return;
+    }
+
+    setIsDraggingUpload(false);
+  };
+
+  const handleUploadDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDraggingUpload(false);
+
+    const files = Array.from(event.dataTransfer.files ?? []);
+
+    if (files.length === 0) {
+      return;
+    }
+
+    onAddUploads(files);
   };
 
   const addPastedUrlToQueue = () => {
@@ -108,8 +144,16 @@ export function InputPanel({
           />
           <div
             aria-label={copy.dropzoneTitle}
-            className={`${panelCardClassName} cursor-pointer border border-dashed border-foreground/15 outline-none transition-colors hover:bg-background focus-visible:ring-2 focus-visible:ring-emerald-600/40`}
+            className={`${panelCardClassName} cursor-pointer border border-dashed outline-none transition-colors hover:bg-background focus-visible:ring-2 focus-visible:ring-emerald-600/40 ${
+              isDraggingUpload
+                ? "border-emerald-500 bg-emerald-50/80"
+                : "border-foreground/15"
+            }`}
             onClick={openUploadPicker}
+            onDragEnter={handleUploadDragEnter}
+            onDragLeave={handleUploadDragLeave}
+            onDragOver={handleUploadDragOver}
+            onDrop={handleUploadDrop}
             onKeyDown={handleUploadCardKeyDown}
             role="button"
             tabIndex={0}
