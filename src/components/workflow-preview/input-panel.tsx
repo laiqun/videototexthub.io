@@ -1,4 +1,9 @@
-import { type ChangeEvent, type KeyboardEvent, useRef } from "react";
+import {
+  type ChangeEvent,
+  type KeyboardEvent,
+  useRef,
+  useState,
+} from "react";
 import { Link2, Upload } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -10,13 +15,20 @@ import { type WorkflowPreviewCopy } from "./types";
 
 export function InputPanel({
   copy,
+  onAddQueue,
+  onAddUploads,
 }: {
   copy: WorkflowPreviewCopy;
+  onAddQueue: (url: string) => void;
+  onAddUploads: (files: File[]) => void;
 }) {
   const panelCardClassName =
     "flex h-[24rem] w-full items-center justify-center rounded-[1.45rem] bg-background/86 px-6 pb-10 pt-24 shadow-[0_18px_50px_-40px_rgba(15,23,42,0.5)] sm:h-[25rem] sm:px-8 sm:pt-24 md:px-10 lg:px-12";
 
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const [pastedUrl, setPastedUrl] = useState(
+    "https://youtube.com/watch?v=workflow-preview",
+  );
 
   const openUploadPicker = () => {
     uploadInputRef.current?.click();
@@ -30,12 +42,34 @@ export function InputPanel({
   };
 
   const handleUploadInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files?.length) {
+    const files = event.target.files ? Array.from(event.target.files) : [];
+
+    if (files.length === 0) {
       return;
     }
 
+    onAddUploads(files);
+
     // Reset the control so selecting the same file again still fires change.
     event.target.value = "";
+  };
+
+  const addPastedUrlToQueue = () => {
+    const trimmedUrl = pastedUrl.trim();
+
+    if (!trimmedUrl) {
+      return;
+    }
+
+    onAddQueue(trimmedUrl);
+    setPastedUrl("");
+  };
+
+  const handlePasteInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addPastedUrlToQueue();
+    }
   };
 
   return (
@@ -116,12 +150,20 @@ export function InputPanel({
                 <Input
                   aria-label={copy.pasteTab}
                   className="h-12 rounded-xl border-0 bg-background text-center shadow-none"
-                  defaultValue="https://youtube.com/watch?v=workflow-preview"
+                  onChange={(event) => setPastedUrl(event.target.value)}
+                  onKeyDown={handlePasteInputKeyDown}
                   placeholder={copy.pastePlaceholder}
+                  value={pastedUrl}
                 />
               </div>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <Button size="lg" className="rounded-full px-5">
+                <Button
+                  className="rounded-full px-5"
+                  disabled={pastedUrl.trim().length === 0}
+                  onClick={addPastedUrlToQueue}
+                  size="lg"
+                  type="button"
+                >
                   {copy.addQueue}
                 </Button>
               </div>

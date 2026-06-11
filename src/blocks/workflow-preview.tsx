@@ -71,7 +71,7 @@ export function WorkflowPreview() {
     downloadsDescription: m["landing.demo.downloads.description"](),
   };
 
-  const jobs: WorkflowPreviewJob[] = [
+  const [jobs, setJobs] = useState<WorkflowPreviewJob[]>([
     {
       id: "youtube-note",
       sourceLabel: m["landing.demo.source.youtube"](),
@@ -105,7 +105,51 @@ export function WorkflowPreview() {
       sourceValue: "founder-interview.mov",
       status: "failed",
     },
-  ];
+  ]);
+
+  const handleAddQueue = (url: string) => {
+    const normalizedUrl = url.trim();
+
+    if (!normalizedUrl) {
+      return;
+    }
+
+    let sourceLabel: WorkflowPreviewJob["sourceLabel"] =
+      m["landing.demo.source.youtube"]();
+
+    try {
+      sourceLabel = new URL(normalizedUrl).hostname;
+    } catch {
+      // Keep the fallback label when the pasted value is not a fully qualified URL.
+    }
+
+    setJobs((currentJobs) => [
+      {
+        id: `queued-${Date.now()}`,
+        referenceSubtitle: undefined,
+        sourceLabel,
+        sourceValue: normalizedUrl,
+        status: "queued",
+      },
+      ...currentJobs,
+    ]);
+  };
+
+  const handleAddUploads = (files: File[]) => {
+    if (files.length === 0) {
+      return;
+    }
+
+    setJobs((currentJobs) => [
+      ...files.map((file, index) => ({
+        id: `uploaded-${Date.now()}-${index}`,
+        sourceLabel: m["landing.demo.source.uploaded"](),
+        sourceValue: file.name,
+        status: "queued" as const,
+      })),
+      ...currentJobs,
+    ]);
+  };
 
   const downloadAssets: WorkflowPreviewDownloadAsset[] = [
     {
@@ -152,7 +196,11 @@ export function WorkflowPreview() {
             </div>
 
             <div className="relative space-y-6 px-6 py-6 sm:px-10 sm:py-8">
-              <InputPanel copy={copy} />
+              <InputPanel
+                copy={copy}
+                onAddQueue={handleAddQueue}
+                onAddUploads={handleAddUploads}
+              />
               <AdvancedPanel
                 advancedOpen={advancedOpen}
                 copy={copy}
