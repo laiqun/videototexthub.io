@@ -30,7 +30,7 @@ export interface WorkflowPreviewCopy {
   subtitlePriority: string;
   subtitlePriorities: string[];
   jobs: string;
-  referenceSubtitle: string;
+  referenceSubtitleOptional: string;
   referenceSubtitleHelp: string;
   uploadSubtitle: string;
   reuploadSubtitle: string;

@@ -41,7 +41,7 @@ export function WorkflowPreview() {
       m["landing.demo.priority_auto"](),
     ],
     jobs: m["landing.demo.jobs"](),
-    referenceSubtitle: m["landing.demo.reference_subtitle"](),
+    referenceSubtitleOptional: m["landing.demo.reference_subtitle_optional"](),
     referenceSubtitleHelp: m["landing.demo.reference_subtitle_help"](),
     uploadSubtitle: m["landing.demo.upload_subtitle"](),
     reuploadSubtitle: m["landing.demo.reupload_subtitle"](),

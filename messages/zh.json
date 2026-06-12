@@ -699,7 +699,7 @@
   "landing.demo.priority_auto": "自动转录",
   "landing.demo.source.youtube": "YouTube 链接",
   "landing.demo.source.uploaded": "已上传媒体",
-  "landing.demo.reference_subtitle": "参考字幕",
+  "landing.demo.reference_subtitle_optional": "参考字幕（可选）",
   "landing.demo.reference_subtitle_help": "字幕优先级与支持格式",
   "landing.demo.upload_subtitle": "上传字幕",
   "landing.demo.reupload_subtitle": "重新上传",

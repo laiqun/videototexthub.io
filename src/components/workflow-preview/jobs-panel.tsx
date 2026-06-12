@@ -58,7 +58,7 @@ export function JobsPanel({
         <thead className="hidden bg-muted/70 text-foreground md:table-header-group">
           <tr>
             <th className="px-4 py-3 font-medium">{copy.jobs}</th>
-            <th className="px-4 py-3 font-medium">
+            <th className="px-4 py-3 font-medium md:w-48">
               <ReferenceSubtitleHeader copy={copy} />
             </th>
             <th className="px-4 py-3 font-medium">{copy.action}</th>
@@ -81,8 +81,8 @@ export function JobsPanel({
                 </div>
               </td>
               <td
-                data-label={copy.referenceSubtitle}
-                className={mobileTableCellClasses}
+                data-label={copy.referenceSubtitleOptional}
+                className={`${mobileTableCellClasses} md:w-48`}
               >
                 <ReferenceSubtitleField
                   copy={copy}
@@ -113,7 +113,7 @@ export function JobsPanel({
 function ReferenceSubtitleHeader({ copy }: { copy: WorkflowPreviewCopy }) {
   return (
     <span className="inline-flex items-center gap-1.5">
-      {copy.referenceSubtitle}
+      {copy.referenceSubtitleOptional}
       <Tooltip>
         <TooltipTrigger
           aria-label={copy.referenceSubtitleHelp}
@@ -188,10 +188,6 @@ function JobActions({
             <DropdownMenuItem variant="destructive">
               <XCircle className="size-4" />
               {copy.cancelJob}
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <RotateCcw className="size-4" />
-              {copy.retryJob}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

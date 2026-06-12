@@ -699,7 +699,7 @@
   "landing.demo.priority_auto": "Auto transcription",
   "landing.demo.source.youtube": "YouTube link",
   "landing.demo.source.uploaded": "Uploaded media",
-  "landing.demo.reference_subtitle": "Reference subtitle",
+  "landing.demo.reference_subtitle_optional": "Reference subtitle (optional)",
   "landing.demo.reference_subtitle_help": "Subtitle priority and supported formats",
   "landing.demo.upload_subtitle": "Upload subtitle",
   "landing.demo.reupload_subtitle": "Re-upload",
