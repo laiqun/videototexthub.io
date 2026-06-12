@@ -50,18 +50,16 @@ export function ReferenceSubtitleField({
         type="file"
       />
       {hasUploadedSubtitle ? (
-        <div className="relative flex min-h-8 w-full items-center">
-          <div
-            className="w-32 truncate pr-10 text-sm font-medium"
-            title={filename}
-          >
+        <div className="flex w-full items-center gap-1">
+          <div className="min-w-0 flex-1 truncate text-sm font-medium" title={filename}>
             {filename}
           </div>
           <Button
             onClick={deleteReferenceSubtitle}
             type="button"
             variant="destructive"
-            className="absolute right-0 top-1/2 z-10 h-8 w-8 -translate-y-1/2 rounded-full p-0"
+            size="icon"
+            className="size-8 shrink-0 rounded-full"
           >
             <X className="size-4" />
           </Button>
