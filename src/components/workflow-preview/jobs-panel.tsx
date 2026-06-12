@@ -54,15 +54,22 @@ export function JobsPanel({
 }) {
   return (
     <div className="md:overflow-hidden md:rounded-[1.5rem] md:border md:border-border/70 md:bg-background/80">
-      <table className="w-full border-separate border-spacing-y-3 text-left text-sm md:border-collapse md:border-spacing-y-0">
+      <table className="w-full border-separate border-spacing-y-3 text-left text-sm md:table-fixed md:border-collapse md:border-spacing-y-0">
+        <colgroup className="hidden md:table-column-group">
+          <col className="w-68" />
+          <col className="w-48" />
+          <col className="w-44" />
+          <col className="w-32" />
+          <col />
+        </colgroup>
         <thead className="hidden bg-muted/70 text-foreground md:table-header-group">
           <tr>
-            <th className="px-4 py-3 font-medium">{copy.jobs}</th>
+            <th className="px-4 py-3 font-medium w-68">{copy.jobs}</th>
             <th className="px-4 py-3 font-medium md:w-48">
               <ReferenceSubtitleHeader copy={copy} />
             </th>
-            <th className="px-4 py-3 font-medium">{copy.action}</th>
-            <th className="px-4 py-3 font-medium">{copy.status}</th>
+            <th className="px-4 py-3 font-medium w-44">{copy.action}</th>
+            <th className="px-4 py-3 font-medium w-28">{copy.status}</th>
             <th className="px-4 py-3 font-medium">{copy.result}</th>
           </tr>
         </thead>
@@ -73,9 +80,9 @@ export function JobsPanel({
               className="mb-4 block overflow-hidden rounded-[1.25rem] border border-border/60 bg-card shadow-[0_10px_30px_-24px_rgba(15,23,42,0.35)] last:mb-0 md:mb-0 md:table-row md:rounded-none md:border-0 md:border-t md:border-border/70 md:bg-transparent md:shadow-none md:first:border-t-0 md:align-top"
             >
               <td data-label={copy.jobs} className={mobileTableCellClasses}>
-                <div>
+                <div className="min-w-0">
                   <div className="font-medium">{job.sourceLabel}</div>
-                  <div className="mt-1 text-xs text-muted-foreground">
+                  <div className="mt-0.5 break-words text-xs text-muted-foreground leading-tight">
                     {job.sourceValue}
                   </div>
                 </div>

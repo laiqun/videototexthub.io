@@ -59,14 +59,14 @@ export function ReferenceSubtitleField({
             type="button"
             variant="destructive"
             size="icon"
-            className="size-8 shrink-0 rounded-full"
+            className="size-9 shrink-0 rounded-full"
           >
             <X className="size-4" />
           </Button>
         </div>
       ) : null}
-      <div className="flex flex-wrap items-center gap-2">
-        {hasUploadedSubtitle ? null : (
+      {hasUploadedSubtitle ? null : (
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             onClick={openPicker}
             type="button"
@@ -75,8 +75,8 @@ export function ReferenceSubtitleField({
           >
             {copy.uploadSubtitle}
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
