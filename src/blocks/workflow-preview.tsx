@@ -21,6 +21,9 @@ import { m } from "@/paraglide/messages.js";
 export function WorkflowPreview() {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [generateAiNote, setGenerateAiNote] = useState(true);
+  const [gridCols, setGridCols] = useState(2);
+  const [gridRows, setGridRows] = useState(2);
+  const [stepSize, setStepSize] = useState(6000);
   const [visualOutput, setVisualOutput] = useState(true);
 
   const copy: WorkflowPreviewCopy = {
@@ -57,6 +60,8 @@ export function WorkflowPreview() {
     no: m["landing.demo.no"](),
     stepSize: m["landing.demo.step_size"](),
     screenshotsGrid: m["landing.demo.screenshots_grid"](),
+    gridRows: m["landing.demo.grid_rows"](),
+    gridColumns: m["landing.demo.grid_columns"](),
     languageHint: m["landing.demo.language_hint"](),
     languageHintPlaceholder: m["landing.demo.language_hint_placeholder"](),
     startProcessing: m["landing.demo.start_processing"](),
@@ -218,9 +223,15 @@ export function WorkflowPreview() {
                 advancedOpen={advancedOpen}
                 copy={copy}
                 generateAiNote={generateAiNote}
+                gridCols={gridCols}
+                gridRows={gridRows}
                 onAdvancedOpenChange={setAdvancedOpen}
                 onGenerateAiNoteChange={setGenerateAiNote}
+                onGridColsChange={setGridCols}
+                onGridRowsChange={setGridRows}
+                onStepSizeChange={setStepSize}
                 onVisualOutputChange={setVisualOutput}
+                stepSize={stepSize}
                 visualOutput={visualOutput}
               />
               <JobsPanel

@@ -723,6 +723,8 @@
   "landing.demo.no": "No",
   "landing.demo.step_size": "Step size",
   "landing.demo.screenshots_grid": "Screenshots grid",
+  "landing.demo.grid_rows": "Rows",
+  "landing.demo.grid_columns": "Columns",
   "landing.demo.language_hint": "Language hint",
   "landing.demo.language_hint_placeholder": "Auto or English / Chinese / Japanese",
   "landing.demo.start_processing": "Start",

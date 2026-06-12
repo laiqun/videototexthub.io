@@ -46,6 +46,8 @@ export interface WorkflowPreviewCopy {
   no: string;
   stepSize: string;
   screenshotsGrid: string;
+  gridRows: string;
+  gridColumns: string;
   languageHint: string;
   languageHintPlaceholder: string;
   startProcessing: string;

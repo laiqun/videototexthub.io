@@ -10,21 +10,36 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { type WorkflowPreviewCopy } from "./types";
 
+const STEP_SIZE_MIN = 200;
+const STEP_SIZE_DEFAULT = 6000;
+
 export function AdvancedPanel({
   advancedOpen,
   copy,
   generateAiNote,
+  gridCols,
+  gridRows,
   onAdvancedOpenChange,
   onGenerateAiNoteChange,
+  onGridColsChange,
+  onGridRowsChange,
+  onStepSizeChange,
   onVisualOutputChange,
+  stepSize,
   visualOutput,
 }: {
   advancedOpen: boolean;
   copy: WorkflowPreviewCopy;
   generateAiNote: boolean;
+  gridCols: number;
+  gridRows: number;
   onAdvancedOpenChange: (open: boolean) => void;
   onGenerateAiNoteChange: (checked: boolean) => void;
+  onGridColsChange: (cols: number) => void;
+  onGridRowsChange: (rows: number) => void;
+  onStepSizeChange: (ms: number) => void;
   onVisualOutputChange: (checked: boolean) => void;
+  stepSize: number;
   visualOutput: boolean;
 }) {
   return (
@@ -77,8 +92,55 @@ export function AdvancedPanel({
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <MetricCard label={copy.stepSize} value="6 s" />
-              <MetricCard label={copy.screenshotsGrid} value="4 x 4" />
+              <div className="space-y-2">
+                <Label htmlFor="step-size">{copy.stepSize} (ms)</Label>
+                <Input
+                  id="step-size"
+                  max={60000}
+                  min={STEP_SIZE_MIN}
+                  onChange={(e) => {
+                    const v = parseInt(e.target.value, 10);
+                    if (!isNaN(v) && v >= STEP_SIZE_MIN) {
+                      onStepSizeChange(v);
+                    }
+                  }}
+                  type="number"
+                  value={stepSize}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{copy.screenshotsGrid}</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground" htmlFor="grid-rows">{copy.gridRows}</Label>
+                    <Input
+                      id="grid-rows"
+                      min={1}
+                      max={10}
+                      onChange={(e) => {
+                        const v = parseInt(e.target.value, 10);
+                        if (!isNaN(v) && v >= 1) onGridRowsChange(v);
+                      }}
+                      type="number"
+                      value={gridRows}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground" htmlFor="grid-cols">{copy.gridColumns}</Label>
+                    <Input
+                      id="grid-cols"
+                      min={1}
+                      max={10}
+                      onChange={(e) => {
+                        const v = parseInt(e.target.value, 10);
+                        if (!isNaN(v) && v >= 1) onGridColsChange(v);
+                      }}
+                      type="number"
+                      value={gridCols}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -98,17 +160,6 @@ export function AdvancedPanel({
         </div>
       )}
 
-    </div>
-  );
-}
-
-function MetricCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl bg-muted/60 p-4">
-      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-2 text-lg font-medium">{value}</p>
     </div>
   );
 }

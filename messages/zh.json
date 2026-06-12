@@ -723,6 +723,8 @@
   "landing.demo.no": "否",
   "landing.demo.step_size": "截图步长",
   "landing.demo.screenshots_grid": "截图网格",
+  "landing.demo.grid_rows": "行",
+  "landing.demo.grid_columns": "列",
   "landing.demo.language_hint": "语言提示",
   "landing.demo.language_hint_placeholder": "自动，或指定 English / Chinese / Japanese",
   "landing.demo.start_processing": "开始",
