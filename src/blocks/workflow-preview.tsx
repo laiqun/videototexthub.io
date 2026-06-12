@@ -128,25 +128,22 @@ export function WorkflowPreview() {
       return;
     }
 
-    let sourceLabel: WorkflowPreviewJob["sourceLabel"] =
-      m["landing.demo.source.youtube"]();
+    setJobs((currentJobs) => {
+      if (currentJobs.some((j) => j.sourceValue === normalizedUrl)) {
+        return currentJobs;
+      }
 
-    try {
-      sourceLabel = new URL(normalizedUrl).hostname;
-    } catch {
-      // Keep the fallback label when the pasted value is not a fully qualified URL.
-    }
-
-    setJobs((currentJobs) => [
-      {
-        id: `queued-${Date.now()}`,
-        referenceSubtitle: undefined,
-        sourceLabel,
-        sourceValue: normalizedUrl,
-        status: "queued",
-      },
-      ...currentJobs,
-    ]);
+      return [
+        {
+          id: `queued-${Date.now()}`,
+          referenceSubtitle: undefined,
+          sourceLabel: m["landing.demo.source.youtube"](),
+          sourceValue: normalizedUrl,
+          status: "queued" as const,
+        },
+        ...currentJobs,
+      ];
+    });
   };
 
   const handleAddUploads = (files: File[]) => {
