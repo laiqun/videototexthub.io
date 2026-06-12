@@ -1,13 +1,20 @@
 import { type LucideIcon } from "lucide-react";
 
-export type WorkflowPreviewStatus = "complete" | "failed" | "queued";
+export type WorkflowPreviewStatus =
+  | "complete"
+  | "failed"
+  | "processing"
+  | "queued";
 
 export interface WorkflowPreviewJob {
   id: string;
   sourceLabel: string;
   sourceValue: string;
   referenceSubtitle?: string;
+  sourceFile?: File;
   status: WorkflowPreviewStatus;
+  uploadedObjectKey?: string;
+  uploadedObjectUrl?: string;
 }
 
 export interface WorkflowPreviewDownloadAsset {

@@ -2,11 +2,12 @@ import { useState } from "react";
 import {
   CircleHelp,
   Eye,
+  Loader2,
   MoreHorizontal,
-  RotateCcw,
   Trash2,
   XCircle,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +29,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { apiPost } from "@/lib/api-client";
 
 import { Result } from "./result";
 import { ReferenceSubtitleField } from "./reference-subtitle-field";
@@ -38,19 +40,78 @@ import {
   type WorkflowPreviewJob,
 } from "./types";
 
+interface PresignedUploadData {
+  url: string;
+  key: string;
+  objectUrl: string;
+  method?: string;
+  headers?: Record<string, string>;
+}
+
+interface WorkflowPreviewStartResponse {
+  sourceType: "file" | "url";
+  sourceValue: string;
+  objectKey?: string;
+  objectUrl?: string;
+}
+
 const mobileTableCellClasses =
   "flex flex-col gap-1 border-b border-border/40 px-4 py-3 last:border-b-0 md:table-cell md:border-b-0 md:px-4 md:py-4 md:align-top before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.18em] before:text-muted-foreground before:content-[attr(data-label)] md:before:hidden";
+
+async function uploadWorkflowFile(file: File): Promise<{
+  objectKey: string;
+  objectUrl: string;
+}> {
+  const presignedData = await apiPost<PresignedUploadData>(
+    "/api/storage/create-r2-presigned-url",
+    {
+      operation: "put",
+      scope: "workflow-preview-temp",
+      filename: file.name,
+      contentType: file.type || "application/octet-stream",
+    },
+  );
+
+  const uploadResponse = await fetch(presignedData.url, {
+    method: presignedData.method || "PUT",
+    headers: presignedData.headers,
+    body: file,
+  });
+
+  if (!uploadResponse.ok) {
+    throw new Error(`Upload failed with status ${uploadResponse.status}`);
+  }
+
+  return {
+    objectKey: presignedData.key,
+    objectUrl: presignedData.objectUrl,
+  };
+}
+
+async function startWorkflowPreviewJob(
+  job: WorkflowPreviewJob,
+  uploadResult?: { objectKey: string; objectUrl: string },
+): Promise<WorkflowPreviewStartResponse> {
+  return apiPost<WorkflowPreviewStartResponse>("/api/workflow-preview/start", {
+    sourceType: job.sourceFile ? "file" : "url",
+    sourceValue: job.sourceValue,
+    objectKey: uploadResult?.objectKey,
+    objectUrl: uploadResult?.objectUrl,
+  });
+}
 
 export function JobsPanel({
   assets,
   copy,
   jobs,
   onDeleteJob,
+  onUpdateJob,
 }: {
   assets: WorkflowPreviewDownloadAsset[];
   copy: WorkflowPreviewCopy;
   jobs: WorkflowPreviewJob[];
   onDeleteJob: (jobId: string) => void;
+  onUpdateJob: (jobId: string, updates: Partial<WorkflowPreviewJob>) => void;
 }) {
   return (
     <div className="md:overflow-hidden md:rounded-[1.5rem] md:border md:border-border/70 md:bg-background/80">
@@ -97,7 +158,12 @@ export function JobsPanel({
                 />
               </td>
               <td data-label={copy.action} className={mobileTableCellClasses}>
-                <JobActions copy={copy} job={job} onDeleteJob={onDeleteJob} />
+                <JobActions
+                  copy={copy}
+                  job={job}
+                  onDeleteJob={onDeleteJob}
+                  onUpdateJob={onUpdateJob}
+                />
               </td>
               <td data-label={copy.status} className={mobileTableCellClasses}>
                 <StatusPill copy={copy} status={job.status} />
@@ -151,22 +217,62 @@ function JobActions({
   copy,
   job,
   onDeleteJob,
+  onUpdateJob,
 }: {
   copy: WorkflowPreviewCopy;
   job: WorkflowPreviewJob;
   onDeleteJob: (jobId: string) => void;
+  onUpdateJob: (jobId: string, updates: Partial<WorkflowPreviewJob>) => void;
 }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const confirmDelete = () => {
     onDeleteJob(job.id);
     setDeleteDialogOpen(false);
   };
 
+  const startProcessing = async () => {
+    if (uploading || job.status === "processing") {
+      return;
+    }
+
+    setUploading(true);
+    onUpdateJob(job.id, { status: "processing" });
+
+    try {
+      const uploadResult = job.sourceFile
+        ? await uploadWorkflowFile(job.sourceFile)
+        : undefined;
+      const startedJob = await startWorkflowPreviewJob(job, uploadResult);
+
+      onUpdateJob(job.id, {
+        status: "complete",
+        uploadedObjectKey: startedJob.objectKey,
+        uploadedObjectUrl: startedJob.objectUrl,
+      });
+      toast.success(
+        job.sourceFile ? "File uploaded to R2." : "URL sent to server.",
+      );
+    } catch (error) {
+      onUpdateJob(job.id, { status: "failed" });
+      toast.error(
+        error instanceof Error ? error.message : "Failed to upload file.",
+      );
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <>
       <div className="inline-flex items-center gap-1.5">
-        <StartProcessingButton label={copy.startProcessing} />
+        <StartProcessingButton
+          disabled={uploading || job.status === "processing"}
+          label={copy.startProcessing}
+          loading={uploading || job.status === "processing"}
+          onClick={startProcessing}
+        />
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
@@ -229,9 +335,25 @@ function JobActions({
   );
 }
 
-function StartProcessingButton({ label }: { label: string }) {
+function StartProcessingButton({
+  disabled,
+  label,
+  loading,
+  onClick,
+}: {
+  disabled?: boolean;
+  label: string;
+  loading?: boolean;
+  onClick: () => void;
+}) {
   return (
-    <Button className="rounded-full bg-emerald-700 text-white hover:bg-emerald-800">
+    <Button
+      className="rounded-full bg-emerald-700 text-white hover:bg-emerald-800"
+      disabled={disabled}
+      onClick={onClick}
+      type="button"
+    >
+      {loading ? <Loader2 className="size-4 animate-spin" /> : null}
       {label}
     </Button>
   );

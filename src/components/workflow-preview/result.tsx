@@ -35,7 +35,7 @@ export function Result({
     );
   }
 
-  if (status === "queued") {
+  if (status === "queued" || status === "processing") {
     return (
       <Button disabled variant="outline" className="rounded-full">
         {copy.processing}

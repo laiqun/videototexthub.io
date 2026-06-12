@@ -156,6 +156,7 @@ export function WorkflowPreview() {
         id: `uploaded-${Date.now()}-${index}`,
         sourceLabel: m["landing.demo.source.uploaded"](),
         sourceValue: file.name,
+        sourceFile: file,
         status: "queued" as const,
       })),
       ...currentJobs,
@@ -164,6 +165,17 @@ export function WorkflowPreview() {
 
   const handleDeleteJob = (jobId: string) => {
     setJobs((currentJobs) => currentJobs.filter((job) => job.id !== jobId));
+  };
+
+  const handleUpdateJob = (
+    jobId: string,
+    updates: Partial<WorkflowPreviewJob>,
+  ) => {
+    setJobs((currentJobs) =>
+      currentJobs.map((job) =>
+        job.id === jobId ? { ...job, ...updates } : job,
+      ),
+    );
   };
 
   const downloadAssets: WorkflowPreviewDownloadAsset[] = [
@@ -236,6 +248,7 @@ export function WorkflowPreview() {
                 copy={copy}
                 jobs={jobs}
                 onDeleteJob={handleDeleteJob}
+                onUpdateJob={handleUpdateJob}
               />
             </div>
           </div>

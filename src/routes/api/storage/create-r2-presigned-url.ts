@@ -3,14 +3,16 @@ import { z } from 'zod';
 import { createFileRoute } from '@tanstack/react-router';
 import { getStorage } from '@/modules/storage/service';
 import {MAX_PRESIGNED_URL_EXPIRES_IN_SECONDS} from "@/core/storage";
+import { respData, respErr } from '@/lib/resp';
 
 const PRESIGNED_URL_SCOPE_PREFIXES = {
     'image-describer-temp': 'image-describer-temp',
+    'workflow-preview-temp': 'workflow-preview-temp',
 } as const;
 
 const createR2PresignedUrlSchema = z.object({
     operation: z.enum(['get', 'put', 'head', 'delete']).optional(),
-    scope: z.enum(['image-describer-temp']).optional(),
+    scope: z.enum(['image-describer-temp', 'workflow-preview-temp']).optional(),
     key: z.string().min(1).optional(),
     filename: z.string().min(1).optional(),
     contentType: z.string().min(1).optional(),
@@ -28,22 +30,20 @@ async function POST({ request }: { request: Request }) {
     try {
         payload = await request.json();
     } catch {
-        return Response.json(
-            { success: false, error: 'Invalid JSON body' },
-            { status: 400 }
-        );
+        return respErr('Invalid JSON body');
     }
 
     const parsed = createR2PresignedUrlSchema.safeParse(payload);
     if (!parsed.success) {
-        return Response.json(
-            { success: false, error: parsed.error.message },
-            { status: 400 }
-        );
+        return respErr(parsed.error.message);
     }
 
     try {
         const storageService = await getStorage();
+        if (!storageService) {
+            return respErr('R2 storage is not configured');
+        }
+
         const operation = parsed.data.operation || 'put';
         const prefix =
             operation === 'put' && parsed.data.scope
@@ -58,20 +58,12 @@ async function POST({ request }: { request: Request }) {
             expiresIn: parsed.data.expiresIn,
         });
 
-        return Response.json({
-            success: true,
-            data: presignedUrl,
-        });
+        return respData(presignedUrl);
     } catch (error) {
-        return Response.json(
-            {
-                success: false,
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : 'Failed to create presigned URL',
-            },
-            { status: 500 }
+        return respErr(
+            error instanceof Error
+                ? error.message
+                : 'Failed to create presigned URL',
         );
     }
 }

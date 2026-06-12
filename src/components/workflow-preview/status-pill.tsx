@@ -2,6 +2,7 @@ import {
   AlertCircle,
   CheckCircle2,
   CircleHelp,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -34,6 +35,12 @@ export function StatusPill({
       label: copy.failed,
       className:
         "border-amber-700/15 bg-amber-500/10 text-amber-900 dark:text-amber-100",
+    },
+    processing: {
+      icon: Loader2,
+      label: copy.processing,
+      className:
+        "border-blue-700/15 bg-blue-500/10 text-blue-900 dark:text-blue-100 [&_svg]:animate-spin",
     },
     queued: {
       icon: CircleHelp,
