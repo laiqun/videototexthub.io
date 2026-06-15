@@ -4,8 +4,6 @@
  * Creates default roles and permissions.
  *
  * Usage:
- *   pnpm rbac:init
- *   pnpm rbac:init --admin-email=admin@example.com
  *   pnpm rbac:init --admin-email=admin@example.com --admin-password=your-password
  */
 
@@ -159,6 +157,19 @@ const defaultRoles = [
 ];
 
 async function initializeRBAC() {
+  const args = process.argv.slice(2);
+  const adminEmailArg = args.find((arg) => arg.startsWith('--admin-email='));
+  const adminPasswordArg = args.find((arg) => arg.startsWith('--admin-password='));
+  if(!adminEmailArg)
+  {
+    console.error(`Admin email argument missing for admin email`);
+    process.exit(1);
+  }
+  if(!adminPasswordArg)
+  {
+    console.error(`Admin email argument missing for admin password`);
+    process.exit(1);
+  }
   console.log('Starting RBAC initialization...\n');
 
   const provider = process.env.DATABASE_PROVIDER || 'sqlite';
@@ -244,9 +255,6 @@ async function initializeRBAC() {
     console.log(`\nRoles: ${Object.keys(createdRoles).length}\n`);
 
     // 3. Create admin user and/or assign super_admin role
-    const args = process.argv.slice(2);
-    const adminEmailArg = args.find((arg) => arg.startsWith('--admin-email='));
-    const adminPasswordArg = args.find((arg) => arg.startsWith('--admin-password='));
 
     if (adminEmailArg) {
       const adminEmail = adminEmailArg.split('=')[1];
@@ -277,11 +285,7 @@ async function initializeRBAC() {
 
         [adminUser] = await db.select().from(schema.user).where(eq(schema.user.id, userId)).limit(1);
         console.log(`  Created: ${adminEmail}`);
-      } else if (!adminUser) {
-        console.log(`  User not found: ${adminEmail}`);
-        console.log('  Add --admin-password=xxx to create the user automatically.');
       }
-
       if (adminUser) {
         const superAdminRoleId = createdRoles['super_admin'];
         const [existing] = await db.select().from(schema.userRole)
@@ -299,9 +303,6 @@ async function initializeRBAC() {
           console.log(`  Already super_admin: ${adminEmail}`);
         }
       }
-    } else {
-      console.log('To create an admin user, run:');
-      console.log('  pnpm rbac:init --admin-email=admin@example.com --admin-password=your-password');
     }
 
     console.log('\nRBAC initialization complete.');

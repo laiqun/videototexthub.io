@@ -20,6 +20,7 @@
     "db:migrate": "tsx scripts/with-env.ts drizzle-kit migrate --config=drizzle.config.ts",
     "db:studio": "tsx scripts/with-env.ts drizzle-kit studio --config=drizzle.config.ts",
     "rbac:init": "tsx scripts/with-env.ts tsx scripts/init-rbac.ts",
+    "rbac:init:d1": "tsx scripts/init-rabc-d1.ts",
     "rbac:assign": "tsx scripts/with-env.ts tsx scripts/assign-role.ts"
   },
   "dependencies": {
