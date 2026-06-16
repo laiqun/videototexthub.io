@@ -23,6 +23,8 @@ loadEnvFiles();
 // d1 stubs both, postgresql keeps postgres.js for the Hyperdrive binding.
 const isCloudflareBuild = (process.env.NITRO_PRESET || '').includes('cloudflare');
 const driverStub = new URL('./src/core/db/driver-stub.ts', import.meta.url).pathname;
+const workersStub = new URL('./src/core/workers/cloudflare-workers-stub.ts', import.meta.url)
+  .pathname;
 
 // Prefer wrangler.jsonc over the build-time env, which can be polluted by
 // .env.local (e.g. DATABASE_PROVIDER=sqlite for local dev).
@@ -78,6 +80,13 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    rolldownOptions: isCloudflareBuild
+      ? {
+          external: ['cloudflare:workers'],
+        }
+      : undefined,
+  },
   resolve: {
     tsconfigPaths: true,
     alias: isCloudflareBuild
@@ -85,7 +94,9 @@ export default defineConfig({
           mysql2: driverStub,
           ...(keepPostgres ? {} : { postgres: driverStub }),
         }
-      : {},
+      : {
+          'cloudflare:workers': workersStub,
+        },
   },
   plugins: [
     // MDX must run before the react plugin so JSX in compiled MDX gets transformed.

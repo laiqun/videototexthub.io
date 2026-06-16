@@ -1,15 +1,15 @@
 /// <reference path="../../../../worker-configuration.d.ts" />
 
 import { getCloudflareEnv } from '@/core/workers/env';
+import { DurableObject } from 'cloudflare:workers';
 
 const HELLO_WORLD_INSTANCE = 'hello-world';
 const HELLO_WORLD_TEXT = 'hello world';
 
-export class HelloWorldDurableObject {
-  constructor(
-    readonly ctx: DurableObjectState,
-    readonly env: Env
-  ) {}
+export class HelloWorldDurableObject extends DurableObject<Env> {
+  constructor(ctx: DurableObjectState, env: Env) {
+    super(ctx, env);
+  }
 
   async fetch(): Promise<Response> {
     console.log('[HelloWorldDurableObject] hello world');
