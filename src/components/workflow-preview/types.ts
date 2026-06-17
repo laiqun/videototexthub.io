@@ -6,8 +6,11 @@ export type WorkflowPreviewStatus =
   | "processing"
   | "queued";
 
+export type WorkflowPreviewSourceKind = "media" | "subtitle" | "url";
+
 export interface WorkflowPreviewJob {
   id: string;
+  sourceKind: WorkflowPreviewSourceKind;
   sourceLabel: string;
   sourceValue: string;
   referenceSubtitle?: string;
@@ -28,8 +31,11 @@ export interface WorkflowPreviewCopy {
   description: string;
   uploadTab: string;
   pasteTab: string;
+  subtitleUploadTab: string;
   dropzoneTitle: string;
   supportedMedia: string;
+  subtitleDropzoneTitle: string;
+  supportedSubtitle: string;
   pastePlaceholder: string;
   addQueue: string;
   subtitleTooltipTitle: string;
@@ -37,6 +43,7 @@ export interface WorkflowPreviewCopy {
   subtitlePriority: string;
   subtitlePriorities: string[];
   jobs: string;
+  subtitleOnly: string;
   referenceSubtitleOptional: string;
   referenceSubtitleHelp: string;
   uploadSubtitle: string;

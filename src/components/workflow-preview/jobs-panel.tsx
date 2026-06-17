@@ -135,48 +135,58 @@ export function JobsPanel({
           </tr>
         </thead>
         <tbody className="block md:table-row-group">
-          {jobs.map((job) => (
-            <tr
-              key={job.id}
-              className="mb-4 block overflow-hidden rounded-[1.25rem] border border-border/60 bg-card shadow-[0_10px_30px_-24px_rgba(15,23,42,0.35)] last:mb-0 md:mb-0 md:table-row md:rounded-none md:border-0 md:border-t md:border-border/70 md:bg-transparent md:shadow-none md:first:border-t-0 md:align-top"
-            >
-              <td data-label={copy.jobs} className={mobileTableCellClasses}>
-                <div className="min-w-0">
-                  <div className="font-medium">{job.sourceLabel}</div>
-                  <div className="mt-0.5 break-words text-xs text-muted-foreground leading-tight">
-                    {job.sourceValue}
-                  </div>
-                </div>
-              </td>
-              <td
-                data-label={copy.referenceSubtitleOptional}
-                className={`${mobileTableCellClasses} md:w-48`}
+          {jobs.map((job) => {
+            const isSubtitleOnly = job.sourceKind === "subtitle";
+
+            return (
+              <tr
+                key={job.id}
+                className="mb-4 block overflow-hidden rounded-[1.25rem] border border-border/60 bg-card shadow-[0_10px_30px_-24px_rgba(15,23,42,0.35)] last:mb-0 md:mb-0 md:table-row md:rounded-none md:border-0 md:border-t md:border-border/70 md:bg-transparent md:shadow-none md:first:border-t-0 md:align-top"
               >
-                <ReferenceSubtitleField
-                  copy={copy}
-                  initialFilename={job.referenceSubtitle}
-                />
-              </td>
-              <td data-label={copy.action} className={mobileTableCellClasses}>
-                <JobActions
-                  copy={copy}
-                  job={job}
-                  onDeleteJob={onDeleteJob}
-                  onUpdateJob={onUpdateJob}
-                />
-              </td>
-              <td data-label={copy.status} className={mobileTableCellClasses}>
-                <StatusPill copy={copy} status={job.status} />
-              </td>
-              <td data-label={copy.result} className={mobileTableCellClasses}>
-                <Result
-                  assets={assets}
-                  copy={copy}
-                  status={job.status}
-                />
-              </td>
-            </tr>
-          ))}
+                <td data-label={copy.jobs} className={mobileTableCellClasses}>
+                  <div className="min-w-0">
+                    <div className="font-medium">
+                      {isSubtitleOnly ? copy.subtitleOnly : job.sourceLabel}
+                    </div>
+                    {isSubtitleOnly ? null : (
+                      <div className="mt-0.5 break-words text-xs text-muted-foreground leading-tight">
+                        {job.sourceValue}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td
+                  data-label={copy.referenceSubtitleOptional}
+                  className={`${mobileTableCellClasses} md:w-48`}
+                >
+                  <ReferenceSubtitleField
+                    copy={copy}
+                    initialFilename={
+                      isSubtitleOnly ? job.sourceValue : job.referenceSubtitle
+                    }
+                  />
+                </td>
+                <td data-label={copy.action} className={mobileTableCellClasses}>
+                  <JobActions
+                    copy={copy}
+                    job={job}
+                    onDeleteJob={onDeleteJob}
+                    onUpdateJob={onUpdateJob}
+                  />
+                </td>
+                <td data-label={copy.status} className={mobileTableCellClasses}>
+                  <StatusPill copy={copy} status={job.status} />
+                </td>
+                <td data-label={copy.result} className={mobileTableCellClasses}>
+                  <Result
+                    assets={assets}
+                    copy={copy}
+                    status={job.status}
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

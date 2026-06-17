@@ -2,10 +2,11 @@ import {
   type ChangeEvent,
   type DragEvent,
   type KeyboardEvent,
+  type RefObject,
   useRef,
   useState,
 } from "react";
-import { Link2, Upload } from "lucide-react";
+import { Captions, Link2, Upload } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,65 +22,87 @@ export function InputPanel({
 }: {
   copy: WorkflowPreviewCopy;
   onAddQueue: (url: string) => void;
-  onAddUploads: (files: File[]) => void;
+  onAddUploads: (files: File[], source: "media" | "subtitle") => void;
 }) {
   const panelCardClassName =
     "flex h-[24rem] w-full items-center justify-center rounded-[1.45rem] bg-background/86 px-6 pb-10 pt-24 shadow-[0_18px_50px_-40px_rgba(15,23,42,0.5)] sm:h-[25rem] sm:px-8 sm:pt-24 md:px-10 lg:px-12";
 
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const subtitleUploadInputRef = useRef<HTMLInputElement>(null);
   const [pastedUrl, setPastedUrl] = useState(
     "https://youtube.com/watch?v=workflow-preview",
   );
   const [isDraggingUpload, setIsDraggingUpload] = useState(false);
+  const [isDraggingSubtitleUpload, setIsDraggingSubtitleUpload] =
+    useState(false);
 
-  const openUploadPicker = () => {
-    uploadInputRef.current?.click();
+  const openPicker = (inputRef: RefObject<HTMLInputElement | null>) => {
+    inputRef.current?.click();
   };
 
-  const handleUploadCardKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleUploadCardKeyDown = (
+    event: KeyboardEvent<HTMLDivElement>,
+    inputRef: RefObject<HTMLInputElement | null>,
+  ) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      openUploadPicker();
+      openPicker(inputRef);
     }
   };
 
-  const handleUploadInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleUploadInputChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    source: "media" | "subtitle",
+  ) => {
     const files = event.target.files ? Array.from(event.target.files) : [];
 
     if (files.length === 0) {
       return;
     }
 
-    onAddUploads(files);
+    onAddUploads(files, source);
 
     // Reset the control so selecting the same file again still fires change.
     event.target.value = "";
   };
 
-  const handleUploadDragEnter = (event: DragEvent<HTMLDivElement>) => {
+  const handleUploadDragEnter = (
+    event: DragEvent<HTMLDivElement>,
+    setDragging: (value: boolean) => void,
+  ) => {
     event.preventDefault();
-    setIsDraggingUpload(true);
+    setDragging(true);
   };
 
-  const handleUploadDragOver = (event: DragEvent<HTMLDivElement>) => {
+  const handleUploadDragOver = (
+    event: DragEvent<HTMLDivElement>,
+    setDragging: (value: boolean) => void,
+  ) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "copy";
-    setIsDraggingUpload(true);
+    setDragging(true);
   };
 
-  const handleUploadDragLeave = (event: DragEvent<HTMLDivElement>) => {
+  const handleUploadDragLeave = (
+    event: DragEvent<HTMLDivElement>,
+    setDragging: (value: boolean) => void,
+  ) => {
     event.preventDefault();
 
     if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
       return;
     }
 
-    setIsDraggingUpload(false);
+    setDragging(false);
   };
 
-  const handleUploadDrop = (event: DragEvent<HTMLDivElement>) => {
+  const handleUploadDrop = (
+    event: DragEvent<HTMLDivElement>,
+    setDragging: (value: boolean) => void,
+    source: "media" | "subtitle",
+  ) => {
     event.preventDefault();
-    setIsDraggingUpload(false);
+    setDragging(false);
 
     const files = Array.from(event.dataTransfer.files ?? []);
 
@@ -87,7 +110,7 @@ export function InputPanel({
       return;
     }
 
-    onAddUploads(files);
+    onAddUploads(files, source);
   };
 
   const addPastedUrlToQueue = () => {
@@ -123,12 +146,19 @@ export function InputPanel({
               <Upload className="size-4" />
               {copy.uploadTab}
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               className="h-9 rounded-xl px-3 text-xs font-medium sm:px-4"
               value="paste"
             >
               <Link2 className="size-4" />
               {copy.pasteTab}
+            </TabsTrigger> */}
+            <TabsTrigger
+              className="h-9 rounded-xl px-3 text-xs font-medium sm:px-4"
+              value="subtitle"
+            >
+              <Captions className="size-4" />
+              {copy.subtitleUploadTab}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -139,7 +169,7 @@ export function InputPanel({
             accept=".mp4,.mov,.mp3,.wav,.m4a,video/*,audio/*"
             className="sr-only"
             multiple
-            onChange={handleUploadInputChange}
+            onChange={(event) => handleUploadInputChange(event, "media")}
             type="file"
           />
           <div
@@ -149,12 +179,14 @@ export function InputPanel({
                 ? "border-emerald-500 bg-emerald-50/80"
                 : "border-foreground/15"
             }`}
-            onClick={openUploadPicker}
-            onDragEnter={handleUploadDragEnter}
-            onDragLeave={handleUploadDragLeave}
-            onDragOver={handleUploadDragOver}
-            onDrop={handleUploadDrop}
-            onKeyDown={handleUploadCardKeyDown}
+            onClick={() => openPicker(uploadInputRef)}
+            onDragEnter={(event) => handleUploadDragEnter(event, setIsDraggingUpload)}
+            onDragLeave={(event) => handleUploadDragLeave(event, setIsDraggingUpload)}
+            onDragOver={(event) => handleUploadDragOver(event, setIsDraggingUpload)}
+            onDrop={(event) =>
+              handleUploadDrop(event, setIsDraggingUpload, "media")
+            }
+            onKeyDown={(event) => handleUploadCardKeyDown(event, uploadInputRef)}
             role="button"
             tabIndex={0}
           >
@@ -179,7 +211,63 @@ export function InputPanel({
           </div>
         </TabsContent>
 
-        <TabsContent className="mt-0 w-full" value="paste">
+        <TabsContent className="mt-0 w-full" value="subtitle">
+          <input
+            ref={subtitleUploadInputRef}
+            accept=".srt,.vtt,.txt,text/plain"
+            className="sr-only"
+            multiple
+            onChange={(event) => handleUploadInputChange(event, "subtitle")}
+            type="file"
+          />
+          <div
+            aria-label={copy.subtitleDropzoneTitle}
+            className={`${panelCardClassName} cursor-pointer border border-dashed outline-none transition-colors hover:bg-background focus-visible:ring-2 focus-visible:ring-emerald-600/40 ${
+              isDraggingSubtitleUpload
+                ? "border-emerald-500 bg-emerald-50/80"
+                : "border-foreground/15"
+            }`}
+            onClick={() => openPicker(subtitleUploadInputRef)}
+            onDragEnter={(event) =>
+              handleUploadDragEnter(event, setIsDraggingSubtitleUpload)
+            }
+            onDragLeave={(event) =>
+              handleUploadDragLeave(event, setIsDraggingSubtitleUpload)
+            }
+            onDragOver={(event) =>
+              handleUploadDragOver(event, setIsDraggingSubtitleUpload)
+            }
+            onDrop={(event) =>
+              handleUploadDrop(event, setIsDraggingSubtitleUpload, "subtitle")
+            }
+            onKeyDown={(event) =>
+              handleUploadCardKeyDown(event, subtitleUploadInputRef)
+            }
+            role="button"
+            tabIndex={0}
+          >
+            <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+              <div className="inline-flex size-14 items-center justify-center rounded-[1.1rem] bg-foreground text-background shadow-sm">
+                <Captions className="size-5" />
+              </div>
+              <div className="mt-6">
+                <h3 className="text-xl font-medium sm:text-2xl">
+                  {copy.subtitleDropzoneTitle}
+                </h3>
+              </div>
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+                <Badge
+                  variant="outline"
+                  className="h-auto rounded-full px-3 py-1"
+                >
+                  {copy.supportedSubtitle}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* <TabsContent className="mt-0 w-full" value="paste">
           <div className={`${panelCardClassName} border border-border/70`}>
             <div className="flex w-full max-w-4xl flex-col items-center text-center">
               <div className="inline-flex size-14 items-center justify-center rounded-[1.1rem] bg-foreground text-background shadow-sm">
@@ -213,7 +301,7 @@ export function InputPanel({
               </div>
             </div>
           </div>
-        </TabsContent>
+        </TabsContent> */}
       </div>
     </Tabs>
   );

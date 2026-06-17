@@ -31,8 +31,11 @@ export function WorkflowPreview() {
     description: m["landing.demo.description"](),
     uploadTab: m["landing.demo.upload_tab"](),
     pasteTab: m["landing.demo.paste_tab"](),
+    subtitleUploadTab: m["landing.demo.subtitle_upload_tab"](),
     dropzoneTitle: m["landing.demo.dropzone_title"](),
     supportedMedia: m["landing.demo.supported_media"](),
+    subtitleDropzoneTitle: m["landing.demo.subtitle_dropzone_title"](),
+    supportedSubtitle: m["landing.demo.supported_subtitle"](),
     pastePlaceholder: m["landing.demo.paste_placeholder"](),
     addQueue: m["landing.demo.add_queue"](),
     subtitleTooltipTitle: m["landing.demo.subtitle_tooltip_title"](),
@@ -44,6 +47,7 @@ export function WorkflowPreview() {
       m["landing.demo.priority_auto"](),
     ],
     jobs: m["landing.demo.jobs"](),
+    subtitleOnly: m["landing.demo.subtitle_only"](),
     referenceSubtitleOptional: m["landing.demo.reference_subtitle_optional"](),
     referenceSubtitleHelp: m["landing.demo.reference_subtitle_help"](),
     uploadSubtitle: m["landing.demo.upload_subtitle"](),
@@ -86,35 +90,54 @@ export function WorkflowPreview() {
   };
 
   const [jobs, setJobs] = useState<WorkflowPreviewJob[]>([
-    {
+    /* {
       id: "youtube-note",
+      sourceKind: "url",
       sourceLabel: m["landing.demo.source.youtube"](),
       sourceValue: "youtube.com/watch?v=note-01",
       referenceSubtitle: "lesson-outline.vtt",
       status: "complete",
-    },
+    }, */
     {
       id: "uploaded-media",
+      sourceKind: "media",
       sourceLabel: m["landing.demo.source.uploaded"](),
       sourceValue: "launch-cut.mp4",
       status: "failed",
     },
     {
       id: "podcast",
+      sourceKind: "media",
       sourceLabel: m["landing.demo.source.uploaded"](),
       sourceValue: "podcast-intro.wav",
       referenceSubtitle: "podcast.srt",
       status: "complete",
     },
     {
+      id: "subtitle-only-meeting",
+      sourceKind: "subtitle",
+      sourceLabel: m["landing.demo.source.subtitle"](),
+      sourceValue: "meeting-notes.srt",
+      status: "complete",
+    },
+    {
+      id: "subtitle-only-course",
+      sourceKind: "subtitle",
+      sourceLabel: m["landing.demo.source.subtitle"](),
+      sourceValue: "course-reference.vtt",
+      status: "queued",
+    },
+    /* {
       id: "course",
+      sourceKind: "url",
       sourceLabel: m["landing.demo.source.youtube"](),
       sourceValue: "youtube.com/watch?v=course-02",
       referenceSubtitle: "course-reference.vtt",
       status: "queued",
-    },
+    }, */
     {
       id: "founder",
+      sourceKind: "media",
       sourceLabel: m["landing.demo.source.uploaded"](),
       sourceValue: "founder-interview.mov",
       status: "failed",
@@ -136,6 +159,7 @@ export function WorkflowPreview() {
       return [
         {
           id: `queued-${Date.now()}`,
+          sourceKind: "url",
           referenceSubtitle: undefined,
           sourceLabel: m["landing.demo.source.youtube"](),
           sourceValue: normalizedUrl,
@@ -146,7 +170,7 @@ export function WorkflowPreview() {
     });
   };
 
-  const handleAddUploads = (files: File[]) => {
+  const handleAddUploads = (files: File[], source: "media" | "subtitle") => {
     if (files.length === 0) {
       return;
     }
@@ -154,7 +178,11 @@ export function WorkflowPreview() {
     setJobs((currentJobs) => [
       ...files.map((file, index) => ({
         id: `uploaded-${Date.now()}-${index}`,
-        sourceLabel: m["landing.demo.source.uploaded"](),
+        sourceKind: source,
+        sourceLabel:
+          source === "subtitle"
+            ? m["landing.demo.source.subtitle"]()
+            : m["landing.demo.source.uploaded"](),
         sourceValue: file.name,
         sourceFile: file,
         status: "queued" as const,
