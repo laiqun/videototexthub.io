@@ -1,4 +1,5 @@
 import { getCloudflareEnv } from '@/core/workers/env';
+import {DurableObject} from "cloudflare:workers";
 
 const HELLO_WORLD_INSTANCE = 'hello-world';
 const HELLO_WORLD_TEXT = 'hello world';
