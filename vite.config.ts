@@ -23,10 +23,7 @@ loadEnvFiles();
 // d1 stubs both, postgresql keeps postgres.js for the Hyperdrive binding.
 const isCloudflareBuild = (process.env.NITRO_PRESET || '').includes('cloudflare');
 const driverStub = new URL('./src/core/db/driver-stub.ts', import.meta.url).pathname;
-const workersStub = new URL('./src/core/workers/cloudflare-workers-stub.ts', import.meta.url)
-  .pathname;
-const containersStub = new URL('./src/core/workers/cloudflare-containers-stub.ts', import.meta.url)
-  .pathname;
+
 
 // Prefer wrangler.jsonc over the build-time env, which can be polluted by
 // .env.local (e.g. DATABASE_PROVIDER=sqlite for local dev).
@@ -85,7 +82,7 @@ export default defineConfig({
   build: {
     rolldownOptions: isCloudflareBuild
       ? {
-          external: ['cloudflare:workers', '@cloudflare/containers'],
+          external: [],
         }
       : undefined,
   },
@@ -97,8 +94,6 @@ export default defineConfig({
           ...(keepPostgres ? {} : { postgres: driverStub }),
         }
       : {
-          'cloudflare:workers': workersStub,
-          '@cloudflare/containers': containersStub,
         },
   },
   plugins: [
