@@ -8,6 +8,16 @@ export class DurableObject<Env = unknown> {
   }
 }
 
+export class WorkerEntrypoint<Env = unknown, Props = unknown> {
+  protected readonly ctx: { props: Props };
+  protected readonly env: Env;
+
+  constructor(ctx: { props: Props }, env: Env) {
+    this.ctx = ctx;
+    this.env = env;
+  }
+}
+
 export class WorkflowEntrypoint<Env = unknown, Payload = unknown> {
   protected readonly env: Env;
 
