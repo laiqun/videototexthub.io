@@ -1,5 +1,4 @@
-/// <reference path="../../../../worker-configuration.d.ts" />
-import { Container, getRandom } from "@cloudflare/containers";
+import { Container } from "@cloudflare/containers";
 
 export class FFmpegContainer extends Container {
     defaultPort = 8080;

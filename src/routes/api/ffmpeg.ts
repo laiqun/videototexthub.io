@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { getCloudflareEnv } from '@/core/workers/env';
-import {getRandom} from "@cloudflare/containers";
+import { getRandom } from "@cloudflare/containers";
 
 async function POST({ request }: { request: Request }) {
   try {
