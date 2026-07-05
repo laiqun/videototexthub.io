@@ -1,7 +1,7 @@
 import handler from '@tanstack/react-start/server-entry';
 
 export { HelloWorldDurableObject } from './core/workers/durable-objects/hello-world-object';
-export { FFmpegContainer } from './core/workers/Container/FFmpegContainer'
+export { FfmpegContainer } from './core/workers/container/Ffmpeg-container'
 import { paraglideMiddleware } from './paraglide/server.js';
 
 // On Cloudflare Workers, stash the binding env (D1, ASSETS, …) on globalThis

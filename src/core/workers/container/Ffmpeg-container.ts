@@ -1,6 +1,6 @@
 import { Container } from "@cloudflare/containers";
 
-export class FFmpegContainer extends Container {
+export class FfmpegContainer extends Container {
     defaultPort = 8080;
     sleepAfter = "10m";
 
