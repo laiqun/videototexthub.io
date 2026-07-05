@@ -41,6 +41,39 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   return json.data as T;
 }
 
+async function getResponseError(res: Response) {
+  const contentType = res.headers.get('content-type') || '';
+
+  if (contentType.includes('application/json')) {
+    const json = await res.json().catch(() => null);
+    if (json && typeof json === 'object') {
+      const record = json as Record<string, unknown>;
+      const details =
+        typeof record.details === 'string'
+          ? `: ${record.details}`
+          : '';
+      const message =
+        typeof record.message === 'string'
+          ? record.message
+          : typeof record.error === 'string'
+            ? record.error
+            : res.statusText || 'Request failed';
+      return new ApiError(res.status, `${message}${details}`);
+    }
+  }
+
+  const text = await res.text().catch(() => '');
+  return new ApiError(res.status, text || res.statusText || 'Request failed');
+}
+
+async function requestResponse(url: string, init?: RequestInit): Promise<Response> {
+  const res = await fetch(url, init);
+  if (!res.ok) {
+    throw await getResponseError(res);
+  }
+  return res;
+}
+
 export const apiGet = <T>(url: string) => request<T>(url);
 
 export const apiPost = <T = void>(url: string, body?: unknown) =>
@@ -57,6 +90,12 @@ export const apiPatch = <T = void>(url: string, body?: unknown) =>
 
 export const apiDelete = <T = void>(url: string) =>
   request<T>(url, { method: 'DELETE' });
+
+export const apiPostForm = (url: string, body: FormData) =>
+  requestResponse(url, {
+    method: 'POST',
+    body,
+  });
 
 // Query-string builder for paginated list endpoints.
 export function pageQuery(base: string, p: PageParams) {
