@@ -1,27 +1,19 @@
 import { getCloudflareEnv } from '@/core/workers/env';
-import {DurableObject} from "cloudflare:workers";
 
 const HELLO_WORLD_INSTANCE = 'hello-world';
-const HELLO_WORLD_TEXT = 'hello world';
 
-export class HelloWorldDurableObject extends DurableObject<Env> {
-  constructor(ctx: DurableObjectState, env: Env) {
-    super(ctx, env);
-  }
+type HelloWorldDurableObjectStub = {
+  fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+};
 
-  async fetch(): Promise<Response> {
-    console.log('[HelloWorldDurableObject] hello world');
-    return new Response(HELLO_WORLD_TEXT, {
-      headers: {
-        'content-type': 'text/plain; charset=utf-8',
-      },
-    });
-  }
-}
+type HelloWorldDurableObjectNamespace = {
+  idFromName(name: string): unknown;
+  get(id: unknown): HelloWorldDurableObjectStub;
+};
 
 export function getHelloWorldNamespace() {
   const env = getCloudflareEnv<Env>();
-  const binding = env.HELLO_WORLD_DO;
+  const binding = env.HELLO_WORLD_DO as HelloWorldDurableObjectNamespace | undefined;
   if (!binding) {
     throw new Error(
       'Durable Object binding "HELLO_WORLD_DO" not found. Configure it in wrangler.jsonc.'

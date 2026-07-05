@@ -1,6 +1,6 @@
 import handler from '@tanstack/react-start/server-entry';
 
-export { HelloWorldDurableObject } from './core/workers/durable-objects/hello-world';
+export { HelloWorldDurableObject } from './core/workers/durable-objects/hello-world-object';
 export { FFmpegContainer } from './core/workers/Container/FFmpegContainer'
 import { paraglideMiddleware } from './paraglide/server.js';
 
