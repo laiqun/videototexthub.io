@@ -10,7 +10,7 @@
     "build": "vite build",
     "start": "node .output/server/index.mjs",
     "precf:build": "node scripts/db-setup.mjs",
-    "cf:build": "pnpm cf:types && NITRO_PRESET=cloudflare_module vite build",
+    "cf:build": "pnpm cf:types && NITRO_PRESET=cloudflare_module vite build && node_modules/.bin/esbuild src/worker-exports.ts --bundle --format=esm --platform=neutral --external:cloudflare:workers --external:@cloudflare/containers --target=es2022 --outfile=.output/server/_named-exports.mjs && cp worker-entry.mjs .output/server/ && node --input-type=commonjs -e \"const f='.output/server/wrangler.json';const c=JSON.parse(require('fs').readFileSync(f,'utf8'));c.main='worker-entry.mjs';require('fs').writeFileSync(f,JSON.stringify(c,null,2)+'\\n')\"",
     "cf:deploy": "sh -c 'set -a && [ -f .env.production ] && . ./.env.production; set +a && pnpm cf:build && exec wrangler deploy'",
     "cf:types": "sh -c 'if [ -f wrangler.jsonc ]; then exec wrangler types worker-configuration.d.ts -c wrangler.jsonc; else exec wrangler types worker-configuration.d.ts -c wrangler.example.jsonc; fi'",
     "postinstall": "mkdir -p data && (test -f src/config/db/schema.ts || node scripts/db-setup.mjs)",
