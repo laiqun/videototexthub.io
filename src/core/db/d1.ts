@@ -1,10 +1,19 @@
 import { drizzle } from 'drizzle-orm/d1';
-
+type D1SessionConstraint = 'first-primary' | 'first-unconstrained';
+type D1SessionBookmark = string;
+type D1DatabaseSession = {
+  prepare(query: string): any;
+  batch(statements: any[]): Promise<any[]>;
+  getBookmark(): D1SessionBookmark | null;
+};
 // Minimal D1Database type to avoid pulling in @cloudflare/workers-types globally
 type D1Database = {
   prepare(query: string): any;
   batch(statements: any[]): Promise<any[]>;
   exec(query: string): Promise<any>;
+  withSession(
+      constraintOrBookmark?: D1SessionBookmark | D1SessionConstraint
+  ): D1DatabaseSession;
   dump(): Promise<ArrayBuffer>;
 };
 
