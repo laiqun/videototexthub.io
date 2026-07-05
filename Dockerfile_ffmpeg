@@ -1,0 +1,19 @@
+# Use a lightweight FFmpeg image
+FROM jrottenberg/ffmpeg-8.1-scratch320
+
+# Install Python and required packages for the HTTP server
+RUN apk add --no-cache python3 py3-pip py3-flask py3-werkzeug
+
+WORKDIR /app
+
+# Copy the Python server
+COPY server.py .
+
+# Create upload and output directories
+RUN mkdir -p /app/uploads /app/outputs
+
+# Expose port 8080
+EXPOSE 8080
+
+# Run the Python server
+CMD ["python3", "server.py"]
