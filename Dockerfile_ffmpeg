@@ -1,19 +1,16 @@
-# Use a lightweight FFmpeg image
+# Use an FFmpeg image, but override its default entrypoint so the container
+# starts our HTTP server instead of launching ffmpeg directly.
 FROM jrottenberg/ffmpeg:8.1-scratch320
-
-# Install Python and required packages for the HTTP server
-RUN apk add --no-cache python3 py3-pip py3-flask py3-werkzeug
 
 WORKDIR /app
 
-# Copy the Python server
-COPY server.py .
+# Copy the static HTTP server binary that shells out to ffmpeg.
+COPY cf_container_ffmpeg_server /app/cf_container_ffmpeg_server
 
-# Create upload and output directories
 RUN mkdir -p /app/uploads /app/outputs
 
-# Expose port 8080
 EXPOSE 8080
 
-# Run the Python server
-CMD ["python3", "server.py"]
+# The base image defines an ffmpeg entrypoint. Override it explicitly or the
+# container will start as `ffmpeg cf_container_ffmpeg_server`.
+ENTRYPOINT ["/app/cf_container_ffmpeg_server"]

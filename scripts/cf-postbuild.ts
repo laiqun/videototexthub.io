@@ -25,7 +25,7 @@ writeFileSync(".output/server/worker-entry.mjs", out);
 
 const filesToCopy = [
   resolve(projectRoot, 'Dockerfile_ffmpeg'),
-  resolve(projectRoot, 'server.py'),
+  resolve(projectRoot, 'cf_container_ffmpeg_server'),
 ];
 
 mkdirSync(outputServerDir, { recursive: true });
