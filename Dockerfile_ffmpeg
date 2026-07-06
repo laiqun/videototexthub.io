@@ -1,5 +1,5 @@
 # Use a lightweight FFmpeg image
-FROM jrottenberg/ffmpeg-8.1-scratch320
+FROM jrottenberg/ffmpeg:8.1-scratch320
 
 # Install Python and required packages for the HTTP server
 RUN apk add --no-cache python3 py3-pip py3-flask py3-werkzeug
