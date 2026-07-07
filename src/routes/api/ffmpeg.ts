@@ -2,11 +2,28 @@ import { createFileRoute } from '@tanstack/react-router';
 import { getCloudflareEnv } from '@/core/workers/env';
 import { getRandom } from "@cloudflare/containers";
 
+const FFMPEG_API_PREFIX = '/api/ffmpeg';
+
+function toContainerPath(url: string) {
+  const incomingUrl = new URL(url);
+  const strippedPath = incomingUrl.pathname.startsWith(FFMPEG_API_PREFIX)
+    ? incomingUrl.pathname.slice(FFMPEG_API_PREFIX.length)
+    : incomingUrl.pathname;
+
+  return strippedPath || '/';
+}
+
 async function POST({ request }: { request: Request }) {
   try {
     const env = getCloudflareEnv<Env>();
     const container = await getRandom(env.FFMPEG_CONTAINER as any, 3);
-    const response = await container.fetch(request);
+    const forwardedUrl = new URL(request.url);
+    forwardedUrl.pathname = toContainerPath(request.url);
+
+    const forwardedRequest = new Request(forwardedUrl, request);
+    forwardedRequest.headers.set('x-forwarded-path', new URL(request.url).pathname);
+
+    const response = await container.fetch(forwardedRequest);
 
     const newResponse = new Response(response.body, {
       status: response.status,
