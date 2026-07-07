@@ -16,6 +16,7 @@ function toContainerPath(url: string) {
 async function POST({ request }: { request: Request }) {
   try {
     const env = getCloudflareEnv<Env>();
+    // @ts-ignore
     const container = await getRandom(env.FFMPEG_CONTAINER as any, 3);
     const forwardedUrl = new URL(request.url);
     forwardedUrl.pathname = toContainerPath(request.url);
