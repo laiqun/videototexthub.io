@@ -30,7 +30,7 @@ import { getLocale } from '@/paraglide/runtime.js';
 
 const DEPLOYED_ENDPOINT = 'https://videototexthub.laiqun007.workers.dev/api/ffmpeg';
 const LOCAL_ENDPOINT = '/api/ffmpeg';
-const DEFAULT_INPUT_NAME = 'demo.mp4';
+const DEFAULT_INPUT_NAME = 'input.*';
 const DEFAULT_COMMAND = `-i ${DEFAULT_INPUT_NAME} -c:v libx264 -crf 23 output.mp4`;
 
 const ffmpegTestSchema = z.object({
