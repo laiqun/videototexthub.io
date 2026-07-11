@@ -58,7 +58,7 @@ interface WorkflowPreviewStartResponse {
 const mobileTableCellClasses =
   "flex flex-col gap-1 border-b border-border/40 px-4 py-3 last:border-b-0 md:table-cell md:border-b-0 md:px-4 md:py-4 md:align-top before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.18em] before:text-muted-foreground before:content-[attr(data-label)] md:before:hidden";
 
-async function uploadWorkflowFile(file: File): Promise<{
+async function uploadFile(file: File): Promise<{
   objectKey: string;
   objectUrl: string;
 }> {
@@ -252,14 +252,22 @@ function JobActions({
 
     try {
       const uploadResult = job.sourceFile
-        ? await uploadWorkflowFile(job.sourceFile)
+        ? await uploadFile(job.sourceFile)
         : undefined;
+
+      if (uploadResult) {
+        onUpdateJob(job.id, {
+          uploadedObjectKey: uploadResult.objectKey,
+          uploadedObjectUrl: uploadResult.objectUrl,
+        });
+      }
+
       const startedJob = await startWorkflowPreviewJob(job, uploadResult);
 
       onUpdateJob(job.id, {
         status: "complete",
-        uploadedObjectKey: startedJob.objectKey,
-        uploadedObjectUrl: startedJob.objectUrl,
+        uploadedObjectKey: startedJob.objectKey ?? uploadResult?.objectKey,
+        uploadedObjectUrl: startedJob.objectUrl ?? uploadResult?.objectUrl,
       });
       toast.success(
         job.sourceFile ? "File uploaded to R2." : "URL sent to server.",
