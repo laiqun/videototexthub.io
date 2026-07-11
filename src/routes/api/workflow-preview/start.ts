@@ -52,7 +52,9 @@ async function POST({ request }: { request: Request }) {
         'Workflow binding "VIDEO2TXT_WORKFLOW" not found. Configure it in wrangler.jsonc.'
       );
     }
-
+    console.log("++++++");
+    console.log(parsed.data);
+    console.log("++++++");
     const instance = await workflowBinding.create({
       id: `workflow-preview-${getUuid()}`,
       params: parsed.data,
