@@ -708,6 +708,10 @@ export const videoJobs = table(
     totalChunks: integer('total_chunks').notNull().default(0),
     finishedChunks: integer('finished_chunks').notNull().default(0),
     markdownR2Key: text('markdown_r2_key'),
+    workflowInstanceId: text('instance_id').notNull(),
+    workflowInstanceLogs: text('workflow_instance_logs', { mode: 'json' }).$type<
+      Record<string, unknown>
+    >(), // JSON payload from workflow instance logs/status
   },
   (t) => [index('idx_video_jobs_file_md5').on(t.fileMd5)]
 );
