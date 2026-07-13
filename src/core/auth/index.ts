@@ -253,7 +253,7 @@ export function getAuth(configs?: Record<string, string>) {
           },
         }
       : {}),
-    logger: { disabled: true },
+    logger: { level: process.env.NODE_ENV === 'production' ? 'error' : 'debug' },
   } satisfies BetterAuthOptions);
 
   if (canCacheAuthInstance) authInstance = instance;
