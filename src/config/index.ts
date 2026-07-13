@@ -7,10 +7,8 @@ export const AUTH_SECRET_PLACEHOLDER = 'shipany-dev-secret-change-in-production'
 //   in the browser — they never reach the client bundle.
 const metaEnv: Record<string, string | undefined> =
   (import.meta as any).env ?? {};
-const procEnv: Record<string, string | undefined> = {
-  ...(typeof globalThis !== 'undefined' ? (globalThis as any).__CF_ENV__ ?? {} : {}),
-  ...(typeof process !== 'undefined' && process.env ? process.env : {}),
-};
+const procEnv: Record<string, string | undefined> =
+  typeof process !== 'undefined' && process.env ? process.env : {};
 
 const publicEnv = (key: string) => metaEnv[key] ?? procEnv[key];
 
