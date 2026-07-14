@@ -42,7 +42,7 @@
 		"bindings": [
 			{
 				"name": "FFMPEG_CONTAINER",      // 在当前代码里用的变量名 env.MY_EXTERNAL_DO
-				"class_name": "do-container_FfmpegContainer", // 对方 Worker 导出的类名
+				"class_name": "FfmpegContainer", // 对方 Worker 导出的类名
 				"script_name": "do-container"  // 对方 Worker 的脚本名 (name字段)
 			}
 		]
