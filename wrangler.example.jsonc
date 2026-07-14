@@ -26,14 +26,6 @@
       "migrations_dir": "drizzle"
     }
   ],
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "HELLO_WORLD_DO",
-        "class_name": "HelloWorldDurableObject"
-      }
-    ]
-  },
   "migrations": [
     {
       "tag": "v1",

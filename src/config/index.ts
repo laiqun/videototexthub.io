@@ -22,7 +22,7 @@ export const envConfigs: Record<string, string> = {
   // Database
   database_url: procEnv.DATABASE_URL ?? '',
   database_auth_token: procEnv.DATABASE_AUTH_TOKEN ?? '',
-  database_provider: procEnv.DATABASE_PROVIDER ?? 'sqlite',
+  database_provider: procEnv.DATABASE_PROVIDER ?? 'd1',
   db_schema: procEnv.DB_SCHEMA ?? 'public',
   db_singleton_enabled: procEnv.DB_SINGLETON_ENABLED ?? 'false',
   db_max_connections: procEnv.DB_MAX_CONNECTIONS ?? '1',

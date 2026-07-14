@@ -52,3 +52,20 @@ pnpm rbac:init:d1 --admin-email=admin@example.com --admin-password=your-password
 当我使用的时候，注册和登录都报 HTTPError， 然后去 worker 里的 bindings 选项卡查看，没看到有名字为 DB 的绑定，于是手动添加了一下绑定。
 
 查了一下，当执行 wrangler deploy 时，会解析 wrangler.jsonc来进行绑定，不太清楚为啥没有绑定成功。
+github 部署看起来会经常掉绑定，需要再手动绑定一下。
+
+| name | value                   |
+|------|-------------------------|
+|DB |videototexthub|
+|VIDEO2TXT_WORKFLOW| video-markdown-generator |
+|FFMPEG_CONTAINER|do-container_FfmpegContainer|
+
+## 添加变量
+VITE_APP_URL https://videototexthub.laiqun007.workers.dev
+DATABASE_PROVIDER=d1
+AUTH_SECRET lhwoqYkF+nVCLUSScundvLBMNmATaeJazpX9K2K7Bfc=
+
+不知道为啥，环境变量全掉了，绑定也全掉了
+
+1. wrangler.jsonc 也上传到 github
+2. 部署完成后，wrangler 批量添加环境变量

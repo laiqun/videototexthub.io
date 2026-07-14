@@ -20,7 +20,6 @@ src/paraglide/
 # cloudflare — wrangler.jsonc is your working copy (real D1 id, URLs);
 # the committed template is wrangler.example.jsonc
 /.wrangler/
-wrangler.jsonc
 
 # claude code local state
 .claude/scheduled_tasks.lock
