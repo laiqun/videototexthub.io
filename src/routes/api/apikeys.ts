@@ -33,7 +33,7 @@ async function POST({ request }: { request: Request }) {
       return respErr('Unauthorized');
     }
 
-    const body = await request.json();
+    const body = await request.json() as any;
     const { title } = body;
 
     if (!title) {
