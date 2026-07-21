@@ -123,11 +123,13 @@ export function PricingTable({
       <div
         className={cn(
           "mx-auto grid gap-6",
-          currentGroup?.plans.length === 2
-            ? "max-w-3xl sm:grid-cols-2"
-            : currentGroup?.plans.length === 3
-              ? "max-w-5xl sm:grid-cols-2 lg:grid-cols-3"
-              : "max-w-6xl sm:grid-cols-2 lg:grid-cols-4"
+          currentGroup?.plans.length === 1
+            ? "max-w-md grid-cols-1"
+            : currentGroup?.plans.length === 2
+              ? "max-w-3xl sm:grid-cols-2"
+              : currentGroup?.plans.length === 3
+                ? "max-w-5xl sm:grid-cols-2 lg:grid-cols-3"
+                : "max-w-6xl sm:grid-cols-2 lg:grid-cols-4"
         )}
       >
         {currentGroup?.plans.map((plan) => (
