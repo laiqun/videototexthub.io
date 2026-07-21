@@ -12,6 +12,7 @@ import { baseLocale } from '@/paraglide/runtime.js';
  * local posts via the pure helpers below.
  */
 export const BLOG_POST_SLUGS = [
+  'what-is-ai-image-describer',
   'what-is-shipany',
   'blocks-vs-components',
 ] as const;

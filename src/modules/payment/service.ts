@@ -543,3 +543,52 @@ export async function getUserOrders(userId: string) {
     .where(and(eq(order.userId, userId), isNull(order.deletedAt)))
     .orderBy(desc(order.createdAt));
 }
+
+// --- One-time Pro order access ---
+
+function getOneTimeOrderExpiresAt(orderItem: {
+  paidAt: Date | null;
+  creditsValidDays: number | null;
+}) {
+  if (
+    !orderItem.paidAt ||
+    !orderItem.creditsValidDays ||
+    orderItem.creditsValidDays <= 0
+  ) {
+    return null;
+  }
+
+  const expiresAt = new Date(orderItem.paidAt);
+  expiresAt.setDate(expiresAt.getDate() + orderItem.creditsValidDays);
+
+  return expiresAt;
+}
+
+/**
+ * Check whether user has any valid one-time Pro order access.
+ *
+ * Rule (ported from the original aiimagedescriber project):
+ * - only paid one-time orders
+ * - only Pro products
+ * - any non-expired order is enough
+ */
+export async function hasValidOneTimeProOrderAccess(userId: string) {
+  const result = await db()
+    .select()
+    .from(order)
+    .where(
+      and(
+        eq(order.userId, userId),
+        eq(order.status, OrderStatus.PAID),
+        eq(order.paymentType, PaymentType.ONE_TIME)
+      )
+    )
+    .orderBy(desc(order.paidAt), desc(order.createdAt));
+
+  const now = Date.now();
+
+  return result.some((item: typeof order.$inferSelect) => {
+    const expiresAt = getOneTimeOrderExpiresAt(item);
+    return !!expiresAt && expiresAt.getTime() > now;
+  });
+}

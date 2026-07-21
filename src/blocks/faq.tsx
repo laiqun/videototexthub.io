@@ -7,10 +7,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const FAQ_KEYS = ["usage", "audience", "scenarios", "subtitles", "editing","contact"] as const;
+const FAQ_KEYS = [
+  "what",
+  "free",
+  "use_cases",
+  "privacy",
+  "ai_prompts",
+  "commercial",
+  "formats",
+  "languages",
+  "accuracy",
+  "feedback",
+] as const;
 
 export function FAQ() {
-  
   return (
     <section id="faq" className="px-4 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl">
@@ -28,7 +38,7 @@ export function FAQ() {
               <AccordionTrigger className="cursor-pointer py-6 text-left text-base font-medium hover:no-underline">
                 {tDynamic(`landing.faq.${key}.question`)}
               </AccordionTrigger>
-              <AccordionContent className="pb-6 text-muted-foreground leading-relaxed">
+              <AccordionContent className="pb-6 text-muted-foreground leading-relaxed whitespace-pre-line">
                 {tDynamic(`landing.faq.${key}.answer`)}
               </AccordionContent>
             </AccordionItem>

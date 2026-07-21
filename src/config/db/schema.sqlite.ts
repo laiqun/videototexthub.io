@@ -697,24 +697,3 @@ export type InviteCode = typeof inviteCode.$inferSelect;
 export type NewInviteCode = typeof inviteCode.$inferInsert;
 export type UserInvite = typeof userInvite.$inferSelect;
 export type NewUserInvite = typeof userInvite.$inferInsert;
-
-export const videoJobs = table(
-  'video_jobs',
-  {
-    jobId: text('job_id').primaryKey(),
-    videoR2Key: text('video_r2_key').notNull(),
-    fileMd5: text('file_md5').notNull(),
-    status: text('status').notNull().default('processing'), // processing | completed | failed
-    totalChunks: integer('total_chunks').notNull().default(0),
-    finishedChunks: integer('finished_chunks').notNull().default(0),
-    markdownR2Key: text('markdown_r2_key'),
-    workflowInstanceId: text('instance_id').notNull(),
-    workflowInstanceLogs: text('workflow_instance_logs', { mode: 'json' }).$type<
-      Record<string, unknown>
-    >(), // JSON payload from workflow instance logs/status
-  },
-  (t) => [index('idx_video_jobs_file_md5').on(t.fileMd5)]
-);
-
-export type VideoJob = typeof videoJobs.$inferSelect;
-export type NewVideoJob = typeof videoJobs.$inferInsert;

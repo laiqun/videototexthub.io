@@ -14,9 +14,11 @@ const publicEnv = (key: string) => metaEnv[key] ?? procEnv[key];
 
 export const envConfigs: Record<string, string> = {
   // App (public)
-  app_url: publicEnv('VITE_APP_URL') ?? 'http://localhost:3000',
-  app_name: publicEnv('VITE_APP_NAME') ?? 'ShipAny',
-  app_description: publicEnv('VITE_APP_DESCRIPTION') ?? 'Ship your SaaS faster',
+  app_url: publicEnv('VITE_APP_URL') ?? 'https://aiimagedescriber.io',
+  app_name: publicEnv('VITE_APP_NAME') ?? 'AI Image Describer',
+  app_description:
+    publicEnv('VITE_APP_DESCRIPTION') ??
+    'aiimagedescriber.io—free online AI image describer. Generate descriptions, captions & alt text in seconds. Also supports image-to-prompt and OCR. No login.',
   app_logo: publicEnv('VITE_APP_LOGO') ?? '/logo.png',
 
   // Database
@@ -72,6 +74,11 @@ export const envConfigs: Record<string, string> = {
 
   // AI
   replicate_api_token: procEnv.REPLICATE_API_TOKEN ?? '',
+  google_generative_ai_api_key: procEnv.GOOGLE_GENERATIVE_AI_API_KEY ?? '',
+
+  // Image describer daily free quota
+  daily_free_quota: procEnv.DAILY_FREE_QUOTA ?? '50',
+  daily_free_quota_logged_in: procEnv.DAILY_FREE_QUOTA_LOGGED_IN ?? '100',
 
   // Locale (public)
   locale: publicEnv('VITE_DEFAULT_LOCALE') ?? 'en',

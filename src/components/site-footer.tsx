@@ -22,11 +22,13 @@ export interface FooterSocial {
 
 export function SiteFooter({
   tagline,
+  description,
   columns,
   socials,
   copyright,
 }: {
   tagline?: string;
+  description?: string;
   columns?: FooterColumn[];
   socials?: FooterSocial[];
   copyright?: string;
@@ -39,6 +41,12 @@ export function SiteFooter({
         {tagline && (
           <p className="font-serif italic text-3xl leading-[1.15] tracking-tight text-neutral-100 sm:text-4xl mb-12 max-w-2xl">
             {tagline}
+          </p>
+        )}
+
+        {description && (
+          <p className="text-sm leading-relaxed text-neutral-400 mb-12 max-w-2xl">
+            {description}
           </p>
         )}
 

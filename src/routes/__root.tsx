@@ -69,7 +69,7 @@ function RootComponent() {
     <QueryClientProvider client={getQueryClient()}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
+        defaultTheme="dark"
         enableSystem
         disableTransitionOnChange
       >

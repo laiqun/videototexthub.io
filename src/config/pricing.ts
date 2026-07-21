@@ -6,6 +6,12 @@
  * product_id is honored, and everything else is looked up here.
  *
  * To change pricing, edit this file and redeploy. Admin UI cannot alter prices.
+ *
+ * AI Image Describer: the tool itself is quota-based (daily free quota tracked
+ * in KV), NOT credit-based — so `credits` stays 0 on every product. Pro access
+ * duration is carried by `creditsValidDays` (valid_days in the old Next.js
+ * pricing config). Creem product ids are mapped at runtime via the admin
+ * settings (`creem_product_ids`), not hardcoded here.
  */
 
 import { PaymentInterval, PaymentType } from '@/core/payment/types';
@@ -30,105 +36,73 @@ export type PricingProduct = {
 };
 
 /**
- * Default demo catalog. Replace with your real products when launching.
  * Keys MUST match what the pricing UI sends as product_id.
  */
 export const pricingCatalog: Record<string, PricingProduct> = {
-  starter_monthly: {
-    productId: 'starter_monthly',
-    productName: 'Starter',
-    planName: 'Starter',
-    description: 'Starter Monthly',
-    type: PaymentType.SUBSCRIPTION,
-    priceInCents: 900,
+  free: {
+    productId: 'free',
+    productName: 'AI Image Describer Free',
+    planName: 'Free',
+    description: 'For personal and light use.',
+    type: PaymentType.ONE_TIME,
+    priceInCents: 0,
     currency: 'usd',
-    credits: 5000,
-    plan: { name: 'Starter', interval: PaymentInterval.MONTH, intervalCount: 1 },
+    credits: 0,
+    creditsValidDays: 0,
   },
-  pro_monthly: {
-    productId: 'pro_monthly',
-    productName: 'Pro',
+  'pro-monthly': {
+    productId: 'pro-monthly',
+    productName: 'AI Image Describer Pro Monthly',
     planName: 'Pro',
-    description: 'Pro Monthly',
+    description: 'Monthly subscription for Pro access.',
     type: PaymentType.SUBSCRIPTION,
-    priceInCents: 2900,
+    priceInCents: 490,
     currency: 'usd',
-    credits: 50000,
-    plan: { name: 'Pro', interval: PaymentInterval.MONTH, intervalCount: 1 },
+    credits: 0,
+    creditsValidDays: 30,
+    plan: {
+      name: 'Pro Monthly',
+      interval: PaymentInterval.MONTH,
+      intervalCount: 1,
+    },
   },
-  enterprise_monthly: {
-    productId: 'enterprise_monthly',
-    productName: 'Enterprise',
-    planName: 'Enterprise',
-    description: 'Enterprise Monthly',
-    type: PaymentType.SUBSCRIPTION,
-    priceInCents: 9900,
-    currency: 'usd',
-    credits: 500000,
-    plan: { name: 'Enterprise', interval: PaymentInterval.MONTH, intervalCount: 1 },
-  },
-  starter_yearly: {
-    productId: 'starter_yearly',
-    productName: 'Starter',
-    planName: 'Starter',
-    description: 'Starter Yearly',
-    type: PaymentType.SUBSCRIPTION,
-    priceInCents: 8600,
-    currency: 'usd',
-    credits: 60000,
-    plan: { name: 'Starter', interval: PaymentInterval.YEAR, intervalCount: 1 },
-  },
-  pro_yearly: {
-    productId: 'pro_yearly',
-    productName: 'Pro',
+  'pro-yearly': {
+    productId: 'pro-yearly',
+    productName: 'AI Image Describer Pro Yearly',
     planName: 'Pro',
-    description: 'Pro Yearly',
+    description: 'Yearly subscription for Pro access.',
     type: PaymentType.SUBSCRIPTION,
-    priceInCents: 27800,
+    priceInCents: 2990,
     currency: 'usd',
-    credits: 600000,
-    plan: { name: 'Pro', interval: PaymentInterval.YEAR, intervalCount: 1 },
+    credits: 0,
+    creditsValidDays: 365,
+    plan: {
+      name: 'Pro Yearly',
+      interval: PaymentInterval.YEAR,
+      intervalCount: 1,
+    },
   },
-  enterprise_yearly: {
-    productId: 'enterprise_yearly',
-    productName: 'Enterprise',
-    planName: 'Enterprise',
-    description: 'Enterprise Yearly',
-    type: PaymentType.SUBSCRIPTION,
-    priceInCents: 95000,
-    currency: 'usd',
-    credits: 6000000,
-    plan: { name: 'Enterprise', interval: PaymentInterval.YEAR, intervalCount: 1 },
-  },
-  starter_lifetime: {
-    productId: 'starter_lifetime',
-    productName: 'Starter',
-    planName: 'Starter Lifetime',
-    description: 'Starter Lifetime',
+  'pro-one-month': {
+    productId: 'pro-one-month',
+    productName: 'AI Image Describer Pro 1 Month One Time',
+    planName: 'Pro',
+    description: 'One-time payment for 1 month of Pro access.',
     type: PaymentType.ONE_TIME,
-    priceInCents: 14900,
+    priceInCents: 490,
     currency: 'usd',
-    credits: 100000,
+    credits: 0,
+    creditsValidDays: 30,
   },
-  pro_lifetime: {
-    productId: 'pro_lifetime',
-    productName: 'Pro',
-    planName: 'Pro Lifetime',
-    description: 'Pro Lifetime',
+  'pro-one-year': {
+    productId: 'pro-one-year',
+    productName: 'AI Image Describer Pro 1 Year One Time',
+    planName: 'Pro',
+    description: 'One-time payment for 1 year of Pro access.',
     type: PaymentType.ONE_TIME,
-    priceInCents: 49900,
+    priceInCents: 2990,
     currency: 'usd',
-    credits: 1000000,
-  },
-  enterprise_lifetime: {
-    productId: 'enterprise_lifetime',
-    productName: 'Enterprise',
-    planName: 'Enterprise Lifetime',
-    description: 'Enterprise Lifetime',
-    type: PaymentType.ONE_TIME,
-    priceInCents: 199900,
-    currency: 'usd',
-    credits: 10000000,
+    credits: 0,
+    creditsValidDays: 365,
   },
 };
 

@@ -38,8 +38,58 @@ type KvBinding = {
   list<Metadata = unknown>(options?: KvListOptions): Promise<KvListResult<Metadata>>;
 };
 
+// --- In-memory fallback for local dev (no Cloudflare binding) ---
+
+type MemoryKvEntry = {
+  value: string;
+  expiresAt?: number; // epoch ms
+};
+
+/**
+ * Minimal in-memory KVNamespace-compatible store. Used only when the `KV`
+ * binding is absent (local dev without `wrangler dev`). Data is per-process
+ * and not shared across isolates — fine for quota testing, not production.
+ */
+function createMemoryKv(): KvBinding {
+  const store = new Map<string, MemoryKvEntry>();
+
+  const read = (key: string): string | null => {
+    const entry = store.get(key);
+    if (!entry) return null;
+    if (entry.expiresAt !== undefined && entry.expiresAt <= Date.now()) {
+      store.delete(key);
+      return null;
+    }
+    return entry.value;
+  };
+
+  return {
+    get: (async (key: string) => read(key)) as KvBinding['get'],
+    put: async (key, value, options) => {
+      const expiresAt =
+        options?.expirationTtl !== undefined
+          ? Date.now() + options.expirationTtl * 1000
+          : options?.expiration !== undefined
+            ? options.expiration * 1000
+            : undefined;
+      store.set(key, { value: typeof value === 'string' ? value : String(value), expiresAt });
+    },
+    delete: async (key) => {
+      store.delete(key);
+    },
+    list: async (options) => {
+      const keys = [...store.keys()]
+        .filter((name) => read(name) !== null)
+        .filter((name) => !options?.prefix || name.startsWith(options.prefix))
+        .map((name) => ({ name }));
+      return { keys, list_complete: true };
+    },
+  };
+}
+
 // KV singleton instance
 let kvInstance: KvBinding | null = null;
+let memoryKvWarningShown = false;
 
 /**
  * Resolve the KV binding named `KV` (see wrangler.jsonc `kv_namespaces`).
@@ -64,6 +114,16 @@ function getKvBinding(): KvBinding {
 export function getKv() {
   if (kvInstance) return kvInstance;
 
-  kvInstance = getKvBinding();
+  try {
+    kvInstance = getKvBinding();
+  } catch {
+    if (!memoryKvWarningShown) {
+      memoryKvWarningShown = true;
+      console.warn(
+        '[kv] KV binding "KV" not found — using in-memory KV fallback (local dev only; not persistent or shared).'
+      );
+    }
+    kvInstance = createMemoryKv();
+  }
   return kvInstance;
 }

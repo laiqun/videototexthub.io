@@ -93,3 +93,34 @@ export async function getSubscriptions(params: {
     .limit(limit)
     .offset((page - 1) * limit);
 }
+
+/**
+ * Check whether user has any valid subscription access.
+ *
+ * Rule (ported from the original aiimagedescriber project):
+ * - currentPeriodEnd is the primary expiry source
+ * - canceledEndAt is only a fallback when currentPeriodEnd is missing
+ * - paused/pending subscriptions never grant access
+ * - any non-expired subscription is enough
+ */
+export async function hasValidSubscriptionAccess(userId: string) {
+  const result = await db()
+    .select()
+    .from(subscription)
+    .where(eq(subscription.userId, userId))
+    .orderBy(desc(subscription.createdAt));
+
+  const now = Date.now();
+
+  return result.some((item: typeof subscription.$inferSelect) => {
+    if (
+      item.status === SubscriptionStatus.PAUSED ||
+      item.status === SubscriptionStatus.PENDING
+    ) {
+      return false;
+    }
+
+    const effectiveEndAt = item.currentPeriodEnd || item.canceledEndAt || null;
+    return !!effectiveEndAt && effectiveEndAt.getTime() > now;
+  });
+}

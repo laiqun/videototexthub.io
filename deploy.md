@@ -1,71 +1,78 @@
-# 部署
-## 将你的项目上传到 github
-创建新 worker 时，指定 github 仓库即可。
+# 部署（aiimagedescriber.io）
 
-配置 build 命令为：pnpm cf:build
+## 1. 上传代码到 GitHub
 
-配置 deploy 命令为：pnpm cf:deploy 
+创建新 Worker 时指定 GitHub 仓库即可，或者在本地用 wrangler 部署。
 
-## 部署环境变量 .env.production
-- VITE_APP_URL 改成你的 worker 的 url
-- 生成 AUTH_SECRET ，使用命令 `Generate with: openssl rand -base64 32`来生成
+- Build 命令：`pnpm cf:build`
+- Deploy 命令：`pnpm cf:deploy`
 
-配置环境变量到 worker
+`cf:deploy` 会先加载 `.env.production`、执行 `cf:build`，再运行 `wrangler deploy`。
+
+## 2. 环境变量（.env.production）
+
+- `VITE_APP_URL=https://aiimagedescriber.io`
+- `VITE_APP_NAME=AI Image Describer`
+- `AUTH_SECRET`：用 `openssl rand -base64 32` 生成，不要提交到仓库
+- `GOOGLE_GENERATIVE_AI_API_KEY`：Gemini API key（图片识别用）
+- `DAILY_FREE_QUOTA` / `DAILY_FREE_QUOTA_LOGGED_IN`：每日免费额度（默认 50 / 100）
+
+批量写入 Worker 环境变量：
+
 ```bash
 wrangler secret bulk .env.production
 ```
-## 部署数据库 d1
-操作数据库之前，先执行一下 `wrangler login `。
-### 1. 创建一个 d1数据库
-创建 d1数据库`npx wrangler d1 create db_name`，得到 `db-id`
-### 2. 将数据库参数写入 `wrangler.jsonc`
-将 `db_name`和 `db_id`的真实值写入 wrangler.json
-```json
-{
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "db_name",
-      "database_id": "db-id",
-      "remote": true,
-      "migrations_dir": "drizzle"
-    }
-  ]
-}
+
+## 3. D1 数据库
+
+线上复用现有数据库 `ai_img_describer_db`（database_id: `b166720d-d7e2-42e4-9592-ba9db819c486`），
+绑定名 `DB`，已写入 `wrangler.jsonc`，无需重新创建。操作数据库前先 `wrangler login`。
+
+### 生成迁移文件
+
+修改 `src/config/db/schema.ts` 后：
+
+```bash
+pnpm db:generate   # 在 drizzle/ 目录生成 SQL 迁移文件
 ```
-###  3. D1 数据库 Schema 创建
 
-在 drizzle 目录生成 sql 迁移文件 `pnpm db:generate`
+生成后检查 SQL，确认没有 DROP COLUMN 等破坏性操作。
 
-### 4. 在远程数据库上应用迁移文件 
-`wrangler d1 migrations apply DB --remote`
-   - 可以省略DB参数 `wrangler d1 migrations apply --remote`
-   - 忽略 `pnpm db:migrate`，这条命令是无效的，仅用于本地调试
+### 应用迁移到远程 D1
 
-## 2. D1数据库初始化
+```bash
+wrangler d1 migrations apply --remote
+```
+
+`pnpm db:migrate` 仅用于本地调试，远程 D1 用上面这条 wrangler 命令。
+
+## 4. KV 命名空间
+
+每日免费额度计数器存放在 KV 中，绑定名 `KV`
+（id: `e7efaa5af5f74cea8812a5ff70c53f4b`），已写入 `wrangler.jsonc`。
+
+## 5. R2 存储
+
+R2 不在 wrangler 里配置。在管理后台 `/admin/settings` 的存储设置里填写
+R2 的 bucket / access key 等信息，保存在数据库 `config` 表中
+（设置 `CONFIG_ENCRYPTION_KEY` 后加密存储）。
+
+## 6. 初始化管理员（RBAC）
+
 ```bash
 pnpm rbac:init:d1 --admin-email=admin@example.com --admin-password=your-password
 ```
-忽略`pnpm rbac:assign`，这条命令就不需要了，因为超级管理员在后台就可以修改其他用户的身份。
 
-## 添加DB 绑定
-当我使用的时候，注册和登录都报 HTTPError， 然后去 worker 里的 bindings 选项卡查看，没看到有名字为 DB 的绑定，于是手动添加了一下绑定。
+超级管理员可以在后台直接修改其他用户的角色，无需再执行 `rbac:assign`。
 
-查了一下，当执行 wrangler deploy 时，会解析 wrangler.jsonc来进行绑定，不太清楚为啥没有绑定成功。
-github 部署看起来会经常掉绑定，需要再手动绑定一下。
+## 7. 绑定丢失排查
 
-| name | value                   |
-|------|-------------------------|
-|DB |videototexthub|
-|VIDEO2TXT_WORKFLOW| video-markdown-generator |
-|FFMPEG_CONTAINER|do-container_FfmpegContainer|
+如果注册/登录报 HTTPError，先到 Worker 的 Bindings 选项卡确认以下绑定存在：
 
-## 添加变量
-VITE_APP_URL https://videototexthub.laiqun007.workers.dev
-DATABASE_PROVIDER=d1
-AUTH_SECRET lhwoqYkF+nVCLUSScundvLBMNmATaeJazpX9K2K7Bfc=
+| name | value |
+|------|-------|
+| DB | ai_img_describer_db (D1) |
+| KV | 每日配额 KV namespace |
 
-不知道为啥，环境变量全掉了，绑定也全掉了
-
-1. wrangler.jsonc 也上传到 github
-2. 部署完成后，wrangler 批量添加环境变量
+GitHub 自动部署偶尔会掉绑定/环境变量，掉了就手动补一下，或重新执行
+`wrangler secret bulk .env.production`。

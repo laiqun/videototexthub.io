@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import { Mail } from "lucide-react";
 import { m } from "@/paraglide/messages.js";
 import {
   SiteFooter,
@@ -14,30 +15,19 @@ function GithubIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function XIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
-    </svg>
-  );
-}
-
 export function Footer() {
-  
   const columns: FooterColumn[] = [
     {
-      title: m["landing.footer.feature"](),
+      title: m["landing.footer.about"](),
       links: [
-        { label: m["landing.footer.settings"](), href: "/settings", external: true},
-        { label: m["landing.footer.admin"](), href: "/admin", external: true },
+        { label: m["landing.footer.features"](), href: "/#features" },
+        { label: m["landing.footer.showcases"](), href: "/#showcases" },
+        { label: m["landing.footer.pricing"](), href: "/pricing" },
       ],
     },
     {
       title: m["landing.footer.resources"](),
-      links: [
-        { label: m["landing.footer.blog"](), href: "/blog" },
-        { label: m["landing.footer.github"](), href: "https://github.com", external: true },
-      ],
+      links: [{ label: m["landing.footer.blog"](), href: "/blog" }],
     },
     {
       title: m["landing.footer.legal"](),
@@ -49,13 +39,22 @@ export function Footer() {
   ];
 
   const socials: FooterSocial[] = [
-    { icon: GithubIcon, href: "https://github.com", label: "GitHub" },
-    { icon: XIcon, href: "https://x.com", label: "X" },
+    {
+      icon: GithubIcon,
+      href: "https://github.com/aiimagedescrier/aiimagedescriber.io",
+      label: "GitHub",
+    },
+    {
+      icon: Mail,
+      href: "mailto:support@aiimagedescriber.io",
+      label: "Email",
+    },
   ];
 
   return (
     <SiteFooter
       tagline={m["landing.footer.tagline"]()}
+      description={m["landing.footer.brand_description"]()}
       columns={columns}
       socials={socials}
     />

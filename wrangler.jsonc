@@ -1,11 +1,9 @@
-// Cloudflare Workers deploy config — TEMPLATE.
-// The /deploy-cloudflare skill copies this to wrangler.jsonc (gitignored, your
-// working copy) and fills in the real values (D1 database_id, production URL).
+// Cloudflare Workers deploy config — aiimagedescriber.io
 // `pnpm cf:build` (NITRO_PRESET=cloudflare_module) merges wrangler.jsonc into
 // the generated .output/server/wrangler.json; deploy with `pnpm cf:deploy`.
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "videototexthub",
+	"name": "aiimagedescriber",
 	"main": "worker-entry.mjs",
 	"compatibility_date": "2026-06-08",
 	"compatibility_flags": [
@@ -18,35 +16,22 @@
 		"DATABASE_PROVIDER": "d1",
 		// Server-side runtime fallbacks for the build-time VITE_* values — keep in
 		// sync with .env.production (better-auth trustedOrigins, payment callbacks).
-		"VITE_APP_URL": "https://<worker>.<your-subdomain>.workers.dev",
-		"VITE_APP_NAME": "My App"
+		"VITE_APP_URL": "https://aiimagedescriber.io",
+		"VITE_APP_NAME": "AI Image Describer"
 	},
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "videototexthub",
-			"database_id": "8d385f94-6689-4582-be76-94b36240d310",
+			"database_name": "ai_img_describer_db",
+			"database_id": "b166720d-d7e2-42e4-9592-ba9db819c486",
 			"remote": true,
 			"migrations_dir": "drizzle"
 		}
 	],
-	"workflows": [
-		{
-			"name": "video-markdown-generator",
-			"binding": "VIDEO2TXT_WORKFLOW",
-			"class_name": "VideoMarkdownGeneratorWorkFlow",
-			"script_name": "do-container"
-		}
-	],
-	"durable_objects": {
-		"bindings": [
-			{
-				"name": "FFMPEG_CONTAINER",      // 在当前代码里用的变量名 env.MY_EXTERNAL_DO
-				"class_name": "FfmpegContainer", // 对方 Worker 导出的类名
-				"script_name": "do-container"  // 对方 Worker 的脚本名 (name字段)
-			}
-		]
-	}
+	// Daily free-quota counters (anonymous vs logged-in usage per day).
+	"kv_namespaces": [
+		{ "binding": "KV", "id": "e7efaa5af5f74cea8812a5ff70c53f4b" }
+	]
 	// ── Postgres via Hyperdrive (instead of D1) ────────────────────────────────
 	// 1. npx wrangler hyperdrive create <name> --connection-string="postgres://..." (your direct PG url)
 	// 2. Set vars.DATABASE_PROVIDER to "postgresql" and remove the d1_databases block

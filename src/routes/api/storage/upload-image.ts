@@ -4,7 +4,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { envConfigs } from '@/config';
 import { md5 } from '@/lib/hash';
 import { respData, respErr } from '@/lib/resp';
-import { getAuth } from '@/core/auth';
 import { getStorage } from '@/modules/storage/service';
 import { enforceMinIntervalRateLimit } from '@/lib/rate-limit';
 
@@ -34,10 +33,8 @@ async function POST({ request }: { request: Request }) {
   if (limited) return limited;
 
   try {
-    const auth = getAuth();
-    const session = await auth.api.getSession({ headers: request.headers });
-    if (!session?.user) return respErr('Unauthorized');
-
+    // No auth gate: the original aiimagedescriber route allows guest uploads
+    // (guests can describe images without signing in).
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
     if (!files.length) return respErr('No files provided');
