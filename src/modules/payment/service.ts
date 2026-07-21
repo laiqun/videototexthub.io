@@ -1,5 +1,5 @@
 import { eq, and, desc, isNull } from 'drizzle-orm';
-import { PaymentManager, StripeProvider, AlipayProvider, WechatPayProvider, CreemProvider } from '@/core/payment';
+import { PaymentManager, StripeProvider, PayPalProvider, AlipayProvider, WechatPayProvider, CreemProvider } from '@/core/payment';
 import type { PaymentOrder, CheckoutSession, PaymentEvent } from '@/core/payment/types';
 import { PaymentStatus, PaymentType } from '@/core/payment/types';
 import { getUuid, getUniSeq, getSnowId } from '@/lib/hash';
@@ -40,6 +40,10 @@ async function getPaymentManager(): Promise<PaymentManager> {
     c('stripe_secret_key') || c('stripe_api_key'),
     c('creem_enabled'),
     c('creem_api_key'),
+    c('paypal_enabled'),
+    c('paypal_client_id'),
+    c('paypal_client_secret'),
+    c('paypal_environment'),
     c('alipay_app_id'),
     c('wechat_mch_id'),
     c('default_payment_provider'),
@@ -71,6 +75,19 @@ async function getPaymentManager(): Promise<PaymentManager> {
         apiKey: c('creem_api_key'),
         signingSecret: c('creem_signing_secret') || undefined,
         environment: c('creem_environment') === 'production' ? 'production' : 'sandbox',
+      }),
+      isDefault
+    );
+  }
+
+  if (c('paypal_enabled') === 'true' && c('paypal_client_id') && c('paypal_client_secret')) {
+    const isDefault = c('default_payment_provider') === 'paypal';
+    manager.addProvider(
+      new PayPalProvider({
+        clientId: c('paypal_client_id'),
+        clientSecret: c('paypal_client_secret'),
+        environment: c('paypal_environment') === 'sandbox' ? 'sandbox' : 'production',
+        webhookId: c('paypal_webhook_id') || undefined,
       }),
       isDefault
     );
