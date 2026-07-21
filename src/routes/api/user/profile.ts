@@ -6,36 +6,6 @@ import { db } from '@/core/db';
 import { user } from '@/config/db/schema';
 import { envConfigs } from '@/config';
 
-async function GET({ request }: { request: Request }) {
-  try {
-    const auth = getAuth();
-    const session = await auth.api.getSession({ headers: request.headers });
-
-    if (!session?.user) {
-      return respErr('Unauthorized');
-    }
-
-    const [currentUser] = await db()
-      .select({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        image: user.image,
-      })
-      .from(user)
-      .where(eq(user.id, session.user.id))
-      .limit(1);
-
-    if (!currentUser) {
-      return respErr('User not found');
-    }
-
-    return respData(currentUser);
-  } catch (error: any) {
-    return respErr(error.message || 'Internal error');
-  }
-}
-
 async function PATCH({ request }: { request: Request }) {
   try {
     const auth = getAuth();
@@ -107,6 +77,6 @@ async function PATCH({ request }: { request: Request }) {
 
 export const Route = createFileRoute('/api/user/profile')({
   server: {
-    handlers: { GET, PATCH },
+    handlers: { PATCH },
   },
 });

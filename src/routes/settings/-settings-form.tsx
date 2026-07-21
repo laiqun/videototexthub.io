@@ -32,7 +32,7 @@ export function SettingsForm({
   email: string;
   image: string;
 }) {
-  const [image, setImage] = useState(initialImage);
+    const [image, setImage] = useState(initialImage);
   const queryClient = useQueryClient();
 
   const saveMutation = useMutation({
@@ -40,7 +40,6 @@ export function SettingsForm({
       apiPatch("/api/user/profile", values),
     onSuccess: () => {
       toast.success(m["settings.profile.saved"]());
-      queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       queryClient.invalidateQueries({ queryKey: ["user-info"] });
     },
     onError: (err: any) => {
