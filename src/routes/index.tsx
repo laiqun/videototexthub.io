@@ -10,7 +10,6 @@ import { Showcases } from "@/blocks/showcases";
 import { FAQ } from "@/blocks/faq";
 import { CTA } from "@/blocks/cta";
 import { Footer } from "@/blocks/footer";
-import { SupportWidget } from "@/blocks/support-widget";
 import { envConfigs } from "@/config";
 import { tDynamic } from "@/core/i18n/dynamic";
 import { m } from "@/paraglide/messages.js";
@@ -145,7 +144,6 @@ function HomePage() {
         <CTA />
       </main>
       <Footer />
-      <SupportWidget />
     </div>
   );
 }

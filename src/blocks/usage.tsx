@@ -1,52 +1,48 @@
+import { ArrowBigRight } from "lucide-react";
 import { tDynamic } from "@/core/i18n/dynamic";
 import { m } from "@/paraglide/messages.js";
 
-const IMAGES = [
-  "/imgs/features/5.png",
-  "/imgs/features/6.png",
-  "/imgs/features/7.png",
-  "/imgs/features/8.png",
-];
+const STEPS = [1, 2, 3, 4] as const;
 
 export function Usage() {
   return (
-    <section id="usage" className="px-4 py-24 sm:py-32 bg-muted/40">
-      <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-20">
-          <h2 className="font-serif font-normal text-4xl sm:text-5xl tracking-tight">
-            {m["landing.usage.title"]()}
-          </h2>
-          <p className="mt-5 text-muted-foreground max-w-lg mx-auto">
-            {m["landing.usage.description"]()}
-          </p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {IMAGES.map((image, i) => (
-            <div
-              key={i}
-              className="relative flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:shadow-sm"
-            >
-              <span className="font-serif text-4xl text-muted-foreground/40">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div className="space-y-2">
-                <h3 className="font-medium">
-                  {tDynamic(`landing.usage.items.${i + 1}.title`)}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {tDynamic(`landing.usage.items.${i + 1}.description`)}
-                </p>
+    <section id="usage" className="py-16 md:py-24 bg-muted">
+      <div className="m-4 rounded-[2rem]">
+        <div className="@container relative mx-auto max-w-7xl px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-foreground mt-4 text-4xl font-semibold">
+              {m["landing.usage.title"]()}
+            </h2>
+            <p className="text-muted-foreground mt-4 text-lg text-balance">
+              {m["landing.usage.description"]()}
+            </p>
+          </div>
+          <div className="mt-20 grid gap-12 @3xl:grid-cols-4">
+            {STEPS.map((step) => (
+              <div key={step} className="space-y-6">
+                <div className="text-center">
+                  <span className="mx-auto flex size-6 items-center justify-center rounded-full bg-zinc-500/15 text-sm font-medium">
+                    {step}
+                  </span>
+                  <div className="relative">
+                    <div className="mx-auto my-6 w-fit" />
+                    {step < STEPS.length && (
+                      <ArrowBigRight
+                        aria-hidden="true"
+                        className="fill-muted stroke-primary absolute inset-y-0 right-0 my-auto mt-1 hidden translate-x-[150%] drop-shadow @3xl:block"
+                      />
+                    )}
+                  </div>
+                  <h3 className="text-foreground mb-4 text-lg font-semibold">
+                    {tDynamic(`landing.usage.items.${step}.title`)}
+                  </h3>
+                  <p className="text-muted-foreground text-balance">
+                    {tDynamic(`landing.usage.items.${step}.description`)}
+                  </p>
+                </div>
               </div>
-              <div className="overflow-hidden rounded-xl border border-border bg-muted">
-                <img
-                  src={image}
-                  alt={tDynamic(`landing.usage.items.${i + 1}.title`)}
-                  loading="lazy"
-                  className="aspect-[16/9] w-full object-cover"
-                />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

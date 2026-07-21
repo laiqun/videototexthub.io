@@ -687,7 +687,7 @@ export function ImageDescriberTool() {
 
   return (
     <section id="image-describer-tool" className={cn('py-0 md:py-0')}>
-      <div className="container">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-serif text-3xl font-normal tracking-tight sm:text-4xl">
             {m['landing.tool.title']()}

@@ -3,7 +3,6 @@ import { m } from "@/paraglide/messages.js";
 import { LayoutDashboard, User, CreditCard, Key, Receipt, Coins, Home, LifeBuoy } from "lucide-react";
 
 import { AppLayout } from "@/components/app-layout";
-import { SupportWidget } from "@/blocks/support-widget";
 import { envConfigs } from "@/config";
 
 export const Route = createFileRoute('/settings')({
@@ -30,7 +29,6 @@ function SettingsLayout() {
   return (
     <AppLayout navItems={navItems} footerNavItems={footerNavItems} brand={envConfigs.app_name} brandHref="/settings">
       <Outlet />
-      <SupportWidget />
     </AppLayout>
   );
 }

@@ -3,7 +3,7 @@
 // the generated .output/server/wrangler.json; deploy with `pnpm cf:deploy`.
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "aiimagedescriber",
+	"name": "aiimagedescriber_tanstack",
 	"main": "worker-entry.mjs",
 	"compatibility_date": "2026-06-08",
 	"compatibility_flags": [
