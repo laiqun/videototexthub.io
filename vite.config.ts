@@ -58,6 +58,10 @@ export const paraglideOptions = {
       localized: [
         ['en', '/api/:path(.*)?'],
         ['zh', '/api/:path(.*)?'],
+        ['es', '/api/:path(.*)?'],
+        ['de', '/api/:path(.*)?'],
+        ['fr', '/api/:path(.*)?'],
+        ['ja', '/api/:path(.*)?'],
       ],
     },
     // Bare locale homes match without a trailing-slash redirect.
@@ -65,14 +69,22 @@ export const paraglideOptions = {
       pattern: '/',
       localized: [
         ['zh', '/zh'],
+        ['es', '/es'],
+        ['de', '/de'],
+        ['fr', '/fr'],
+        ['ja', '/ja'],
         ['en', '/'],
       ],
     },
-    // "as-needed" prefix: zh under /zh, en (default) unprefixed.
+    // "as-needed" prefix: non-base locales under /<locale>, en (default) unprefixed.
     {
       pattern: '/:path(.*)?',
       localized: [
         ['zh', '/zh/:path(.*)?'],
+        ['es', '/es/:path(.*)?'],
+        ['de', '/de/:path(.*)?'],
+        ['fr', '/fr/:path(.*)?'],
+        ['ja', '/ja/:path(.*)?'],
         ['en', '/:path(.*)?'],
       ],
     },
