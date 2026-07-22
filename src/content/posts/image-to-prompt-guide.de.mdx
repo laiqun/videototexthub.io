@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Image to Prompt: So verwandelst du jedes Bild in einen KI-Prompt',
+  description:
+    'Erfahre, wie Image to Prompt funktioniert, wie du Prompts für Midjourney, Stable Diffusion und Flux zurückentwickelst und wie du bessere Ergebnisse aus KI-Bildgeneratoren holst.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Image to Prompt ist der Prozess, ein Bild zurück in genau den Text-Prompt zu übersetzen, der es hätte erzeugen können. Statt zu raten, welche Wörter einen bestimmten Stil hervorbringen, lädst du das Bild hoch und lässt ein KI-Modell den Prompt für dich schreiben — mit Motiv, Komposition, Licht, Farbpalette und künstlerischem Stil in einer Form, die KI-Bildgeneratoren verstehen.
+
+Wenn du schon einmal ein Bild gesehen und gedacht hast: „Wie mache ich so etwas in Midjourney?" — dann ist Image to Prompt die Antwort.
+
+## Was ist Image to Prompt?
+
+KI-Bildgeneratoren wie Midjourney, Stable Diffusion und Flux verwandeln Text in Bilder. Image to Prompt dreht diesen Prozess um: Es nimmt ein Bild als Eingabe und liefert einen Text-Prompt als Ausgabe. Das Ergebnis wird manchmal auch „Reverse Prompt" oder „Prompt-Extraktion" genannt.
+
+Ein gutes Image-to-Prompt-Tool listet nicht nur Objekte auf. Es erfasst:
+
+- Das Motiv und was es tut
+- Komposition und Bildausschnitt (Nahaufnahme, Totale, Drittel-Regel)
+- Licht (goldene Stunde, Studio-Softbox, Neon-Rimlight)
+- Farbpalette und Stimmung
+- Künstlerischen Stil (cinematisch, Aquarell, 3D-Render, Anime)
+- Kamera- und Objektivsprache (85-mm-Portrait, geringe Tiefenschärfe)
+
+Genau das sind die Details, die KI-generierten Bildern ihren Look verleihen — und die Details, die die meisten Menschen nur schwer selbst formulieren können.
+
+## Warum Prompts zurückentwickeln?
+
+Der häufigste Anwendungsfall ist das Nachbauen eines Stils. Du findest ein Bild mit einem Look, der dir gefällt — ein Produktfoto, eine Illustration, ein cinematisches Portrait — und willst mehr Bilder in diesem Stil, aber mit deinem eigenen Motiv. Image to Prompt liefert dir das Stil-Rezept; du tauschst das Motiv aus und generierst los.
+
+Es ist außerdem einer der schnellsten Wege, Prompt Engineering zu lernen. Prompts zu lesen, die echte Bilder beschreiben, zeigt dir, welche Wörter wirklich zählen: Begriffe für Licht, Objektive, Stil-Keywords und Komposition. Nach einem Dutzend Extraktionen schreibst du selbst spürbar bessere Prompts.
+
+Weitere praktische Einsatzzwecke sind:
+
+- Einen konsistenten visuellen Stil für eine Marke oder Content-Serie aufbauen
+- Ein KI-Bild nachbauen, wenn du den ursprünglichen Prompt verloren hast
+- Einen Stil von einem Generator auf einen anderen übertragen (z. B. Midjourney → Flux)
+- Prompt-Varianten für A/B-Tests von Marketing-Visuals erstellen
+
+## Wie Image to Prompt funktioniert
+
+Moderne Image-to-Prompt-Tools nutzen multimodale KI-Modelle — Modelle, die Bilder „sehen" und sprachlich darüber nachdenken können. Wenn du ein Bild hochlädst, analysiert das Modell seinen visuellen Inhalt und schreibt eine strukturierte Beschreibung, die auf Bildgenerierung abgestimmt ist.
+
+Die Anweisung ist dabei genauso wichtig wie das Modell. Eine allgemeine Anweisung erzeugt einen allgemeinen Prompt, während eine Midjourney-spezifische Anweisung eine Ausgabe mit Midjourney-Konventionen liefert — Seitenverhältnis-Flags, Stylize-Parameter und die knappe, keyword-lastige Formulierung, auf die Midjourney am besten reagiert.
+
+Deshalb gibt es eigene Presets: Dasselbe Bild ergibt je nach Generator, für den du den Prompt verwenden willst, einen anderen Prompt.
+
+## So funktioniert es
+
+Das [kostenlose Image-to-Prompt-Tool](/image-to-prompt) zu nutzen, dauert nur drei Schritte:
+
+1. **Lade dein Bild hoch.** Ziehe ein JPG, PNG oder WebP hinein. Artworks, Fotos, Screenshots und KI-generierte Bilder funktionieren alle. Du kannst bis zu 9 Bilder gleichzeitig hochladen und stapelweise konvertieren.
+2. **Wähle einen Prompt-Stil.** Entscheide dich für General, Midjourney, Stable Diffusion oder Flux. Das General-Preset funktioniert mit DALL·E, Ideogram und den meisten anderen Text-zu-Bild-Modellen.
+3. **Kopieren und loslegen.** Füge den generierten Prompt in deinen Bildgenerator ein, ersetze bei Bedarf das Motiv durch dein eigenes und iteriere.
+
+Es ist kein Konto erforderlich, und es gibt ein kostenloses Tageskontingent.
+
+## General vs. Midjourney vs. Stable Diffusion vs. Flux Prompts
+
+Jeder Generator hat seinen eigenen Prompt-Dialekt:
+
+- **General Prompts** sind Beschreibungen in natürlicher Sprache, die modellübergreifend funktionieren. Sie setzen auf Klarheit: Motiv, Umgebung, Stil, Licht, Stimmung.
+- **Midjourney Prompts** sind kompakt und keyword-dicht. Sie enthalten oft Parameter wie `--ar 16:9` für das Seitenverhältnis und `--s` für die Stilisierung, und sie belohnen starke Stil-Adjektive mehr als ganze Sätze.
+- **Stable Diffusion Prompts** setzen auf kommagetrennte Tags und Qualitäts-Tokens („masterpiece, best quality, detailed") und lassen sich gut mit negativen Prompts kombinieren, um Artefakte auszuschließen.
+- **Flux Prompts** bevorzugen reichhaltige, beschreibende natürliche Sprache. Flux folgt längeren Sätzen treuer als frühere Modelle — Details zahlen sich also aus.
+
+Wenn du unsicher bist, welchen du nehmen sollst, starte mit dem General-Prompt und wechsle dann die Presets zum Vergleichen — die Unterschiede verraten dir viel über jeden Generator.
+
+## Tipps für bessere Ergebnisse
+
+- **Nutze saubere Ausgangsbilder.** Je klarer Motiv und Stil, desto präziser der extrahierte Prompt.
+- **Schneide Störendes weg.** Wasserzeichen, Rahmen und UI-Elemente können in den Prompt durchsickern.
+- **Behandle die Ausgabe als Entwurf.** Ersetze das Motiv, passe das Seitenverhältnis an und entferne unerwünschte Details, bevor du generierst.
+- **Vergleiche die Presets.** Dasselbe Bild durch zwei Presets zu schicken, zeigt dir, auf welche Stil-Merkmale jeder Generator Wert legt.
+- **Kombiniere bei Bedarf mit OCR.** Wenn dein Bild Text enthält, den du ebenfalls brauchst, holt ihn das Tool [Text aus Bildern extrahieren](/extract-text-from-picture) heraus und bewahrt dabei das Layout.
+
+## Fazit
+
+Image to Prompt verwandelt visuelle Inspiration in einen editierbaren Ausgangspunkt. Statt Stile per Trial and Error zurückzuentwickeln, bekommst du in Sekunden einen strukturierten Prompt — einen, den du lesen, verstehen und anpassen kannst.
+
+Probier es jetzt auf der [Image-to-Prompt-Seite](/image-to-prompt) aus: Lade ein Bild hoch, dessen Stil dich begeistert, und schau dir an, wie der Prompt klingt. Die Lücke zwischen „Das würde ich auch gern können" und „So genau geht es" ist kleiner, als sie aussieht.
