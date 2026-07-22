@@ -37,6 +37,18 @@ export function Footer() {
           label: m["landing.footer.extract_text"](),
           href: "/extract-text-from-picture",
         },
+        {
+          label: m["landing.footer.photo_description"](),
+          href: "/photo-description",
+        },
+        {
+          label: m["landing.footer.how_to_use"](),
+          href: "/how-to-use",
+        },
+        {
+          label: m["landing.footer.batch"](),
+          href: "/batch",
+        },
       ],
     },
     {
