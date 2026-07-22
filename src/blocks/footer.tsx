@@ -33,6 +33,10 @@ export function Footer() {
           label: m["landing.footer.image_to_prompt"](),
           href: "/image-to-prompt",
         },
+        {
+          label: m["landing.footer.extract_text"](),
+          href: "/extract-text-from-picture",
+        },
       ],
     },
     {

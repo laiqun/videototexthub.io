@@ -8,6 +8,7 @@ const STATIC_PATHS = [
   '',
   '/pricing',
   '/image-to-prompt',
+  '/extract-text-from-picture',
   '/blog',
   '/privacy-policy',
   '/terms-of-service',
