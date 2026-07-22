@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Cómo generar texto alternativo en masa con IA',
+  description:
+    'Deja de escribir el texto alternativo a mano. Aprende a generar en masa texto alternativo accesible y optimizado para SEO para cientos de imágenes con IA, y expórtalo directo a tu CMS.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+El texto alternativo es una de esas tareas que todos coinciden en que importa y para las que casi nadie tiene tiempo. Una biblioteca de contenido con unos cientos de imágenes significa horas de escribir descripciones a mano, así que la tarea se va postergando en silencio y los sitios se publican con atributos `alt` vacíos o con rellenos inútiles como "image1.jpg".
+
+La IA cambia la ecuación: las descripciones se pueden generar en masa, revisar rápidamente y exportar en un solo archivo. Así se configura ese flujo de trabajo.
+
+## Por qué importa el texto alternativo
+
+El texto alternativo sirve a dos audiencias a la vez. Para las personas que usan lectores de pantalla, es la única forma de entender qué muestra una imagen: un requisito de accesibilidad y, en muchas jurisdicciones, también legal. Para los motores de búsqueda, es una señal de posicionamiento: Google lee el texto alternativo para entender el contenido de las imágenes, y la búsqueda de imágenes puede ser una fuente real de tráfico para el e-commerce, los blogs y la documentación.
+
+Omitirlo significa excluir usuarios y dejar tráfico orgánico sobre la mesa.
+
+## El problema de escribirlo a mano
+
+Un buen texto alternativo es específico: no "perro", sino "un cachorro de golden retriever durmiendo en un sofá azul". Escribir eso para cinco imágenes es fácil. Escribirlo para quinientas fotos de producto, ilustraciones de blog o capturas de documentación es un proyecto por el que nadie se ofrece como voluntario, así que la calidad se desploma a medida que crece la cantidad.
+
+La solución no es preocuparse menos por el texto alternativo. Es cambiar quién escribe el primer borrador.
+
+## El flujo de trabajo por lotes
+
+La [herramienta de descripción de imágenes por lotes](/batch) está hecha exactamente para esto:
+
+1. **Sube hasta 9 imágenes a la vez.** JPG, PNG o WebP, de hasta 20 MB cada una. Ejecuta tantos lotes como necesites.
+2. **Elige el estilo de descripción.** Un preset breve produce texto alternativo de una línea; un preset detallado genera descripciones más completas para imágenes complejas. Elige un solo idioma de salida para todo el lote.
+3. **Revisa los resultados.** Cada imagen recibe su propio resultado en streaming. Dale una pasada rápida para verificar la precisión: las descripciones de IA son un primer borrador sólido, y una revisión breve atrapa el error ocasional.
+4. **Exporta todo.** Descarga el lote como CSV o JSON. Cada fila incluye el nombre del archivo y su descripción, listos para mapear sobre tu biblioteca de imágenes.
+
+Una biblioteca de 200 imágenes son unos 20 lotes: una tarde de revisión ligera en lugar de una semana de escritura.
+
+## Cómo luce un buen texto alternativo generado por IA
+
+El mejor texto alternativo describe lo que la imagen comunica, no solo lo que contiene. Al revisar el resultado de la IA, conserva las descripciones que sean:
+
+- **Específicas**: nombran el sujeto y el detalle relevante ("mujer escribiendo en una laptop en una cafetería", no "persona con computadora")
+- **Concisas**: una o dos oraciones; los lectores de pantalla lo leen en voz alta
+- **Contextuales**: una foto de producto necesita el nombre del producto y el ángulo; un gráfico necesita su conclusión
+- **Libres de relleno**: nada de "imagen de" o "foto que muestra"; el atributo `alt` ya lo implica
+
+Edita cualquier cosa a la que le falte contexto que la IA no puede conocer, como por qué importa esta captura de pantalla en tu tutorial.
+
+## Cómo llevarlo a tu CMS
+
+El CSV exportado encaja limpiamente con la mayoría de las herramientas de importación de CMS: el nombre del archivo de un lado, el texto alternativo del otro. Para WordPress, Shopify o un CMS headless, importa o programa el mapeo una vez y cada lote futuro seguirá el mismo camino. Si también necesitas leyendas más largas o descripciones SEO para las mismas imágenes, vuelve a ejecutar el lote con un preset distinto: la subida es la misma.
+
+## Accesibilidad y SEO son el mismo trabajo
+
+Es tentador tratar el texto alternativo como una tarea de accesibilidad con un beneficio SEO secundario. En la práctica, ambos objetivos quieren lo mismo: una descripción precisa, específica y legible para humanos. Escríbela una vez y sirve a los dos.
+
+Empieza con tus páginas de mayor tráfico, procesa sus imágenes por lotes con la [herramienta de descripción en masa](/batch) y ve bajando por la lista. Tus usuarios de lectores de pantalla y tus posiciones en buscadores mejoran juntos.

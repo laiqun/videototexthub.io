@@ -8,4 +8,9 @@ export const localeNames: Record<string, string> = {
   de: 'Deutsch',
   fr: 'Français',
   ja: '日本語',
+  ru: 'Русский',
+  pt: 'Português',
+  pl: 'Polski',
+  nl: 'Nederlands',
+  it: 'Italiano',
 };

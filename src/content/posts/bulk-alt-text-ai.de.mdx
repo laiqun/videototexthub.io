@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Alt-Texte in großen Mengen mit KI generieren',
+  description:
+    'Hör auf, Alt-Texte von Hand zu schreiben. Erfahre, wie du mit KI barrierefreie, SEO-freundliche Alt-Texte für Hunderte Bilder im Batch erzeugst und direkt ins CMS exportierst.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Alt-Text gehört zu den Aufgaben, bei denen sich alle einig sind, dass sie wichtig sind — und für die fast niemand Zeit hat. Eine Bildbibliothek mit ein paar Hundert Bildern bedeutet Stunden manuellen Schreibens — also schleift es sich still ein, und Websites gehen mit leeren `alt`-Attributen oder nutzlosem Fülltext wie „image1.jpg" live.
+
+KI verändert die Rechnung: Beschreibungen lassen sich im Batch generieren, schnell prüfen und in einer Datei exportieren. So richtest du diesen Workflow ein.
+
+## Warum Alt-Text wichtig ist
+
+Alt-Text bedient zwei Zielgruppen gleichzeitig. Für Menschen mit Screenreadern ist er der einzige Weg zu verstehen, was ein Bild zeigt — eine Anforderung an Barrierefreiheit und in vielen Ländern eine gesetzliche Pflicht. Für Suchmaschinen ist er ein Ranking-Signal: Google liest Alt-Texte, um Bildinhalte zu verstehen, und die Bildersuche kann für E-Commerce, Blogs und Dokumentation eine echte Traffic-Quelle sein.
+
+Wer ihn weglässt, schließt Nutzer aus und verschenkt organischen Traffic.
+
+## Das Problem beim manuellen Schreiben
+
+Guter Alt-Text ist spezifisch: nicht „Hund", sondern „ein Golden-Retriever-Welpe, der auf einem blauen Sofa schläft". Das für fünf Bilder zu schreiben ist einfach. Es für fünfhundert Produktfotos, Blog-Illustrationen oder Doku-Screenshots zu schreiben, ist ein Projekt, für das sich niemand freiwillig meldet — also bricht die Qualität ein, sobald die Menge wächst.
+
+Die Lösung ist nicht, sich weniger um Alt-Text zu kümmern. Sondern zu ändern, wer den ersten Entwurf schreibt.
+
+## Der Batch-Workflow
+
+Das [Batch-Tool für Bildbeschreibungen](/batch) ist genau dafür gebaut:
+
+1. **Lade bis zu 9 Bilder gleichzeitig hoch.** JPG, PNG oder WebP, je bis zu 20 MB. Führe so viele Batches aus, wie du brauchst.
+2. **Wähle den Beschreibungsstil.** Ein kurzes Preset erzeugt einzeiligen Alt-Text; ein detailliertes Preset liefert ausführlichere Beschreibungen für komplexe Bilder. Lege eine Ausgabesprache für den ganzen Batch fest.
+3. **Prüfe die Ergebnisse.** Jedes Bild bekommt sein eigenes gestreamtes Ergebnis. Überfliege es auf Genauigkeit — KI-Beschreibungen sind ein starker erster Entwurf, und ein kurzer Durchgang fängt den gelegentlichen Ausrutscher ab.
+4. **Exportiere alles.** Lade den Batch als CSV oder JSON herunter. Jede Zeile enthält Dateiname und Beschreibung, bereit zum Abgleich mit deiner Bildbibliothek.
+
+Eine Bibliothek mit 200 Bildern sind ungefähr 20 Batches — ein Nachmittag lockerer Prüfung statt einer Woche Schreiben.
+
+## Wie guter KI-generierter Alt-Text aussieht
+
+Der beste Alt-Text beschreibt, was das Bild vermittelt, nicht nur, was es enthält. Behalte beim Prüfen der KI-Ausgabe Beschreibungen, die:
+
+- **Spezifisch sind** — sie nennen das Motiv und das relevante Detail („Frau, die in einem Café an einem Laptop tippt", nicht „Person mit Computer")
+- **Prägnant sind** — ein bis zwei Sätze; Screenreader lesen ihn laut vor
+- **Kontext haben** — ein Produktfoto braucht Produktname und Perspektive; ein Diagramm braucht seine Kernaussage
+- **Ohne Füllwörter auskommen** — kein „Bild von" oder „Foto, das zeigt"; das `alt`-Attribut impliziert das bereits
+
+Bearbeite alles, bei dem Kontext fehlt, den die KI nicht kennen kann — etwa, warum dieser Screenshot in deinem Tutorial wichtig ist.
+
+## So kommt er in dein CMS
+
+Die exportierte CSV passt sauber zu den meisten CMS-Import-Tools: Dateiname auf der einen Seite, Alt-Text auf der anderen. Für WordPress, Shopify oder ein Headless-CMS importierst oder scriptest du das Mapping einmal — jeder künftige Batch läuft denselben Weg. Wenn du für dieselben Bilder auch längere Captions oder SEO-Beschreibungen brauchst, führe den Batch einfach mit einem anderen Preset erneut aus — der Upload bleibt derselbe.
+
+## Barrierefreiheit und SEO sind dieselbe Arbeit
+
+Es ist verlockend, Alt-Text als Barrierefreiheits-Pflicht mit SEO-Nebeneffekt zu behandeln. In der Praxis wollen beide Ziele dasselbe: eine genaue, spezifische, menschenlesbare Beschreibung. Einmal schreiben, beide bedienen.
+
+Beginne mit deinen Seiten mit dem meisten Traffic, verarbeite deren Bilder im Batch mit dem [Tool für Massenbeschreibungen](/batch) und arbeite dich die Liste hinunter. Deine Screenreader-Nutzer und deine Suchrankings verbessern sich gemeinsam.

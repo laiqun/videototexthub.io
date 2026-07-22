@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Como Gerar Texto Alternativo em Massa com IA',
+  description:
+    'Pare de escrever texto alternativo à mão. Aprenda a gerar em lote textos alternativos acessíveis e otimizados para SEO para centenas de imagens com IA, e exporte direto para o seu CMS.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Texto alternativo é uma daquelas tarefas que todos concordam ser importante e para as quais quase ninguém tem tempo. Uma biblioteca de conteúdo com algumas centenas de imagens significa horas escrevendo descrições à mão — então a tarefa vai escorregando discretamente, e os sites vão ao ar com atributos `alt` vazios ou preenchimentos inúteis como "imagem1.jpg".
+
+A IA muda essa equação: as descrições podem ser geradas em massa, revisadas rapidamente e exportadas em um único arquivo. Veja como montar esse fluxo de trabalho.
+
+## Por Que o Texto Alternativo Importa
+
+O texto alternativo atende a dois públicos ao mesmo tempo. Para quem usa leitores de tela, é a única forma de entender o que uma imagem mostra — um requisito de acessibilidade e, em muitas jurisdições, uma exigência legal. Para os mecanismos de busca, é um sinal de ranqueamento: o Google lê o texto alternativo para entender o conteúdo das imagens, e a busca por imagens pode ser uma fonte real de tráfego para e-commerce, blogs e documentação.
+
+Ignorá-lo significa excluir usuários e deixar tráfego orgânico na mesa.
+
+## O Problema de Escrevê-lo à Mão
+
+Um bom texto alternativo é específico: não "cachorro", mas "um filhote de golden retriever dormindo em um sofá azul". Escrever isso para cinco imagens é fácil. Escrever para quinhentas fotos de produtos, ilustrações de blog ou capturas de tela de documentação é um projeto para o qual ninguém se voluntaria — então a qualidade desaba à medida que a quantidade cresce.
+
+A solução não é se importar menos com o texto alternativo. É mudar quem escreve o primeiro rascunho.
+
+## O Fluxo de Trabalho em Lote
+
+A [ferramenta de descrição de imagens em lote](/batch) foi feita exatamente para isso:
+
+1. **Envie até 9 imagens de uma vez.** JPG, PNG ou WebP, com até 20 MB cada. Execute quantos lotes precisar.
+2. **Escolha o estilo de descrição.** Um preset breve produz texto alternativo de uma linha; um preset detalhado gera descrições mais completas para imagens complexas. Escolha um único idioma de saída para todo o lote.
+3. **Revise os resultados.** Cada imagem recebe seu próprio resultado transmitido em tempo real. Faça uma leitura rápida de precisão — as descrições da IA são um ótimo primeiro rascunho, e uma passada rápida pega o erro ocasional.
+4. **Exporte tudo.** Baixe o lote como CSV ou JSON. Cada linha inclui o nome do arquivo e sua descrição, prontos para mapear sobre a sua biblioteca de imagens.
+
+Uma biblioteca de 200 imagens equivale a cerca de 20 lotes — uma tarde de revisão leve em vez de uma semana de redação.
+
+## Como é um Bom Texto Alternativo Gerado por IA
+
+O melhor texto alternativo descreve o que a imagem transmite, e não apenas o que ela contém. Ao revisar o resultado da IA, mantenha as descrições que são:
+
+- **Específicas** — nomeiam o sujeito e o detalhe relevante ("mulher digitando em um laptop em uma cafeteria", e não "pessoa com computador")
+- **Concisas** — uma ou duas frases; os leitores de tela leem em voz alta
+- **Contextuais** — uma foto de produto precisa do nome do produto e do ângulo; um gráfico precisa da sua conclusão
+- **Sem enchimento** — nada de "imagem de" ou "foto mostrando"; o atributo `alt` já implica isso
+
+Edite qualquer coisa que perca um contexto que a IA não tem como saber — como por que aquela captura de tela importa no seu tutorial.
+
+## Como Levar Tudo para o Seu CMS
+
+O CSV exportado se encaixa facilmente na maioria das ferramentas de importação de CMS: nome do arquivo de um lado, texto alternativo do outro. Para WordPress, Shopify ou um CMS headless, importe ou crie o script do mapeamento uma vez, e todos os lotes futuros seguem o mesmo caminho. Se você também precisar de legendas mais longas ou descrições de SEO para as mesmas imagens, execute o lote novamente com outro preset — o envio é o mesmo.
+
+## Acessibilidade e SEO São o Mesmo Trabalho
+
+É tentador tratar o texto alternativo como uma obrigação de acessibilidade com um benefício de SEO de brinde. Na prática, os dois objetivos querem a mesma coisa: uma descrição precisa, específica e legível por humanos. Escreva uma vez, atenda aos dois.
+
+Comece pelas suas páginas de maior tráfego, processe as imagens delas em lote com a [ferramenta de descrição em massa](/batch) e vá descendo na lista. Seus usuários de leitores de tela e seus ranqueamentos de busca melhoram juntos.

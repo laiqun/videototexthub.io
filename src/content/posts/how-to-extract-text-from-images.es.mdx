@@ -1,0 +1,61 @@
+export const meta = {
+  title: 'Cómo extraer texto de imágenes: guía práctica de OCR',
+  description:
+    'Aprende a extraer texto de imágenes, capturas de pantalla y documentos escaneados con OCR basado en IA, con consejos de precisión, compatibilidad de idiomas y flujos de trabajo por lotes.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Extraer texto de imágenes solía significar instalar software de OCR, ajustar configuraciones y cruzar los dedos para que el resultado fuera utilizable. La IA moderna cambió eso: subes una imagen y un modelo multimodal lee el texto como lo haría una persona, incluyendo el diseño, los idiomas mezclados y las fotos imperfectas.
+
+Esta guía explica cuándo conviene extraer texto, cómo hacerlo bien y cómo procesar muchas imágenes a la vez.
+
+## ¿Qué es el OCR y por qué importa?
+
+OCR (reconocimiento óptico de caracteres) convierte el texto contenido en imágenes en texto editable, buscable y copiable. El texto de una captura de pantalla, un contrato escaneado o la foto de un recibo te parece legible, pero para una computadora no es más que píxeles hasta que el OCR lo transforma en caracteres.
+
+Una vez extraído, puedes buscar el texto, pegarlo en documentos, traducirlo, pasarlo a otras herramientas o archivarlo correctamente. Por eso el OCR trabaja silenciosamente detrás de una enorme cantidad de flujos de trabajo cotidianos.
+
+## Situaciones comunes en las que lo necesitas
+
+- **Capturas de pantalla**: mensajes de error, conversaciones de chat, fragmentos de código o diapositivas que quieres como texto real y no como imagen
+- **Documentos escaneados**: contratos, formularios y papeleo antiguo que deben convertirse en archivos editables
+- **Recibos y facturas**: extraer montos, fechas y nombres de proveedores para el control de gastos
+- **Fotos de texto físico**: letreros, menús, páginas de libros, pizarras, tarjetas de presentación
+- **Imágenes de redes sociales**: citas e infografías que quieres citar o reutilizar
+
+Las herramientas de OCR tradicionales funcionaban bien con escaneos limpios, pero fallaban con las fotos: la perspectiva, las sombras y las tipografías decorativas las rompían. La extracción basada en IA es mucho más tolerante porque el modelo entiende el contexto, no solo la forma de los caracteres.
+
+## Cómo extraer texto de una imagen
+
+Usar la [herramienta extract text from picture](/extract-text-from-picture) toma tres pasos:
+
+1. **Sube tu imagen.** Arrastra un JPG, PNG o WebP: hasta 9 imágenes a la vez, de 20 MB cada una.
+2. **Genera.** El preset de extracción de texto viene preseleccionado, así que solo tienes que ejecutarlo. La IA transcribe cada región de texto preservando los saltos de línea y el diseño.
+3. **Copia o exporta.** Copia los resultados individuales o exporta todo el lote como CSV o JSON.
+
+No se requiere cuenta y hay una cuota diaria gratuita.
+
+## Consejos para mejor precisión
+
+- **Mientras más nítida, mejor.** Las imágenes de alta resolución y alto contraste dan los resultados más limpios. Si puedes repetir una foto de frente en lugar de en ángulo, hazlo.
+- **Recorta hasta el contenido.** Los bordes, los elementos de interfaz y el desorden de fondo pueden confundir la transcripción.
+- **Cuida la iluminación.** Los reflejos y las sombras profundas sobre el texto son la causa más común de caracteres perdidos.
+- **Define el idioma de salida.** La herramienta puede responder en tu idioma preferido, lo que también le ayuda a resolver caracteres ambiguos.
+- **Revisa los números con cuidado.** Las fechas, los montos y los identificadores merecen una verificación humana rápida: ahí es donde más duelen los errores.
+
+La escritura a mano clara también suele reconocerse, pero el texto impreso sigue siendo lo más confiable. Si un resultado se ve raro, prueba con un recorte más ajustado o una imagen más nítida antes de rendirte.
+
+## Idiomas y contenido mixto
+
+La extracción con IA maneja decenas de idiomas (inglés, chino, japonés, coreano y los principales idiomas europeos), incluidas imágenes donde varios idiomas aparecen lado a lado. Es una mejora importante frente al OCR clásico, que normalmente exigía declarar un solo idioma de antemano y aun así se confundía con el contenido mixto.
+
+## Cómo procesar muchas imágenes a la vez
+
+La extracción puntual es fácil; lo que consume tiempo son los lotes: una carpeta de recibos, un mes de capturas de pantalla, un archivo escaneado. Sube hasta 9 imágenes por lote, deja que cada una se procese con su propio estado y luego exporta todo junto como CSV o JSON. Cada fila incluye el nombre del archivo junto al texto extraído, así que el resultado encaja directamente en una hoja de cálculo o en tu CMS.
+
+## Reflexiones finales
+
+La extracción de texto pasó discretamente de ser software especializado a una capacidad cotidiana de la IA. El flujo de trabajo ganador es simple: imagen nítida, un clic, revisión rápida, exportación. Pruébalo con tu próxima captura de pantalla en la [página extract text from picture](/extract-text-from-picture). Y si la imagen también necesita una descripción o un prompt de IA, la misma subida funciona también en la herramienta [image to prompt](/image-to-prompt).

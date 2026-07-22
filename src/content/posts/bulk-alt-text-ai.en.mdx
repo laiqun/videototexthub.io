@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'How to Generate Alt Text in Bulk with AI',
+  description:
+    'Stop writing alt text by hand. Learn how to batch-generate accessible, SEO-friendly alt text for hundreds of images with AI, and export it straight to your CMS.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Alt text is one of those tasks everyone agrees matters and almost nobody has time for. A content library of a few hundred images means hours of writing descriptions by hand — so it quietly slips, and sites ship with empty `alt` attributes or useless filler like "image1.jpg".
+
+AI changes the economics: descriptions can be generated in bulk, reviewed quickly, and exported in one file. Here is how to set up that workflow.
+
+## Why Alt Text Matters
+
+Alt text serves two audiences at once. For people using screen readers, it is the only way to understand what an image shows — an accessibility requirement, and in many jurisdictions a legal one. For search engines, it is a ranking signal: Google reads alt text to understand image content, and image search can be a real traffic source for e-commerce, blogs, and documentation.
+
+Skipping it means excluding users and leaving organic traffic on the table.
+
+## The Problem with Writing It by Hand
+
+Good alt text is specific: not "dog" but "a golden retriever puppy sleeping on a blue sofa." Writing that for five images is easy. Writing it for five hundred product photos, blog illustrations, or documentation screenshots is a project nobody volunteers for — so quality collapses as quantity grows.
+
+The fix is not to care less about alt text. It is to change who writes the first draft.
+
+## The Batch Workflow
+
+The [batch image description tool](/batch) is built for exactly this:
+
+1. **Upload up to 9 images at once.** JPG, PNG, or WebP, up to 20 MB each. Run as many batches as you need.
+2. **Choose the description style.** A brief preset produces one-line alt text; a detailed preset gives fuller descriptions for complex images. Pick one output language for the whole batch.
+3. **Review the results.** Each image gets its own streamed result. Skim for accuracy — AI descriptions are a strong first draft, and a quick pass catches the occasional miss.
+4. **Export everything.** Download the batch as CSV or JSON. Each row includes the filename and its description, ready to map onto your image library.
+
+A library of 200 images is roughly 20 batches — an afternoon of light review instead of a week of writing.
+
+## What Good AI-Generated Alt Text Looks Like
+
+The best alt text describes what the image conveys, not just what it contains. When reviewing AI output, keep descriptions that are:
+
+- **Specific** — names the subject and the relevant detail ("woman typing on a laptop in a coffee shop," not "person with computer")
+- **Concise** — one to two sentences; screen readers read it aloud
+- **Contextual** — a product photo needs the product name and angle; a chart needs its takeaway
+- **Free of filler** — no "image of" or "picture showing"; the `alt` attribute already implies it
+
+Edit anything that misses context the AI cannot know — like why this screenshot matters in your tutorial.
+
+## Getting It into Your CMS
+
+The exported CSV maps cleanly onto most CMS import tools: filename on one side, alt text on the other. For WordPress, Shopify, or a headless CMS, import or script the mapping once and every future batch follows the same path. If you also need longer captions or SEO descriptions for the same images, rerun the batch with a different preset — the upload is the same.
+
+## Accessibility and SEO Are the Same Work
+
+It is tempting to treat alt text as an accessibility chore with an SEO side benefit. In practice the two goals want the same thing: an accurate, specific, human-readable description. Write it once, serve both.
+
+Start with your highest-traffic pages, batch-process their images with the [bulk description tool](/batch), and work down the list. Your screen-reader users and your search rankings improve together.

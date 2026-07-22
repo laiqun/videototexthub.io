@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Comment générer du texte alternatif en masse avec l’IA',
+  description:
+    'Arrêtez de rédiger le texte alternatif à la main. Découvrez comment générer par lot un texte alternatif accessible et optimisé SEO pour des centaines d’images avec l’IA, et l’exporter directement vers votre CMS.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Le texte alternatif fait partie de ces tâches dont tout le monde reconnaît l’importance et pour lesquelles presque personne n’a le temps. Une bibliothèque de quelques centaines d’images représente des heures de rédaction de descriptions à la main — alors la tâche glisse discrètement, et les sites partent en production avec des attributs `alt` vides ou des remplissages inutiles comme « image1.jpg ».
+
+L’IA change l’équation : les descriptions peuvent être générées en masse, relues rapidement et exportées en un seul fichier. Voici comment mettre en place ce workflow.
+
+## Pourquoi le texte alternatif est important
+
+Le texte alternatif sert deux publics à la fois. Pour les personnes qui utilisent des lecteurs d’écran, c’est le seul moyen de comprendre ce que montre une image — une exigence d’accessibilité, et dans de nombreux pays une obligation légale. Pour les moteurs de recherche, c’est un signal de classement : Google lit le texte alternatif pour comprendre le contenu des images, et la recherche d’images peut être une vraie source de trafic pour l’e-commerce, les blogs et la documentation.
+
+Le négliger, c’est exclure des utilisateurs et laisser du trafic organique sur la table.
+
+## Le problème de la rédaction manuelle
+
+Un bon texte alternatif est précis : pas « chien », mais « un chiot golden retriever endormi sur un canapé bleu ». L’écrire pour cinq images est facile. L’écrire pour cinq cents photos produit, illustrations de blog ou captures d’écran de documentation est un projet dont personne ne se porte volontaire — alors la qualité s’effondre à mesure que la quantité augmente.
+
+La solution n’est pas de moins se soucier du texte alternatif. C’est de changer qui rédige le premier jet.
+
+## Le workflow par lot
+
+L’[outil de description d’images par lot](/batch) est conçu exactement pour cela :
+
+1. **Téléversez jusqu’à 9 images à la fois.** JPG, PNG ou WebP, jusqu’à 20 Mo chacune. Lancez autant de lots que nécessaire.
+2. **Choisissez le style de description.** Un préréglage court produit un texte alternatif d’une ligne ; un préréglage détaillé donne des descriptions plus complètes pour les images complexes. Choisissez une seule langue de sortie pour tout le lot.
+3. **Relisez les résultats.** Chaque image reçoit son propre résultat en streaming. Survolez pour vérifier l’exactitude — les descriptions IA sont un excellent premier jet, et une relecture rapide repère l’occasionnelle erreur.
+4. **Exportez le tout.** Téléchargez le lot en CSV ou JSON. Chaque ligne inclut le nom du fichier et sa description, prête à être associée à votre bibliothèque d’images.
+
+Une bibliothèque de 200 images représente environ 20 lots — un après-midi de relecture légère au lieu d’une semaine de rédaction.
+
+## À quoi ressemble un bon texte alternatif généré par IA
+
+Le meilleur texte alternatif décrit ce que l’image transmet, pas seulement ce qu’elle contient. Lors de la relecture des résultats IA, gardez les descriptions qui sont :
+
+- **Précises** — elles nomment le sujet et le détail pertinent (« femme tapant sur un ordinateur portable dans un café », pas « personne avec un ordinateur »)
+- **Concises** — une à deux phrases ; les lecteurs d’écran les lisent à voix haute
+- **Contextuelles** — une photo produit a besoin du nom du produit et de l’angle ; un graphique a besoin de sa conclusion
+- **Sans remplissage** — pas de « image de » ni « photo montrant » ; l’attribut `alt` l’implique déjà
+
+Modifiez tout ce qui manque d’un contexte que l’IA ne peut pas connaître — comme la raison pour laquelle cette capture d’écran compte dans votre tutoriel.
+
+## L’intégrer dans votre CMS
+
+Le CSV exporté correspond parfaitement à la plupart des outils d’import de CMS : le nom du fichier d’un côté, le texte alternatif de l’autre. Pour WordPress, Shopify ou un CMS headless, importez ou scriptez l’association une fois, et chaque lot futur suivra le même chemin. Si vous avez aussi besoin de légendes plus longues ou de descriptions SEO pour les mêmes images, relancez le lot avec un autre préréglage — le téléversement est le même.
+
+## Accessibilité et SEO : le même travail
+
+Il est tentant de voir le texte alternatif comme une corvée d’accessibilité avec un bénéfice SEO accessoire. En pratique, les deux objectifs veulent la même chose : une description exacte, précise et lisible par un humain. Rédigez-la une fois, servez les deux.
+
+Commencez par vos pages les plus visitées, traitez leurs images par lot avec l’[outil de description en masse](/batch), puis descendez la liste. Vos utilisateurs de lecteurs d’écran et vos classements de recherche progresseront ensemble.

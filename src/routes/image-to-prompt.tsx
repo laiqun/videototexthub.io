@@ -100,10 +100,7 @@ export const Route = createFileRoute('/image-to-prompt')({
       : undefined;
     return {
       meta: [
-        {
-          name: 'title',
-          content: m['imageToPrompt.meta.title']({}, { locale }),
-        },
+        { title: m['imageToPrompt.meta.title']({}, { locale }) },
         {
           name: 'description',
           content: m['imageToPrompt.meta.description']({}, { locale }),

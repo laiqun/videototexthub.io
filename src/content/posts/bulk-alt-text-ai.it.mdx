@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Come generare testo alternativo in blocco con l’AI',
+  description:
+    'Smetti di scrivere il testo alternativo a mano. Scopri come generare in batch testo alternativo accessibile e SEO-friendly per centinaia di immagini con l’AI, ed esportarlo direttamente nel tuo CMS.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Il testo alternativo è uno di quei compiti su cui tutti sono d'accordo che conta e per cui quasi nessuno ha tempo. Una libreria di qualche centinaio di immagini vuol dire ore di descrizioni scritte a mano — così la cosa slitta in silenzio, e i siti vanno online con attributi `alt` vuoti o riempitivi inutili come "image1.jpg".
+
+L'AI cambia i conti: le descrizioni si possono generare in blocco, revisionare in fretta ed esportare in un unico file. Ecco come impostare questo flusso di lavoro.
+
+## Perché il testo alternativo conta
+
+Il testo alternativo serve due pubblici contemporaneamente. Per chi usa uno screen reader, è l'unico modo per capire cosa mostra un'immagine — un requisito di accessibilità, e in molti paesi anche legale. Per i motori di ricerca, è un segnale di ranking: Google legge il testo alternativo per capire il contenuto delle immagini, e la ricerca per immagini può essere una vera fonte di traffico per e-commerce, blog e documentazione.
+
+Saltarlo significa escludere utenti e lasciare traffico organico sul tavolo.
+
+## Il problema di scriverlo a mano
+
+Un buon testo alternativo è specifico: non "cane" ma "un cucciolo di golden retriever che dorme su un divano blu". Scriverlo per cinque immagini è facile. Scriverlo per cinquecento foto di prodotti, illustrazioni di blog o screenshot di documentazione è un progetto per cui nessuno si offre volontario — e la qualità crolla man mano che la quantità cresce.
+
+La soluzione non è preoccuparsi meno del testo alternativo. È cambiare chi scrive la prima bozza.
+
+## Il flusso in batch
+
+Lo [strumento di descrizione immagini in batch](/batch) è costruito esattamente per questo:
+
+1. **Carica fino a 9 immagini alla volta.** JPG, PNG o WebP, fino a 20 MB ciascuna. Esegui tutti i batch che ti servono.
+2. **Scegli lo stile della descrizione.** Un preset breve produce testo alternativo di una riga; un preset dettagliato dà descrizioni più complete per immagini complesse. Scegli una lingua di output per l'intero batch.
+3. **Revisiona i risultati.** Ogni immagine riceve il proprio risultato in streaming. Dai una scorsa per verificarne l'accuratezza — le descrizioni dell'AI sono un'ottima prima bozza, e un passaggio veloce intercetta l'errore occasionale.
+4. **Esporta tutto.** Scarica il batch in CSV o JSON. Ogni riga include il nome del file e la sua descrizione, pronta da abbinare alla tua libreria di immagini.
+
+Una libreria di 200 immagini sono circa 20 batch — un pomeriggio di revisione leggera invece di una settimana di scrittura.
+
+## Com'è fatto un buon testo alternativo generato dall'AI
+
+Il miglior testo alternativo descrive ciò che l'immagine comunica, non solo ciò che contiene. Quando revisioni l'output dell'AI, tieni le descrizioni che sono:
+
+- **Specifiche** — nominano il soggetto e il dettaglio rilevante ("donna che scrive su un laptop in un bar", non "persona con computer")
+- **Concise** — una o due frasi; gli screen reader lo leggono ad alta voce
+- **Contestuali** — una foto di prodotto ha bisogno del nome del prodotto e dell'angolazione; un grafico ha bisogno del suo messaggio principale
+- **Senza riempitivi** — niente "immagine di" o "foto che mostra"; l'attributo `alt` lo implica già
+
+Correggi tutto ciò a cui manca un contesto che l'AI non può conoscere — tipo perché quello screenshot è importante nel tuo tutorial.
+
+## Portarlo nel tuo CMS
+
+Il CSV esportato si abbina senza problemi alla maggior parte degli strumenti di importazione dei CMS: nome del file da una parte, testo alternativo dall'altra. Con WordPress, Shopify o un CMS headless, importa o scripta l'abbinamento una volta e ogni batch futuro seguirà lo stesso percorso. Se per le stesse immagini ti servono anche didascalie più lunghe o descrizioni SEO, rilancia il batch con un preset diverso — il caricamento è lo stesso.
+
+## Accessibilità e SEO sono lo stesso lavoro
+
+Viene naturale trattare il testo alternativo come una faccenda di accessibilità con un beneficio SEO di contorno. In pratica i due obiettivi vogliono la stessa cosa: una descrizione accurata, specifica e leggibile da una persona. La scrivi una volta e servi entrambi.
+
+Parti dalle pagine con più traffico, elabora le loro immagini in batch con lo [strumento di descrizione in blocco](/batch) e scendi lungo la lista. I tuoi utenti con screen reader e i tuoi posizionamenti di ricerca miglioreranno insieme.

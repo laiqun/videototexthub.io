@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Obraz na prompt: jak zamienić dowolny obraz w prompt AI',
+  description:
+    'Dowiedz się, jak działa zamiana obrazu na prompt, jak odtwarzać prompty dla Midjourney, Stable Diffusion i Flux oraz jak uzyskiwać lepsze wyniki z generatorów obrazów AI.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Zamiana obrazu na prompt to proces przekształcania obrazu z powrotem w taki prompt tekstowy, który mógł go stworzyć. Zamiast zgadywać, jakie słowa dają określony styl, wystarczy przesłać obraz i pozwolić modelowi AI napisać prompt — opisujący temat, kompozycję, oświetlenie, paletę kolorów i styl artystyczny w formie zrozumiałej dla generatorów obrazów AI.
+
+Jeśli kiedykolwiek widziano obraz i pomyślano „jak zrobić coś takiego w Midjourney?”, zamiana obrazu na prompt jest właśnie odpowiedzią.
+
+## Czym jest zamiana obrazu na prompt?
+
+Generatory obrazów AI, takie jak Midjourney, Stable Diffusion i Flux, zamieniają tekst na obrazy. Zamiana obrazu na prompt odwraca ten proces: przyjmuje obraz jako dane wejściowe i zwraca prompt tekstowy. Wynik bywa nazywany „odwrotnym promptem” lub „ekstrakcją promptu”.
+
+Dobre narzędzie do zamiany obrazu na prompt robi więcej niż tylko wymienia obiekty. Ujmuje:
+
+- Temat i to, co się na obrazie dzieje
+- Kompozycję i kadrowanie (zbliżenie, plan ogólny, trójpodział)
+- Oświetlenie (złota godzina, studyjny softbox, neonowe światło konturowe)
+- Paletę kolorów i nastrój
+- Styl artystyczny (kinowy, akwarela, render 3D, anime)
+- Język fotograficzny (portret 85 mm, płytka głębia ostrości)
+
+To dokładnie te szczegóły sprawiają, że obrazy generowane przez AI wyglądają tak, jak wyglądają — i to one sprawiają najwięcej trudności przy pisaniu promptów od zera.
+
+## Po co odtwarzać prompty?
+
+Najczęstszym zastosowaniem jest odtworzenie stylu. Ktoś znajduje obraz o ulubionej estetyce — zdjęcie produktowe, ilustrację, kinowy portret — i chce więcej obrazów w tym stylu, ale z własnym tematem. Zamiana obrazu na prompt daje przepis na styl; wystarczy podmienić temat i generować.
+
+To także jeden z najszybszych sposobów nauki prompt engineeringu. Czytanie promptów opisujących prawdziwe obrazy pokazuje, które słowa naprawdę mają znaczenie: terminy dotyczące oświetlenia, obiektywów, słowa kluczowe stylu i język kompozycji. Po kilkunastu ekstrakcjach własne prompty zaczynają wychodzić wyraźnie lepiej.
+
+Inne praktyczne zastosowania to:
+
+- Budowanie spójnego stylu wizualnego marki lub serii treści
+- Odtworzenie obrazu AI po zgubieniu oryginalnego promptu
+- Przenoszenie stylu między generatorami (np. Midjourney → Flux)
+- Tworzenie wariantów promptów do testów A/B w materiałach marketingowych
+
+## Jak działa zamiana obrazu na prompt
+
+Nowoczesne narzędzia tego typu korzystają z multimodalnych modeli AI — modeli, które potrafią „widzieć” obrazy i rozumować o nich w języku naturalnym. Po przesłaniu obrazu model analizuje jego treść wizualną i pisze uporządkowany opis zoptymalizowany pod generowanie obrazów.
+
+Instrukcja ma równie duże znaczenie co model. Ogólna instrukcja da ogólny prompt, a instrukcja specyficzna dla Midjourney da wynik zgodny z konwencjami Midjourney — flagami proporcji, parametrami stylizacji i zwięzłym, bogatym w słowa kluczowe szykiem, na który Midjourney reaguje najlepiej.
+
+Właśnie dlatego istnieją dedykowane presety: ten sam obraz da inny prompt w zależności od tego, do którego generatora ma trafić.
+
+## Jak z tego korzystać
+
+Korzystanie z [darmowego narzędzia obraz na prompt](/image-to-prompt) sprowadza się do trzech kroków:
+
+1. **Prześlij obraz.** Przeciągnij plik JPG, PNG lub WebP. Grafiki, zdjęcia, zrzuty ekranu i obrazy wygenerowane przez AI działają równie dobrze. Można przesłać do 9 obrazów naraz i przekształcić je zbiorczo.
+2. **Wybierz styl promptu.** Do wyboru są: ogólny, Midjourney, Stable Diffusion lub Flux. Ogólny preset działa z DALL·E, Ideogram i większością innych modeli tekst-na-obraz.
+3. **Skopiuj i twórz.** Wklej wygenerowany prompt do swojego generatora obrazów, w razie potrzeby podmień temat na własny i iteruj.
+
+Konto nie jest wymagane, a dziennie dostępna jest darmowa pula użyć.
+
+## Prompty ogólne a Midjourney, Stable Diffusion i Flux
+
+Każdy generator ma własny dialekt promptów:
+
+- **Prompty ogólne** to opisy w języku naturalnym, które działają w różnych modelach. Stawiają na przejrzystość: temat, otoczenie, styl, oświetlenie, nastrój.
+- **Prompty Midjourney** są zwarte i naszpikowane słowami kluczowymi. Często zawierają parametry takie jak `--ar 16:9` (proporcje) i `--s` (stylizacja), a pełne zdania ustępują w nich miejsca mocnym przymiotnikom stylu.
+- **Prompty Stable Diffusion** opierają się na tagach rozdzielanych przecinkami i tokenach jakości („masterpiece, best quality, detailed”), a dobrze współgrają z promptami negatywnymi wykluczającymi artefakty.
+- **Prompty Flux** stawiają na bogaty, opisowy język naturalny. Flux wierniej niż wcześniejsze modele podąża za dłuższymi zdaniami, więc szczegółowość się opłaca.
+
+W razie wątpliwości najlepiej zacząć od promptu ogólnego, a potem przełączać presety i porównywać — różnice wiele uczą o każdym generatorze.
+
+## Wskazówki dla lepszych wyników
+
+- **Używać czystych obrazów źródłowych.** Im wyraźniejszy temat i styl, tym precyzyjniejszy wyodrębniony prompt.
+- **Wycinać elementy rozpraszające.** Znaki wodne, ramki i elementy interfejsu mogą przeniknąć do promptu.
+- **Traktować wynik jako szkic.** Przed generowaniem warto podmienić temat, dostosować proporcje i usunąć niechciane szczegóły.
+- **Porównywać presety.** Przepuszczenie tego samego obrazu przez dwa presety pokazuje, na jakie sygnały stylu zwraca uwagę każdy generator.
+- **W razie potrzeby łączyć z OCR.** Jeśli obraz zawiera tekst, który też jest potrzebny, narzędzie [wyodrębniania tekstu ze zdjęcia](/extract-text-from-picture) wyciągnie go z zachowaniem układu.
+
+## Podsumowanie
+
+Zamiana obrazu na prompt przekształca wizualną inspirację w punkt wyjścia, który można edytować. Zamiast odtwarzać style metodą prób i błędów, otrzymuje się uporządkowany prompt w kilka sekund — taki, który można przeczytać, z którego można się uczyć i który można dostosować.
+
+Warto wypróbować to od razu na [stronie obraz na prompt](/image-to-prompt): wystarczy przesłać obraz o podziwianym stylu i zobaczyć, jak brzmi jego prompt. Dystans między „chciałbym umieć coś takiego zrobić” a „oto dokładnie jak” jest mniejszy, niż się wydaje.

@@ -100,10 +100,7 @@ export const Route = createFileRoute('/extract-text-from-picture')({
       : undefined;
     return {
       meta: [
-        {
-          name: 'title',
-          content: m['extractText.meta.title']({}, { locale }),
-        },
+        { title: m['extractText.meta.title']({}, { locale }) },
         {
           name: 'description',
           content: m['extractText.meta.description']({}, { locale }),

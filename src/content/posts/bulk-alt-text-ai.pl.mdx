@@ -1,0 +1,57 @@
+export const meta = {
+  title: 'Jak generować tekst alternatywny masowo za pomocą AI',
+  description:
+    'Przestań pisać tekst alternatywny ręcznie. Dowiedz się, jak zbiorczo generować dostępny i przyjazny SEO tekst alternatywny dla setek obrazów za pomocą AI i eksportować go prosto do CMS-a.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Tekst alternatywny to jedno z tych zadań, co do których wszyscy zgadzają się, że są ważne, a prawie nikt nie ma na nie czasu. Biblioteka kilkuset obrazów oznacza godziny ręcznego pisania opisów — więc sprawa po cichu schodzi na dalszy plan, a strony wychodzą z pustymi atrybutami `alt` albo bezużytecznymi wypełniaczami w rodzaju „image1.jpg".
+
+AI zmienia rachunek ekonomiczny: opisy można generować masowo, szybko weryfikować i eksportować w jednym pliku. Oto jak ustawić taki proces.
+
+## Dlaczego tekst alternatywny ma znaczenie
+
+Tekst alternatywny obsługuje dwie grupy odbiorców naraz. Dla osób korzystających z czytników ekranu to jedyny sposób, by zrozumieć, co pokazuje obraz — wymóg dostępności, a w wielu jurysdykcjach także wymóg prawny. Dla wyszukiwarek to sygnał rankingowy: Google czyta tekst alternatywny, by rozumieć zawartość obrazów, a wyszukiwanie obrazów potrafi być realnym źródłem ruchu dla e-commerce, blogów i dokumentacji.
+
+Pomijanie go oznacza wykluczanie użytkowników i zostawianie organicznego ruchu na stole.
+
+## Problem z pisaniem go ręcznie
+
+Dobry tekst alternatywny jest konkretny: nie „pies", lecz „szczeniak golden retrievera śpiący na niebieskiej sofie". Napisanie takiego opisu dla pięciu obrazów jest łatwe. Napisanie go dla pięciuset zdjęć produktowych, ilustracji blogowych czy zrzutów ekranu w dokumentacji to projekt, do którego nikt się nie zgłasza — więc jakość załamuje się wraz ze wzrostem liczby.
+
+Rozwiązaniem nie jest mniej dbać o tekst alternatywny, lecz zmienić to, kto pisze pierwszą wersję.
+
+## Proces zbiorczy
+
+[Narzędzie do zbiorczego opisywania obrazów](/batch) jest zbudowane dokładnie pod to:
+
+1. **Prześlij do 9 obrazów naraz.** JPG, PNG lub WebP, po 20 MB każdy. Partii można uruchomić tyle, ile potrzeba.
+2. **Wybierz styl opisu.** Krótki preset daje jednolinijkowy tekst alternatywny; szczegółowy preset zwraca pełniejsze opisy dla złożonych obrazów. Dla całej partii wybiera się jeden język wyników.
+3. **Zweryfikuj wyniki.** Każdy obraz dostaje własny wynik strumieniowany na żywo. Wystarczy przejrzeć je pod kątem trafności — opisy AI to mocny pierwszy szkic, a szybki przegląd wyłapie sporadyczne pomyłki.
+4. **Wyeksportuj wszystko.** Pobierz partię jako CSV lub JSON. Każdy wiersz zawiera nazwę pliku i jego opis, gotowy do zmapowania na bibliotekę obrazów.
+
+Biblioteka 200 obrazów to mniej więcej 20 partii — popołudnie lekkiej weryfikacji zamiast tygodnia pisania.
+
+## Jak wygląda dobry tekst alternatywny wygenerowany przez AI
+
+Najlepszy tekst alternatywny opisuje to, co obraz przekazuje, a nie tylko to, co zawiera. Weryfikując wyniki AI, warto zostawiać opisy, które są:
+
+- **Konkretne** — nazywają temat i istotny szczegół („kobieta pisząca na laptopie w kawiarni", a nie „osoba z komputerem")
+- **Zwięzłe** — jedno–dwa zdania; czytniki ekranu czytają je na głos
+- **Kontekstowe** — zdjęcie produktu potrzebuje nazwy produktu i ujęcia; wykres potrzebuje głównego wniosku
+- **Wolne od wypełniaczy** — bez „zdjęcie przedstawiające" czy „obraz pokazujący"; atrybut `alt` już to implikuje
+
+Warto poprawić wszystko, co pomija kontekst, którego AI nie może znać — na przykład dlaczego dany zrzut ekranu jest ważny w poradniku.
+
+## Jak przenieść go do CMS-a
+
+Wyeksportowany CSV mapuje się czysto na większość narzędzi importu CMS: nazwa pliku z jednej strony, tekst alternatywny z drugiej. W WordPressie, Shopify czy headless CMS wystarczy raz zaimportować lub oskryptować mapowanie, a każda kolejna partia pójdzie tą samą ścieżką. Jeśli te same obrazy potrzebują też dłuższych podpisów lub opisów SEO, wystarczy ponownie uruchomić partię z innym presetem — przesyłanie jest takie samo.
+
+## Dostępność i SEO to ta sama praca
+
+Kuszącą jest traktowanie tekstu alternatywnego jako obowiązku dostępności z poboczną korzyścią SEO. W praktyce oba cele chcą tego samego: trafnego, konkretnego, czytelnego dla człowieka opisu. Pisze się go raz i obsługuje oba.
+
+Najlepiej zacząć od stron z największym ruchem, przetworzyć ich obrazy [narzędziem do zbiorczego opisu](/batch) i schodzić coraz niżej po liście. Użytkownicy czytników ekranu i pozycje w wyszukiwarce poprawią się razem.

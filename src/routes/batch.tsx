@@ -100,10 +100,7 @@ export const Route = createFileRoute('/batch')({
       : undefined;
     return {
       meta: [
-        {
-          name: 'title',
-          content: m['batch.meta.title']({}, { locale }),
-        },
+        { title: m['batch.meta.title']({}, { locale }) },
         {
           name: 'description',
           content: m['batch.meta.description']({}, { locale }),

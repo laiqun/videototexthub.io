@@ -100,10 +100,7 @@ export const Route = createFileRoute('/photo-description')({
       : undefined;
     return {
       meta: [
-        {
-          name: 'title',
-          content: m['photoDescription.meta.title']({}, { locale }),
-        },
+        { title: m['photoDescription.meta.title']({}, { locale }) },
         {
           name: 'description',
           content: m['photoDescription.meta.description']({}, { locale }),

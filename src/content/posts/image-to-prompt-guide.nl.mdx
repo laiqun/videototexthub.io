@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Afbeelding naar prompt: zo maak je van elke afbeelding een AI-prompt',
+  description:
+    'Ontdek hoe afbeelding naar prompt werkt, hoe je prompts reverse-engineert voor Midjourney, Stable Diffusion en Flux, en hoe je betere resultaten krijgt uit AI-afbeeldingsgeneratoren.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Afbeelding naar prompt is het proces waarbij een afbeelding wordt teruggezet naar het soort tekstprompt dat hem had kunnen maken. In plaats van te gokken welke woorden een bepaalde stijl opleveren, upload je de afbeelding en laat je een AI-model de prompt voor je schrijven — met onderwerp, compositie, belichting, kleurenpalet en artistieke stijl in een vorm die AI-afbeeldingsgeneratoren begrijpen.
+
+Als je ooit een afbeelding hebt gezien en dacht "hoe maak ik zoiets in Midjourney?", is afbeelding naar prompt het antwoord.
+
+## Wat is afbeelding naar prompt?
+
+AI-afbeeldingsgeneratoren zoals Midjourney, Stable Diffusion en Flux zetten tekst om in afbeeldingen. Afbeelding naar prompt draait dat proces om: het neemt een afbeelding als invoer en produceert een tekstprompt als uitvoer. Het resultaat wordt soms een "omgekeerde prompt" of "promptextractie" genoemd.
+
+Een goede afbeelding-naar-prompt-tool doet meer dan objecten opsommen. Hij legt vast:
+
+- Het onderwerp en wat het doet
+- Compositie en kadrering (close-up, totaalopname, regel van derden)
+- Belichting (gouden uur, studio-softbox, neon-rimlight)
+- Kleurenpalet en sfeer
+- Artistieke stijl (filmisch, aquarel, 3D-render, anime)
+- Camera- en lensvaktaal (85mm-portret, geringe scherptediepte)
+
+Dat zijn precies de details die bepalen hoe AI-gegenereerde afbeeldingen eruitzien — en de details die de meeste mensen moeilijk zelf kunnen verwoorden.
+
+## Waarom prompts reverse-engineeren?
+
+De meest voorkomende toepassing is het nabootsen van een stijl. Je vindt een afbeelding met een look die je bevalt — een productfoto, een illustratie, een filmisch portret — en je wilt meer afbeeldingen in die stijl, maar met je eigen onderwerp. Afbeelding naar prompt geeft je het stijlrecept; jij vervangt het onderwerp en genereert.
+
+Het is ook een van de snelste manieren om prompt engineering te leren. Prompts lezen die echte afbeeldingen beschrijven, leert je welke woorden er echt toe doen: belichtingstermen, lenstermen, stijlkeywords en compositietermen. Na een stuk of tien extracties schrijf je merkbaar betere prompts.
+
+Andere praktische toepassingen zijn:
+
+- Een consistente visuele stijl opbouwen voor een merk of contentserie
+- Een AI-afbeelding opnieuw maken als je de originele prompt kwijt bent
+- Een stijl overzetten van de ene generator naar de andere (bijv. Midjourney → Flux)
+- Promptvarianten maken voor A/B-tests van visuals in marketing
+
+## Hoe afbeelding naar prompt werkt
+
+Moderne afbeelding-naar-prompt-tools gebruiken multimodale AI-modellen — modellen die afbeeldingen kunnen "zien" en erover kunnen redeneren in taal. Als je een afbeelding uploadt, analyseert het model de visuele inhoud en schrijft het een gestructureerde beschrijving die is afgestemd op beeldgeneratie.
+
+De instructie is net zo belangrijk als het model. Een algemene instructie levert een algemene prompt op, terwijl een Midjourney-specifieke instructie uitvoer geeft met Midjourney-conventies — flags voor beeldverhouding, stylize-parameters en de compacte, keywordrijke formulering waar Midjourney het best op reageert.
+
+Daarom bestaan er speciale presets: dezelfde afbeelding levert een andere prompt op, afhankelijk van de generator waarvoor je hem wilt gebruiken.
+
+## Zo gebruik je het
+
+De [gratis afbeelding-naar-prompt-tool](/image-to-prompt) gebruiken kost drie stappen:
+
+1. **Upload je afbeelding.** Sleep er een JPG, PNG of WebP in. Kunstwerken, foto's, screenshots en AI-gegenereerde afbeeldingen werken allemaal. Je kunt tot 9 afbeeldingen tegelijk uploaden voor batchconversie.
+2. **Kies een promptstijl.** Kies Algemeen, Midjourney, Stable Diffusion of Flux. De algemene preset werkt met DALL·E, Ideogram en de meeste andere tekst-naar-afbeelding-modellen.
+3. **Kopiëren en creëren.** Plak de gegenereerde prompt in je afbeeldingsgenerator, vervang zo nodig het onderwerp door je eigen en blijf itereren.
+
+Je hebt geen account nodig en er is een gratis dagelijks quotum.
+
+## Algemene vs Midjourney- vs Stable Diffusion- vs Flux-prompts
+
+Elke generator heeft zijn eigen promptdialect:
+
+- **Algemene prompts** zijn beschrijvingen in natuurlijke taal die met meerdere modellen werken. Ze geven prioriteit aan helderheid: onderwerp, setting, stijl, belichting, sfeer.
+- **Midjourney-prompts** zijn compact en vol keywords. Ze bevatten vaak parameters zoals `--ar 16:9` voor de beeldverhouding en `--s` voor stilisering, en belonen sterke stijlbijvoeglijk naamwoorden boven volledige zinnen.
+- **Stable Diffusion-prompts** leunen op kommagescheiden tags en kwaliteitstokens ("masterpiece, best quality, detailed"), en werken goed samen met negatieve prompts om artefacten uit te sluiten.
+- **Flux-prompts** geven de voorkeur aan rijke, beschrijvende natuurlijke taal. Flux volgt langere zinnen trouwer dan eerdere modellen, dus detail loont.
+
+Weet je niet zeker welke je moet gebruiken? Begin met de algemene prompt en wissel daarna van preset om te vergelijken — de verschillen leren je veel over elke generator.
+
+## Tips voor betere resultaten
+
+- **Gebruik schone bronafbeeldingen.** Hoe duidelijker het onderwerp en de stijl, hoe preciezer de geëxtraheerde prompt.
+- **Snijd afleiding weg.** Watermerken, randen en UI-elementen kunnen in de prompt terechtkomen.
+- **Behandel de uitvoer als een concept.** Vervang het onderwerp, pas de beeldverhouding aan en verwijder details die je niet wilt voordat je genereert.
+- **Vergelijk presets.** Dezelfde afbeelding door twee presets halen laat zien welke stijlaanwijzingen elke generator belangrijk vindt.
+- **Combineer met OCR als dat nodig is.** Bevat je afbeelding tekst die je ook nodig hebt, dan haalt de tool [tekst uit afbeelding halen](/extract-text-from-picture) die eruit met behoud van lay-out.
+
+## Tot slot
+
+Afbeelding naar prompt zet visuele inspiratie om in een bewerkbaar startpunt. In plaats van stijlen te reverse-engineeren via trial and error, krijg je binnen enkele seconden een gestructureerde prompt — eentje die je kunt lezen, waarvan je kunt leren en die je kunt aanpassen.
+
+Probeer het nu op de [afbeelding-naar-prompt-pagina](/image-to-prompt): upload een afbeelding waarvan je de stijl bewondert en kijk hoe de prompt eruitziet. De kloof tussen "zou ik dat ook kunnen maken" en "zo doe je dat precies" is kleiner dan hij lijkt.

@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Imagem para prompt: como transformar qualquer imagem em um prompt de IA',
+  description:
+    'Aprenda como funciona o image to prompt, como fazer engenharia reversa de prompts para Midjourney, Stable Diffusion e Flux, e como obter resultados melhores dos geradores de imagens com IA.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Image to prompt é o processo de converter uma imagem de volta no tipo de prompt de texto que poderia tê-la criado. Em vez de adivinhar quais palavras produzem determinado estilo, você envia a imagem e deixa um modelo de IA escrever o prompt para você — descrevendo o sujeito, a composição, a iluminação, a paleta de cores e o estilo artístico de uma forma que os geradores de imagens com IA entendem.
+
+Se você já viu uma imagem e pensou "como faço algo assim no Midjourney?", image to prompt é a resposta.
+
+## O que é image to prompt?
+
+Geradores de imagens com IA como Midjourney, Stable Diffusion e Flux transformam texto em imagens. O image to prompt executa esse processo ao contrário: recebe uma imagem como entrada e produz um prompt de texto como saída. O resultado às vezes é chamado de "prompt reverso" ou "extração de prompt".
+
+Uma boa ferramenta de image to prompt faz mais do que listar objetos. Ela captura:
+
+- O sujeito e o que ele está fazendo
+- Composição e enquadramento (close-up, plano geral, regra dos terços)
+- Iluminação (golden hour, softbox de estúdio, luz de contorno neon)
+- Paleta de cores e clima
+- Estilo artístico (cinematográfico, aquarela, render 3D, anime)
+- Linguagem de câmera e lente (retrato 85mm, baixa profundidade de campo)
+
+Esses são exatamente os detalhes que fazem as imagens geradas por IA terem a aparência que têm — e os detalhes que a maioria das pessoas tem dificuldade de escrever do zero.
+
+## Por que fazer engenharia reversa de prompts?
+
+O caso de uso mais comum é recriar um estilo. Você encontra uma imagem com um visual que adora — uma foto de produto, uma ilustração, um retrato cinematográfico — e quer mais imagens naquele estilo, mas com o seu próprio sujeito. O image to prompt entrega a receita do estilo; você troca o sujeito e gera.
+
+Também é uma das formas mais rápidas de aprender prompt engineering. Ler prompts que descrevem imagens reais ensina quais palavras realmente importam: termos de iluminação, termos de lente, palavras-chave de estilo e linguagem de composição. Depois de uma dúzia de extrações, você começa a escrever prompts visivelmente melhores por conta própria.
+
+Outros usos práticos incluem:
+
+- Construir um estilo visual consistente em uma marca ou série de conteúdo
+- Recriar uma imagem de IA quando você perdeu o prompt original
+- Adaptar um estilo de um gerador para outro (por exemplo, Midjourney → Flux)
+- Criar variações de prompt para testes A/B de visuais em marketing
+
+## Como o image to prompt funciona
+
+As ferramentas modernas de image to prompt usam modelos de IA multimodais — modelos que conseguem "ver" imagens e raciocinar sobre elas em linguagem. Quando você envia uma imagem, o modelo analisa seu conteúdo visual e escreve uma descrição estruturada ajustada para geração de imagens.
+
+A instrução importa tanto quanto o modelo. Uma instrução genérica produz um prompt genérico, enquanto uma instrução específica para Midjourney produz um resultado com as convenções do Midjourney — flags de proporção, parâmetros de estilização e a redação concisa e cheia de palavras-chave à qual o Midjourney responde melhor.
+
+É por isso que existem presets dedicados: a mesma imagem gera um prompt diferente dependendo do gerador em que você pretende usá-lo.
+
+## Como usar
+
+Usar a [ferramenta gratuita de image to prompt](/image-to-prompt) leva três passos:
+
+1. **Envie sua imagem.** Arraste um JPG, PNG ou WebP. Ilustrações, fotos, capturas de tela e imagens geradas por IA funcionam. Você pode enviar até 9 imagens de uma vez para conversão em lote.
+2. **Escolha um estilo de prompt.** Selecione General, Midjourney, Stable Diffusion ou Flux. O preset geral funciona com DALL·E, Ideogram e a maioria dos outros modelos de texto para imagem.
+3. **Copie e crie.** Cole o prompt gerado no seu gerador de imagens, substitua o sujeito pelo seu, se necessário, e itere.
+
+Não é preciso criar conta, e há uma cota gratuita diária.
+
+## Prompts General vs Midjourney vs Stable Diffusion vs Flux
+
+Cada gerador tem seu próprio dialeto de prompting:
+
+- **Prompts gerais** são descrições em linguagem natural que funcionam em vários modelos. Eles priorizam a clareza: sujeito, cenário, estilo, iluminação, clima.
+- **Prompts de Midjourney** são compactos e densos em palavras-chave. Costumam incluir parâmetros como `--ar 16:9` para proporção e `--s` para estilização, e recompensam adjetivos de estilo fortes em vez de frases completas.
+- **Prompts de Stable Diffusion** apostam em tags separadas por vírgula e tokens de qualidade ("masterpiece, best quality, detailed"), e combinam bem com prompts negativos para excluir artefatos.
+- **Prompts de Flux** favorecem linguagem natural rica e descritiva. O Flux segue frases mais longas com mais fidelidade do que os modelos anteriores, então detalhes valem a pena.
+
+Se você não sabe qual usar, comece com o prompt geral e depois alterne entre os presets para comparar — as diferenças ensinam muito sobre cada gerador.
+
+## Dicas para resultados melhores
+
+- **Use imagens de origem limpas.** Quanto mais claros o sujeito e o estilo, mais preciso o prompt extraído.
+- **Corte as distrações.** Marcas d'água, bordas e elementos de UI podem vazar para o prompt.
+- **Trate o resultado como rascunho.** Substitua o sujeito, ajuste a proporção e remova detalhes que você não quer antes de gerar.
+- **Compare presets.** Passar a mesma imagem por dois presets mostra a quais pistas de estilo cada gerador dá importância.
+- **Combine com OCR quando precisar.** Se a imagem contém texto que você também precisa, a ferramenta [extrair texto de imagem](/extract-text-from-picture) o extrai preservando o layout.
+
+## Considerações finais
+
+O image to prompt transforma inspiração visual em um ponto de partida editável. Em vez de fazer engenharia reversa de estilos por tentativa e erro, você obtém um prompt estruturado em segundos — que pode ler, aprender e adaptar.
+
+Experimente agora na [página de image to prompt](/image-to-prompt): envie uma imagem cujo estilo você admira e veja como o prompt fica. A distância entre "queria conseguir fazer isso" e "aqui está exatamente como" é menor do que parece.
