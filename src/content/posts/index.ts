@@ -13,8 +13,7 @@ import { baseLocale } from '@/paraglide/runtime.js';
  */
 export const BLOG_POST_SLUGS = [
   'what-is-ai-image-describer',
-  'what-is-shipany',
-  'blocks-vs-components',
+  'image-to-prompt-guide',
 ] as const;
 
 export type BlogPostMeta = {

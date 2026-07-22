@@ -1,0 +1,84 @@
+export const meta = {
+  title: 'Image to Prompt: How to Turn Any Image Into an AI Prompt',
+  description:
+    'Learn how image to prompt works, how to reverse-engineer prompts for Midjourney, Stable Diffusion, and Flux, and how to get better results from AI image generators.',
+  created_at: '2026-07-22',
+  author_name: 'Admin',
+  author_image: '/logo.png',
+  image: '/preview.png',
+};
+
+Image to prompt is the process of converting an image back into the kind of text prompt that could have created it. Instead of guessing which words produce a certain style, you upload the image and let an AI model write the prompt for you — describing the subject, composition, lighting, color palette, and artistic style in a form that AI image generators understand.
+
+If you have ever seen an image and thought "how do I make something like this in Midjourney?", image to prompt is the answer.
+
+## What Is Image to Prompt?
+
+AI image generators like Midjourney, Stable Diffusion, and Flux turn text into images. Image to prompt runs that process in reverse: it takes an image as input and produces a text prompt as output. The result is sometimes called a "reverse prompt" or "prompt extraction."
+
+A good image to prompt tool does more than list objects. It captures:
+
+- The subject and what it is doing
+- Composition and framing (close-up, wide shot, rule of thirds)
+- Lighting (golden hour, studio softbox, neon rim light)
+- Color palette and mood
+- Artistic style (cinematic, watercolor, 3D render, anime)
+- Camera and lens language (85mm portrait, shallow depth of field)
+
+These are exactly the details that make AI-generated images look the way they do — and the details most people struggle to write from scratch.
+
+## Why Reverse-Engineer Prompts?
+
+The most common use case is recreating a style. You find an image with a look you love — a product photo, an illustration, a cinematic portrait — and you want more images in that style, but with your own subject. Image to prompt gives you the style recipe; you swap in your subject and generate.
+
+It is also one of the fastest ways to learn prompt engineering. Reading prompts that describe real images teaches you which words actually matter: lighting terms, lens terms, style keywords, and composition language. After a dozen extractions, you start writing noticeably better prompts yourself.
+
+Other practical uses include:
+
+- Building a consistent visual style across a brand or content series
+- Recreating an AI image when you lost the original prompt
+- Adapting a style from one generator to another (e.g. Midjourney → Flux)
+- Creating prompt variations for A/B testing visuals in marketing
+
+## How Image to Prompt Works
+
+Modern image to prompt tools use multimodal AI models — models that can "see" images and reason about them in language. When you upload an image, the model analyzes its visual content and writes a structured description tuned for image generation.
+
+The instruction matters as much as the model. A general instruction produces a general prompt, while a Midjourney-specific instruction produces output with Midjourney conventions — aspect ratio flags, stylize parameters, and the concise keyword-heavy phrasing Midjourney responds to best.
+
+That is why dedicated presets exist: the same image yields a different prompt depending on which generator you plan to feed it to.
+
+## How to Use It
+
+Using the [free image to prompt tool](/image-to-prompt) takes three steps:
+
+1. **Upload your image.** Drag in a JPG, PNG, or WebP. Artwork, photos, screenshots, and AI-generated images all work. You can upload up to 9 images at once for batch conversion.
+2. **Pick a prompt style.** Choose General, Midjourney, Stable Diffusion, or Flux. The general preset works with DALL·E, Ideogram, and most other text-to-image models.
+3. **Copy and create.** Paste the generated prompt into your image generator, replace the subject with your own if needed, and iterate.
+
+No account is required, and there is a free daily quota.
+
+## General vs Midjourney vs Stable Diffusion vs Flux Prompts
+
+Each generator has its own prompting dialect:
+
+- **General prompts** are natural-language descriptions that work across models. They prioritize clarity: subject, setting, style, lighting, mood.
+- **Midjourney prompts** are compact and keyword-dense. They often include parameters like `--ar 16:9` for aspect ratio and `--s` for stylization, and they reward strong style adjectives over full sentences.
+- **Stable Diffusion prompts** lean on comma-separated tags and quality tokens ("masterpiece, best quality, detailed"), and they pair well with negative prompts to exclude artifacts.
+- **Flux prompts** favor rich, descriptive natural language. Flux follows longer sentences more faithfully than earlier models, so detail pays off.
+
+If you are not sure which to use, start with the general prompt, then switch presets to compare — the differences teach you a lot about each generator.
+
+## Tips for Better Results
+
+- **Use clean source images.** The clearer the subject and style, the more precise the extracted prompt.
+- **Crop out distractions.** Watermarks, borders, and UI elements can leak into the prompt.
+- **Treat the output as a draft.** Replace the subject, adjust the aspect ratio, and remove details you do not want before generating.
+- **Compare presets.** Running the same image through two presets shows you which style cues each generator cares about.
+- **Combine with OCR when needed.** If your image contains text you also need, the [extract text from picture](/extract-text-from-picture) tool pulls it out while preserving layout.
+
+## Final Thoughts
+
+Image to prompt turns visual inspiration into an editable starting point. Instead of reverse-engineering styles by trial and error, you get a structured prompt in seconds — one you can read, learn from, and adapt.
+
+Try it now on the [image to prompt page](/image-to-prompt): upload an image whose style you admire, and see how the prompt reads. The gap between "I wish I could make that" and "here is exactly how" is smaller than it looks.
