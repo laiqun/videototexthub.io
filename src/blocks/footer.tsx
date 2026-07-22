@@ -27,7 +27,13 @@ export function Footer() {
     },
     {
       title: m["landing.footer.resources"](),
-      links: [{ label: m["landing.footer.blog"](), href: "/blog" }],
+      links: [
+        { label: m["landing.footer.blog"](), href: "/blog" },
+        {
+          label: m["landing.footer.image_to_prompt"](),
+          href: "/image-to-prompt",
+        },
+      ],
     },
     {
       title: m["landing.footer.legal"](),

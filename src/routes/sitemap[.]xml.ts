@@ -7,6 +7,7 @@ import { baseLocale, locales, localizeUrl } from '@/paraglide/runtime.js';
 const STATIC_PATHS = [
   '',
   '/pricing',
+  '/image-to-prompt',
   '/blog',
   '/privacy-policy',
   '/terms-of-service',

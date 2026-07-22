@@ -3,6 +3,7 @@ import { m } from "@/paraglide/messages.js";
 
 export function Header() {
   const navLinks = [
+    { href: "/image-to-prompt", label: m["landing.nav.image_to_prompt"]() },
     { href: "/#features", label: m["landing.nav.features"]() },
     { href: "/#showcases", label: m["landing.nav.showcases"]() },
     { href: "/pricing", label: m["landing.nav.pricing"]() },

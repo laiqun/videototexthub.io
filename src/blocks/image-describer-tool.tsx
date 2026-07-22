@@ -257,15 +257,55 @@ function buildCopy(): ImageDescriberCopy {
   };
 }
 
-export function ImageDescriberTool() {
-  const copy = useMemo(buildCopy, []);
+export interface ImageDescriberToolProps {
+  /** Section heading overrides — defaults to the landing tool copy. */
+  title?: string;
+  description?: string;
+  tip?: string;
+  /** Restrict which preset chips are shown (defaults to all presets). */
+  presetIds?: readonly string[];
+  /** Pre-fill the prompt textarea with this preset's prompt. */
+  defaultPresetId?: string;
+}
+
+export function ImageDescriberTool({
+  title,
+  description,
+  tip,
+  presetIds,
+  defaultPresetId,
+}: ImageDescriberToolProps = {}) {
+  const copy = useMemo<ImageDescriberCopy>(() => {
+    const base = buildCopy();
+    if (!presetIds) {
+      return base;
+    }
+    const allowed = new Set(presetIds);
+    return {
+      ...base,
+      prompt: {
+        ...base.prompt,
+        presets: base.prompt.presets.filter((preset) =>
+          allowed.has(preset.id)
+        ),
+      },
+    };
+  }, [presetIds]);
   const languageOptions = DEFAULT_LANGUAGE_OPTIONS;
   const maxFiles = MAX_FILES;
   const maxFileSizeMB = MAX_FILE_SIZE_MB;
   const acceptedTypes = DEFAULT_ACCEPTED_TYPES;
 
   const [files, setFiles] = useState<File[]>([]);
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState(() => {
+    if (!defaultPresetId) {
+      return '';
+    }
+    return (
+      copy.prompt.presets.find((preset) => preset.id === defaultPresetId)
+        ?.prompt ?? ''
+    );
+  });
   const [language, setLanguage] = useState(
     languageOptions[0]?.value ?? 'English'
   );
@@ -683,17 +723,19 @@ export function ImageDescriberTool() {
     question,
   ]);
 
-  const tip = m['landing.tool.tip']();
+  const tipText = tip ?? m['landing.tool.tip']();
+  const sectionTitle = title ?? m['landing.tool.title']();
+  const sectionDescription = description ?? m['landing.tool.description']();
 
   return (
     <section id="image-describer-tool" className={cn('py-0 md:py-0')}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-serif text-3xl font-normal tracking-tight sm:text-4xl">
-            {m['landing.tool.title']()}
+            {sectionTitle}
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-3xl">
-            {m['landing.tool.description']()}
+            {sectionDescription}
           </p>
         </div>
 
@@ -731,9 +773,9 @@ export function ImageDescriberTool() {
           </div>
         </div>
 
-        {tip ? (
+        {tipText ? (
           <p className="text-muted-foreground mx-auto mt-6 max-w-3xl text-center text-sm">
-            {tip}
+            {tipText}
           </p>
         ) : null}
       </div>
