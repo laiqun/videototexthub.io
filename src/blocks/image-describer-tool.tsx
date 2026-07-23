@@ -10,6 +10,7 @@ import type {
   ImageDescriberResultStatus,
 } from '@/components/image-describer/image-describer-results';
 import ImageUploadDropzone from '@/components/image-describer/image-upload-dropzone';
+import QuotaExceededDialog from '@/components/image-describer/quota-exceeded-dialog';
 import {
   DEFAULT_LANGUAGE_OPTIONS,
   getFileKey,
@@ -20,6 +21,7 @@ import {
 import { saveImageDescriberHistoryEntries } from '@/lib/image-describer-history';
 import { cn } from '@/lib/utils';
 import { tDynamic } from '@/core/i18n/dynamic';
+import { usePathname } from '@/core/i18n/navigation';
 import { m } from '@/paraglide/messages.js';
 
 interface UploadEntry {
@@ -43,6 +45,16 @@ const API_ERROR_CODE_TO_COPY_KEY = {
   GUEST_FREE_QUOTA_EXCEEDED: 'guestFreeQuotaExceeded',
   SIGNED_IN_FREE_QUOTA_EXCEEDED: 'signedInFreeQuotaExceeded',
 } as const;
+
+// Quota errors that open the sign-in / upgrade guidance dialog instead of
+// only showing inline per-image error text.
+const API_ERROR_CODE_TO_QUOTA_KIND = {
+  GUEST_FREE_QUOTA_EXCEEDED: 'guest',
+  SIGNED_IN_FREE_QUOTA_EXCEEDED: 'signedIn',
+} as const;
+
+type QuotaDialogKind =
+  (typeof API_ERROR_CODE_TO_QUOTA_KIND)[keyof typeof API_ERROR_CODE_TO_QUOTA_KIND];
 
 const DEFAULT_ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILES = 9;
@@ -313,6 +325,10 @@ export function ImageDescriberTool({
     Record<string, ImageDescriberResultState>
   >({});
   const [isDescribing, setIsDescribing] = useState(false);
+  const [quotaDialogKind, setQuotaDialogKind] = useState<QuotaDialogKind | null>(
+    null
+  );
+  const pathname = usePathname();
 
   const resultCopy = useMemo<
     Record<
@@ -484,6 +500,13 @@ export function ImageDescriberTool({
 
           if (mappedKey) {
             errorMessage = copy.errors[mappedKey];
+            // Quota exhausted → open the sign-in / upgrade guidance dialog.
+            const quotaKind = errorPayload?.errorCode
+              ? API_ERROR_CODE_TO_QUOTA_KIND[errorPayload.errorCode]
+              : undefined;
+            if (quotaKind) {
+              setQuotaDialogKind(quotaKind);
+            }
           } else if (errorPayload?.error || errorPayload?.message) {
             errorMessage = (errorPayload.error || errorPayload.message) as string;
           }
@@ -779,6 +802,36 @@ export function ImageDescriberTool({
           </p>
         ) : null}
       </div>
+
+      <QuotaExceededDialog
+        open={quotaDialogKind !== null}
+        onOpenChange={(open) => {
+          if (!open) {
+            setQuotaDialogKind(null);
+          }
+        }}
+        title={
+          quotaDialogKind === 'guest'
+            ? m['landing.tool.quota.guest.title']()
+            : m['landing.tool.quota.signed_in.title']()
+        }
+        description={
+          quotaDialogKind === 'guest'
+            ? m['landing.tool.quota.guest.description']()
+            : m['landing.tool.quota.signed_in.description']()
+        }
+        ctaLabel={
+          quotaDialogKind === 'guest'
+            ? m['landing.tool.quota.guest.cta']()
+            : m['landing.tool.quota.signed_in.cta']()
+        }
+        ctaHref={
+          quotaDialogKind === 'guest'
+            ? `/sign-in?redirect=${encodeURIComponent(pathname || '/')}`
+            : '/pricing'
+        }
+        dismissLabel={m['landing.tool.quota.dismiss']()}
+      />
     </section>
   );
 }
