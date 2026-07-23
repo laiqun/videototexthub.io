@@ -2,9 +2,15 @@
 
 import { m } from "@/paraglide/messages.js";
 import { Link } from "@/core/i18n/navigation";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocaleSelector } from "@/components/locale-selector";
 import { SiteUserMenu } from "@/components/site-user-menu";
@@ -13,10 +19,13 @@ import { cn } from "@/lib/utils";
 import { envConfigs } from "@/config";
 
 export interface NavLink {
-  href: string;
+  /** Optional for items with children (rendered as a dropdown). */
+  href?: string;
   label: string;
   /** Open in a new tab. Off-site (http) hrefs always open in a new tab. */
   external?: boolean;
+  /** Child links — renders this item as a dropdown instead of a link. */
+  children?: NavLink[];
 }
 
 /** Off-site URLs render as plain <a>; internal paths use the locale-aware Link. */
@@ -47,7 +56,44 @@ export function SiteHeader({
         {/* Desktop nav */}
         <nav className="hidden items-center gap-6 md:flex">
           {navLinks?.map((link) =>
-            isExternalHref(link.href) ? (
+            link.children?.length ? (
+              <DropdownMenu key={link.label}>
+                <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground">
+                  {link.label}
+                  <ChevronDown className="size-3.5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" sideOffset={8} className="min-w-48">
+                  {link.children.map((child) =>
+                    isExternalHref(child.href ?? "") ? (
+                      <DropdownMenuItem
+                        key={child.href}
+                        render={
+                          <a
+                            href={child.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
+                      >
+                        {child.label}
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem
+                        key={child.href}
+                        render={
+                          <Link
+                            href={child.href ?? "/"}
+                            target={child.external ? "_blank" : undefined}
+                          />
+                        }
+                      >
+                        {child.label}
+                      </DropdownMenuItem>
+                    )
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : isExternalHref(link.href ?? "") ? (
               <a
                 key={link.href}
                 href={link.href}
@@ -60,7 +106,7 @@ export function SiteHeader({
             ) : (
               <Link
                 key={link.href}
-                href={link.href}
+                href={link.href ?? "/"}
                 target={link.external ? "_blank" : undefined}
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
@@ -107,7 +153,24 @@ export function SiteHeader({
         <div className="border-t border-border px-4 pb-4 pt-2 md:hidden">
           <nav className="flex flex-col gap-2">
             {navLinks?.map((link) =>
-              isExternalHref(link.href) ? (
+              link.children?.length ? (
+                <div key={link.label} className="flex flex-col gap-1">
+                  <span className="px-3 pb-1 pt-2 text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
+                    {link.label}
+                  </span>
+                  {link.children.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href ?? "/"}
+                      target={child.external ? "_blank" : undefined}
+                      className="rounded-md px-3 py-2 pl-6 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : isExternalHref(link.href ?? "") ? (
                 <a
                   key={link.href}
                   href={link.href}
