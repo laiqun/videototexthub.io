@@ -160,11 +160,15 @@ export function PricingTable({
                 </span>
               )}
             </div>
-            {plan.originalPrice && (
-              <span className="mb-1 text-sm text-muted-foreground line-through">
-                {plan.originalPrice}
-              </span>
-            )}
+            {/* Original price — always reserve the row so CTAs stay aligned across cards */}
+            <span
+              className={cn(
+                "mb-1 text-sm text-muted-foreground",
+                plan.originalPrice && "line-through"
+              )}
+            >
+              {plan.originalPrice ?? "\u00A0"}
+            </span>
 
             {/* Description */}
             {plan.description && (
@@ -173,9 +177,9 @@ export function PricingTable({
               </p>
             )}
 
-            {/* CTA — full-width pill */}
+            {/* CTA — full-width pill; purchasable plans get the solid (primary) style */}
             <Button
-              variant={plan.featured ? "default" : "outline"}
+              variant={plan.featured || plan.productId ? "default" : "outline"}
               className="h-10 w-full rounded-full text-sm font-medium"
               onClick={() => handleCheckout(plan)}
               disabled={loadingId === plan.id}
